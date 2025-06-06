@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "Rai Lowercase Regular";
+    src: url("../font/RaiLowercase.ttf");
+}
+
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2560px;
+    height: 1440px;
+    background-image: url("static/background.png");
+}
+
+/* Team Section */
+.team-section {
+    position: absolute;
+    top: 254px;
+    width: 600px;
+}
+
+/* Team Name */
+.team-name {
+    position: absolute;
+    right: 0px;
+    font-family: "Rai Lowercase Regular";
+    color: white;
+    text-transform: uppercase;
+    font-size: 25px;
+    letter-spacing: 2.5px;
+}
+
+.team-star-container {
+    position: absolute;
+    top: 60px;
+    right: -19px;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+/* Team Star Wrapper */
+.team-star-wrapper {
+    margin-left: -9px;
+    display: flex;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+}
