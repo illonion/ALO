@@ -1,15 +1,6 @@
 @font-face {
     font-family: "Rai Lowercase Regular";
-    src: url("../font/RaiLowercase.ttf");
-}
-
-.main {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 2560px;
-    height: 1440px;
-    background-image: url("static/background.png");
+    src: url("../../font/RaiLowercase.ttf");
 }
 
 /* Team Section */
@@ -46,4 +37,14 @@
     height: 80px;
     justify-content: center;
     align-items: center;
+}
+
+/* Team Players */
+.team-players {
+    position: absolute;
+}
+
+/* Team Player Profile Picture */
+.team-player-profile-picture {
+    position: absolute;
 }
