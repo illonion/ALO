@@ -87,3 +87,15 @@
 .team-player-detail-seed {
     margin-top: -7px;
 }
+
+/* Team Seed */
+.team-seed {
+    position: absolute;
+    top: 253px;
+    left: 50px;
+    font-family: "Rai Lowercase Regular";
+    text-transform: uppercase;
+    font-size: 53px;
+    letter-spacing: 5px;
+    color: white;
+}
