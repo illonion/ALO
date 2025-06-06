@@ -99,3 +99,23 @@
     letter-spacing: 5px;
     color: white;
 }
+
+/* Team Mod Stats */
+.team-mod-stats {
+    position: absolute;
+    top: 481px;
+    right: 0;
+    display: flex;
+    gap: 60px;
+    text-transform: uppercase;
+    color: white;
+    font-size: 25px;
+    letter-spacing: 3px;
+    font-family: "Rai Lowercase Regular";
+    text-align: center;
+}
+.team-mod-nm { color: #dadada; }
+.team-mod-hd { color: #FFDAA9; }
+.team-mod-hr { color: #FFA9A9; }
+.team-mod-dt { color: #A9BBFF; }
+.team-mod-rx { color: #A9ECFF; }
