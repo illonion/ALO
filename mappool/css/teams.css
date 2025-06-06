@@ -15,25 +15,30 @@
     top: 254px;
     width: 600px;
 }
+.team-section-right { right: 0px; }
 
 /* Team Name */
 .team-name {
     position: absolute;
-    right: 0px;
     font-family: "Rai Lowercase Regular";
     color: white;
     text-transform: uppercase;
     font-size: 25px;
     letter-spacing: 2.5px;
 }
+.team-section-left .team-name { right: 0px; }
 
+/* Team Star Container */
 .team-star-container {
     position: absolute;
     top: 60px;
-    right: -19px;
     display: flex;
+}
+.team-section-left .team-star-container { 
+    right: -19px;
     flex-direction: row-reverse;
 }
+.team-section-right .team-star-container {  left: -19px; }
 
 /* Team Star Wrapper */
 .team-star-wrapper {
@@ -49,19 +54,20 @@
 .team-players {
     position: absolute;
     top: 183px;
-    right: -5px;
     width: 400px;
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
+.team-section-left .team-players { right: -5px; }
+.team-section-right .team-players { left: -5px; }
 
 /* Team Player Container */
 .team-player-container {
     display: flex;
-    flex-direction: row-reverse;
     gap: 18px;
 }
+.team-section-left .team-players .team-player-container { flex-direction: row-reverse; }
 
 /* Team Player Profile Picture */
 .team-player-profile-picture {
@@ -92,19 +98,19 @@
 .team-seed {
     position: absolute;
     top: 253px;
-    left: 50px;
     font-family: "Rai Lowercase Regular";
     text-transform: uppercase;
     font-size: 53px;
     letter-spacing: 5px;
     color: white;
 }
+.team-section-left .team-seed { left: 50px; }
+.team-section-right .team-seed { right: 50px; }
 
 /* Team Mod Stats */
 .team-mod-stats {
     position: absolute;
     top: 481px;
-    right: 0;
     display: flex;
     gap: 60px;
     text-transform: uppercase;
@@ -119,3 +125,5 @@
 .team-mod-hr { color: #FFA9A9; }
 .team-mod-dt { color: #A9BBFF; }
 .team-mod-rx { color: #A9ECFF; }
+.team-section-left .team-mod-stats { right: 0; }
+.team-section-right .team-mod-stats { left: 0; }
