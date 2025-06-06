@@ -22,15 +22,18 @@
 /* Ban Line */
 .ban-line {
     margin-top: 10px;
-    width: 1137PX;
+    margin-bottom: 6px;
+    width: 1137px;
 }
 
-/* Ban Section */
-.ban-section {
+/* Tile Section */
+.tile-section {
     display: flex;
     justify-content: center;
     gap: 10px;
+    width: 1126px;
 }
+.tile-section > * { width: 558px; }
 
 /* Mappool Tile */
 .mappool-tile {
@@ -38,9 +41,9 @@
     width: 558px;
     height: 123px;
     border-radius: 30px;
-    /* background-color: black; */
-    /* background-image: url("https://assets.ppy.sh/beatmaps/618058/covers/cover.jpg"); */
-    /* background-size: cover;
+    /* background-color: black;
+    background-image: url("https://assets.ppy.sh/beatmaps/618058/covers/cover.jpg");
+    background-size: cover;
     background-position: center; */
 }
 
@@ -53,10 +56,10 @@
     background-size: 100% 150%;
     background-repeat: no-repeat;
 }
-.left-ban-section .mappool-tile .mappool-tile-overlay {
+.left-ban-section .mappool-tile .mappool-tile-overlay, .left-pick-section .mappool-tile .mappool-tile-overlay {
     background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)), rgba(0, 0, 0, 0.34);
 }
-.right-ban-section .mappool-tile .mappool-tile-overlay {
+.right-ban-section .mappool-tile .mappool-tile-overlay, .right-pick-section .mappool-tile .mappool-tile-overlay {
     background: linear-gradient(to left, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)), rgba(0, 0, 0, 0.34);
 } */
 
@@ -73,8 +76,8 @@
     text-overflow: ellipsis;
     width: 400px;
 }
-.left-ban-section .mappool-tile .mappool-tile-detail { left: 16px; }
-.right-ban-section .mappool-tile .mappool-tile-detail { 
+.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: 16px; }
+.right-ban-section .mappool-tile .mappool-tile-detail, .right-pick-section .mappool-tile .mappool-tile-detail { 
     right: 16px;
     text-align: right;
 }
@@ -85,6 +88,7 @@
     font-size: 26px;
     font-weight: 400;
 }
+.mappool-tile-artist-score-added { top: 9px; }
 
 /* Mappool Tile Title */
 .mappool-tile-title {
@@ -93,10 +97,32 @@
     font-weight: 800;
     filter: drop-shadow(-0.156px 0.988px 0px #000000);
 }
+.mappool-tile-title-score-added { top: 43px; }
 
 /* Mappool Tile Mod */
 .mappool-tile-mod {
     position: absolute;
     top: 24px;
 }
-.left-ban-section .mappool-tile .mappool-tile-mod { right: 0; }
+.left-ban-section .mappool-tile .mappool-tile-mod, .left-pick-section .mappool-tile .mappool-tile-mod { right: 0; }
+
+/* Mappool Tile Score */
+.mappool-tile-score {
+    position: absolute;
+    top: 75px;
+    left: 16px; 
+    font-size: 22px;
+    letter-spacing: 2px;
+    color: #ffffff;
+    font-family: "Rai Lowercase Regular";   
+}
+.mappool-tile-win-score {
+    font-size: 25px;
+    text-shadow:
+        -1px -1px 0 white,
+        1px -1px 0 white,
+        -1px  1px 0 white,
+        1px  1px 0 white;
+}
+.mappool-tile-win-score-left { color: #ff8787; }
+.mappool-tile-win-score-right { color: #87bfff; }
