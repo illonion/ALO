@@ -1,0 +1,16 @@
+/* Chat Dispaly */
+.chat-display {
+    position: absolute;
+    bottom: 24px;
+    width: 695px;
+    height: 548px;
+    background-image: url("../static/chatBody.png")
+}
+.twitch-chat-display { right: 0;}
+
+/* Chat Display Icon */
+.chat-display-icon {
+    position: absolute;
+    top: 34px;
+    right: 37px;
+}
