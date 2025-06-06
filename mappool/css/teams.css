@@ -1,4 +1,10 @@
 @font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-ExtraBold.ttf");
+    font-weight: 800;
+}
+
+@font-face {
     font-family: "Rai Lowercase Regular";
     src: url("../../font/RaiLowercase.ttf");
 }
@@ -42,9 +48,42 @@
 /* Team Players */
 .team-players {
     position: absolute;
+    top: 183px;
+    right: -5px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* Team Player Container */
+.team-player-container {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 18px;
 }
 
 /* Team Player Profile Picture */
 .team-player-profile-picture {
-    position: absolute;
+    width: 87px;
+    height: 87px;
+    border-radius: 10px;
+    background-color: #b4ffff;
+}
+
+/* Team Player Detail Container */
+.team-player-detail-container {
+    color: white;
+    font-weight: 800;
+    font-family: "Zain";
+    font-size: 26px;
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+}
+.team-player-detail {
+    margin-top: -3px;
+    text-align: right;
+}
+.team-player-detail-seed {
+    margin-top: -7px;
 }
