@@ -5,6 +5,12 @@
 }
 
 @font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-Regular.ttf");
+    font-weight: 400;
+}
+
+@font-face {
     font-family: "Rai Lowercase Regular";
     src: url("../../font/RaiLowercase.ttf");
 }
