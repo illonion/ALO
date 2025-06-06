@@ -82,6 +82,9 @@
 .team-player-detail-seed {
     margin-top: -7px;
 }
+.team-section-right .team-players .team-player-container .team-player-detail-container .team-player-detail {
+    text-align: left;
+}
 
 /* Team Seed */
 .team-seed {

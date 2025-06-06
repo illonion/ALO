@@ -39,7 +39,6 @@
 }
 
 /* Chat Display Name */
-.chat-display-name { width: 115px; }
 .chat-display-name-colon { margin-left: -5px; }
 .left { color: #D3FF0F; }
 .right { color: #71F893; }
