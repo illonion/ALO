@@ -1,14 +1,3 @@
-@font-face {
-    font-family: "Zain";
-    src: url("../../font/Zain-ExtraBold.ttf");
-    font-weight: 800;
-}
-
-@font-face {
-    font-family: "Rai Lowercase Regular";
-    src: url("../../font/RaiLowercase.ttf");
-}
-
 /* Team Section */
 .team-section {
     position: absolute;

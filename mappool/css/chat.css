@@ -14,3 +14,37 @@
     top: 34px;
     right: 37px;
 }
+
+/* Chat Display Container */
+.chat-display-container {
+    position: absolute;
+    top: 54px;
+    left: 50px;
+    width: calc(100% - 100px);
+    height: 449px;
+    font-size: 25px;
+    font-weight: 800;
+    font-family: "Zain";
+    color: white;
+    letter-spacing: 2px;
+    overflow-y: scroll;
+}
+.chat-display-container::-webkit-scrollbar { display: none; }
+
+/* Chat Display Wrapper */
+.chat-display-wrapper { 
+    display: flex;
+    margin-top: -0.5px;
+    margin-bottom: -5px;
+}
+
+/* Chat Display Name */
+.chat-display-name { width: 115px; }
+.chat-display-name-colon { margin-left: -5px; }
+.left { color: #D3FF0F; }
+.right { color: #71F893; }
+.unknown { color: #DA656F; }
+.bot { color: #FF76DF; }
+
+/* Chat Display Message */
+.chat-display-message { margin-left: 14px; }
