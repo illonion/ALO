@@ -12,6 +12,7 @@
 
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
     <script src="../_shared/utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
 </head>
 <body>
     <div class="main">
@@ -110,7 +111,7 @@
             <img class="chat-display-icon" src="static/icons/osu.png">
         </div>
         <div class="chat-display twitch-chat-display">
-            <div class="chat-display-container">
+            <div class="chat-display-container" id="twitch-chat-display-container">
                 <div class="chat-display-wrapper">
                     <div class="chat-display-name">
                         <span class="chat-display-name-text">moderator</span>
@@ -280,5 +281,6 @@
     </div>
 
     <script src="index.js"></script>
+    <script src="twitchChat.js"></script>
 </body>
 </html>

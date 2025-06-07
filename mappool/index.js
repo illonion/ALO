@@ -1,5 +1,5 @@
 // osu! chat length
-const osuChatDisplayContainer = document.getElementById("osu-chat-display-container")
+const osuChatDisplayContainerEl = document.getElementById("osu-chat-display-container")
 let chatLength
 
 const socket = createTosuWsSocket()
@@ -9,7 +9,7 @@ socket.onmessage = event => {
 
     // This is mostly taken from Victim Crasher: https://github.com/VictimCrasher/static/tree/master/WaveTournament
     if (chatLength !== data.tourney.chat.length) {
-        (chatLength === 0 || chatLength > data.tourney.chat.length) ? (osuChatDisplayContainer.innerHTML = "", chatLen = 0) : null
+        (chatLength === 0 || chatLength > data.tourney.chat.length) ? (osuChatDisplayContainerEl.innerHTML = "", chatLen = 0) : null
         const fragment = document.createDocumentFragment()
 
         for (let i = chatLength; i < data.tourney.chat.length; i++) {
@@ -42,8 +42,8 @@ socket.onmessage = event => {
             fragment.append(chatDisplayWrapper)
         }
 
-        osuChatDisplayContainer.append(fragment)
+        osuChatDisplayContainerEl.append(fragment)
         chatLength = data.tourney.chat.length
-        osuChatDisplayContainer.scrollTop = osuChatDisplayContainer.scrollHeight
+        osuChatDisplayContainerEl.scrollTop = osuChatDisplayContainerEl.scrollHeight
     }
 }
