@@ -1,4 +1,17 @@
-/* Mappool Section */
+/* ===========================
+    Variables
+=========================== */
+
+:root {
+    --tile-overlay-dark: rgba(0, 0, 0, 0.8);
+    --tile-overlay-light: rgba(0, 0, 0, 0);
+    --tile-overlay-static: rgba(0, 0, 0, 0.34);
+    --tile-detail-horizontal-alignment: 20px;
+}
+
+/* ===========================
+   Mappool Section
+=========================== */
 .mappool-section {
     position: absolute;
     bottom: 18px;
@@ -8,8 +21,6 @@
     height: 1267px;
     background-image: url("../static/mappoolBody.png");
 }
-
-/* Mappool Main Section */
 .mappool-main-section {
     position: absolute;
     top: 43px;
@@ -19,6 +30,10 @@
     gap: 8px;
     width: 100%;
 }
+
+/* ===========================
+   Layout Sections
+=========================== */
 
 /* Ban Line */
 .ban-line {
@@ -37,79 +52,107 @@
     margin-bottom: 8px;
 }
 
-/* Mappool Tile */
-/* Extended Rectangle's height is 158px + height of tile */
-.mappool-tile {
+/* ===========================
+   Mappool Tile
+=========================== */
+/* Extended Rectangle's height is 129px + height of tile */
+.tile {
     position: relative;
-    width: 558px;
     height: 121px;
     border-radius: 30px;
-    background-color: black;
     background-image: url("https://assets.ppy.sh/beatmaps/618058/covers/cover.jpg");
     background-size: cover;
     background-position: center;
 }
+.mappool-tile { width: 558px; }
+/* Tiebreaker */
+.tiebreaker {
+    width: 1118px;
+    margin-top: -8px;
+}
 
-/* Mappool Tile Overlay */
-.mappool-tile-overlay {
-    position: relative;
+/* ===========================
+   Mappool Tile Overlay
+=========================== */
+.tile-overlay {
+    position: absolute;
     width: 100%;
     height: 100%;
     border-radius: inherit;
     background-size: 100% 150%;
     background-repeat: no-repeat;
 }
-.left-ban-section .mappool-tile .mappool-tile-overlay, .left-pick-section .mappool-tile .mappool-tile-overlay {
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)), rgba(0, 0, 0, 0.34);
+.tile-overlay-left {
+    background: linear-gradient(to right, var(--tile-overlay-dark), var(--tile-overlay-light)), var(--tile-overlay-static);
 }
-.right-ban-section .mappool-tile .mappool-tile-overlay, .right-pick-section .mappool-tile .mappool-tile-overlay {
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)), rgba(0, 0, 0, 0.34);
+.tile-overlay-right {
+    background: linear-gradient(to left, var(--tile-overlay-dark), var(--tile-overlay-light)), var(--tile-overlay-static);
 }
 
-/* Mappool Tile Details */
-.mappool-tile-detail {
+/* ===========================
+   Mappool Tile Details
+=========================== */
+.tile-detail {
     position: absolute;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: #e7e7e7;
     font-family: "Zain";
     filter: drop-shadow(-0.156px 0.988px 0px #000000);
+    font-size: 26px;
+}
+/* Mappool Tile Details */
+.mappool-tile-detail {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 350px;
 }
-.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: 20px; }
+.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: var(--tile-detail-horizontal-alignment); }
 .right-ban-section .mappool-tile .mappool-tile-detail, .right-pick-section .mappool-tile .mappool-tile-detail { 
-    right: 20px;
+    right: var(--tile-detail-horizontal-alignment);
     text-align: right;
 }
+/* Tiebreaker Tile Details */
+.tiebreaker-tile-detail { left: 175px; }
 
-/* Mappool Tile Artist */
-.mappool-tile-artist {
+/* ===========================
+   Mappool Tile Artist and Title
+=========================== */
+.tile-artist {
     top: 30px;
-    font-size: 26px;
     font-weight: 400;
 }
-.mappool-tile-artist-score-added { top: 12px; }
+.tile-artist-score-added { top: 12px; }
 
 /* Mappool Tile Title */
-.mappool-tile-title {
+.tile-title {
     top: 58px;
-    font-size: 25px;
     font-weight: 800;
-    filter: drop-shadow(-0.156px 0.988px 0px #000000);
 }
-.mappool-tile-title-score-added { top: 42px; }
+.tile-title-score-added { top: 42px; }
 
-/* Mappool Tile Mod */
+/* ===========================
+   Mappool Tile Mod Icon
+=========================== */
 .mappool-tile-mod {
     position: absolute;
     top: 23px;
 }
-.left-ban-section .mappool-tile .mappool-tile-mod, .left-pick-section .mappool-tile .mappool-tile-mod { right: 20px; }
-.right-ban-section .mappool-tile .mappool-tile-mod, .right-pick-section .mappool-tile .mappool-tile-mod { left: 20px; }
+.left-ban-section .mappool-tile .mappool-tile-mod, .left-pick-section .mappool-tile .mappool-tile-mod { right: var(--tile-detail-horizontal-alignment); }
+.right-ban-section .mappool-tile .mappool-tile-mod, .right-pick-section .mappool-tile .mappool-tile-mod { left: var(--tile-detail-horizontal-alignment); }
 
+/* Tiebreaker Icon */
+.tiebreaker-icon {
+    position: absolute;
+    top: 50%;
+    left: var(--tile-detail-horizontal-alignment);
+    transform: translateY(-50%);
+}
+
+/* ===========================
+   Mappool Tile Play Icon
+=========================== */
 /* Play Icon */
 .mappool-tile-play-icon {
     position: absolute;
@@ -117,11 +160,12 @@
     left: 137px;
 }
 
-/* Mappool Tile Score */
+/* ===========================
+   Mappool Tile Score
+=========================== */
 .mappool-tile-score {
     position: absolute;
     top: 74px;
-     
     font-size: 22px;
     letter-spacing: 2px;
     color: #ffffff;
@@ -140,26 +184,40 @@
 .mappool-tile-win-score-left { color: #ff8787; }
 .mappool-tile-win-score-right { color: #87bfff; }
 
-/* Stats Container */
-.mappool-tile-stats-container {
+/* ===========================
+   Mappool Tile Stats Container
+=========================== */
+.tile-stats-container {
     position: absolute;
+    display: flex;
+    gap: 20px;
+}
+.mappool-tile-stats-container {
     top: 161px;
     right: 20px;
-    display: flex;
-    gap: 20px;
 }
-
-/* Length and BPM */
-.mappool-tile-length-bpm {
-    position: absolute;
-    top: 100px;
+.tiebreaker-tile-stats-container {
+    top: 50%;
     right: 20px;
+    transform: translateY(-50%);
+}
+
+/* ===========================
+   Mappool Tile Length BPM Container
+=========================== */
+.tile-length-bpm-container {
+    position: absolute;
+    right: var(--tile-detail-horizontal-alignment);
     display: flex;
     gap: 20px;
 }
+.mappool-tile-length-bpm { top: 100px; }
+.tiebreaker-tile-length-bpm { top: 15px; }
 
-/* Mappool Tile Stats */
-.mappool-tile-stat {
+/* ===========================
+   Mappool Tile Stats
+=========================== */
+.tile-stat {
     font-size: 19px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -167,113 +225,28 @@
     font-weight: 800;
     font-family: "Zain";
 }
-.mappool-tile-stat-number {
+.tile-stat-number {
     font-size: 20px;
     font-weight: 800;
     color: white;
     margin-left: 5px;
 }
 
-/* Mappool Tile Mapped By */
-.mappool-tile-mapped-by-container {
+/* ===========================
+   Mappool Tile Mapped By
+=========================== */
+.tile-mapped-by-container {
     position: absolute;
-    top: 197px;
-    right: 20px;
+    right: var(--tile-detail-horizontal-alignment);
+    color: white;
     font-size: 23px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #ffffff;
+    font-weight: 800;
     font-family: "Zain";
+    letter-spacing: 2px;
 }
+.mappool-tile-mapped-by-container { top: 197px; }
+.tiebreaker-tile-mapped-by-container { top: 72px; }
 .mappool-tile-mapper {
     font-weight: 800;
     font-size: 30px;
-}
-
-/* Tiebreaker */
-.tiebreaker {
-    position: relative;
-    width: 1118px;
-    height: 121px;
-    border-radius: 30px;
-    margin-top: -8px;
-    background-image: url("https://assets.ppy.sh/beatmaps/2280236/covers/cover.jpg?1734666459");
-    background-size: cover;
-    background-position: center;
-}
-
-/* Tiebreaker Tile Overlay*/
-.tiebreaker-tile-overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    background-size: 100% 150%;
-    background-repeat: no-repeat;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)), rgba(0, 0, 0, 0.34);
-}
-
-/* Tiebreaker Icon */
-.tiebreaker-icon {
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    transform: translateY(-50%);
-}
-
-/* Tiebreaker Tile Artist */
-.tiebreaker-tile-artist {
-    position: absolute;
-    top: 25px;
-    left: 175px;
-    font-size: 26px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #e7e7e7;
-    font-family: "Zain";
-    filter: drop-shadow(-0.156px 0.988px 0px #000000);
-}
-.tiebreaker-tile-title {
-    position: absolute;
-    top: 58px;
-    left: 175px;
-    font-size: 26px;
-    font-weight: 800;
-    font-family: "Zain";
-    filter: drop-shadow(-0.156px 0.988px 0px #000000);
-    letter-spacing: 3px;
-    color: #e7e7e7;
-}
-.tiebreaker-tile-length-bpm {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    display: flex;
-    gap: 20px;
-}
-.tiebreaker-tile-stat {
-    font-size: 19px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #d2d2d2;
-    font-weight: 800;
-    font-family: "Zain";
-}
-.tiebreaker-tile-stats-container {
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 20px;
-}
-.tiebreaker-tile-mapped-by-container {
-    position: absolute;
-    top: 72px;
-    right: 20px;
-    color: white;
-    font-size: 22px;
-    font-weight: 800;
-    font-family: "Zain";
-    letter-spacing: 2px;
 }
