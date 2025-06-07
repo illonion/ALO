@@ -37,15 +37,18 @@
 .chat-display-wrapper { 
     display: flex;
     margin-top: -0.5px;
-    margin-bottom: -5px;
+    margin-bottom: 7.7px;
+    line-height: 23px;
 }
 
 /* Chat Display Name */
-.chat-display-name-colon { margin-left: -5px; }
 .left { color: #D3FF0F; }
 .right { color: #71F893; }
 .unknown { color: #DA656F; }
 .bot { color: #FF76DF; }
 
 /* Chat Display Message */
-.chat-display-message { margin-left: 14px; }
+.chat-display-message {
+    max-width: 450px;
+    margin-left: 14px;
+}

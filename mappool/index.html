@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="css/teams.css">
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/mappool.css">
+
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
+    <script src="../_shared/utils.js"></script>
 </head>
 <body>
     <div class="main">
@@ -103,22 +106,7 @@
 
         <!-- Chats -->
         <div class="chat-display osu-chat-display">
-            <div class="chat-display-container">
-                <div class="chat-display-wrapper">
-                    <div class="chat-display-name">
-                        <span class="chat-display-name-text">PLAYER 1</span>
-                        <span class="chat-display-name-colon">:</span>
-                    </div>
-                    <div class="chat-display-message">!roll</div>
-                </div>
-                                <div class="chat-display-wrapper">
-                    <div class="chat-display-name">
-                        <span class="chat-display-name-text">PLAYER 1</span>
-                        <span class="chat-display-name-colon">:</span>
-                    </div>
-                    <div class="chat-display-message">!roll</div>
-                </div>
-            </div>
+            <div class="chat-display-container" id="osu-chat-display-container"></div>
             <img class="chat-display-icon" src="static/icons/osu.png">
         </div>
         <div class="chat-display twitch-chat-display">
