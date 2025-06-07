@@ -74,11 +74,11 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 400px;
+    width: 350px;
 }
-.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: 16px; }
+.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: 25px; }
 .right-ban-section .mappool-tile .mappool-tile-detail, .right-pick-section .mappool-tile .mappool-tile-detail { 
-    right: 16px;
+    right: 25px;
     text-align: right;
 }
 
@@ -110,12 +110,14 @@
 .mappool-tile-score {
     position: absolute;
     top: 75px;
-    left: 16px; 
+     
     font-size: 22px;
     letter-spacing: 2px;
     color: #ffffff;
-    font-family: "Rai Lowercase Regular";   
+    font-family: "Rai Lowercase Regular";
 }
+.left-pick-section .mappool-tile .mappool-tile-score { left: 25px; }
+.right-pick-section .mappool-tile .mappool-tile-score { right: 25px; }
 .mappool-tile-win-score {
     font-size: 25px;
     text-shadow:
@@ -126,3 +128,53 @@
 }
 .mappool-tile-win-score-left { color: #ff8787; }
 .mappool-tile-win-score-right { color: #87bfff; }
+
+/* Stats Container */
+.mappool-tile-stats-container {
+    position: absolute;
+    top: 193px;
+    right: 25px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Length and BPM */
+.mappool-tile-length-bpm {
+    position: absolute;
+    top: 132px;
+    right: 25px;
+    display: flex;
+    gap: 20px;
+}
+
+/* Mappool Tile Stats */
+.mappool-tile-stat {
+    font-size: 19px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #d2d2d2;
+    font-weight: 800;
+    font-family: "Zain";
+}
+.mappool-tile-stat-number {
+    font-size: 25px;
+    font-weight: 800;
+    color: white;
+    margin-left: 5px;
+}
+
+/* Mappool Tile Mapped By */
+.mappool-tile-mapped-by-container {
+    position: absolute;
+    top: 229px;
+    right: 25px;
+    font-size: 23px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-family: "Zain";
+}
+.mappool-tile-mapper {
+    font-weight: 800;
+    font-size: 30px;
+}
