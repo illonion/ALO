@@ -108,8 +108,8 @@
     text-overflow: ellipsis;
     width: 350px;
 }
-.left-ban-section .mappool-tile .mappool-tile-detail, .left-pick-section .mappool-tile .mappool-tile-detail { left: var(--tile-detail-horizontal-alignment); }
-.right-ban-section .mappool-tile .mappool-tile-detail, .right-pick-section .mappool-tile .mappool-tile-detail { 
+.ban-section-left .mappool-tile .mappool-tile-detail, .pick-section-left .mappool-tile .mappool-tile-detail { left: var(--tile-detail-horizontal-alignment); }
+.ban-section-right .mappool-tile .mappool-tile-detail, .pick-section-right .mappool-tile .mappool-tile-detail { 
     right: var(--tile-detail-horizontal-alignment);
     text-align: right;
 }
@@ -139,8 +139,8 @@
     position: absolute;
     top: 23px;
 }
-.left-ban-section .mappool-tile .mappool-tile-mod, .left-pick-section .mappool-tile .mappool-tile-mod { right: var(--tile-detail-horizontal-alignment); }
-.right-ban-section .mappool-tile .mappool-tile-mod, .right-pick-section .mappool-tile .mappool-tile-mod { left: var(--tile-detail-horizontal-alignment); }
+.ban-section-left .mappool-tile .mappool-tile-mod, .pick-section-left .mappool-tile .mappool-tile-mod { right: var(--tile-detail-horizontal-alignment); }
+.ban-section-right .mappool-tile .mappool-tile-mod, .pick-section-right .mappool-tile .mappool-tile-mod { left: var(--tile-detail-horizontal-alignment); }
 
 /* Tiebreaker Icon */
 .tiebreaker-icon {
@@ -171,8 +171,8 @@
     color: #ffffff;
     font-family: "Rai Lowercase Regular";
 }
-.left-pick-section .mappool-tile .mappool-tile-score { left: 20px; }
-.right-pick-section .mappool-tile .mappool-tile-score { right: 20px; }
+.pick-section-left .mappool-tile .mappool-tile-score { left: 20px; }
+.pick-section-right .mappool-tile .mappool-tile-score { right: 20px; }
 .mappool-tile-win-score {
     font-size: 25px;
     text-shadow:

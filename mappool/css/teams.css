@@ -132,6 +132,7 @@
     font-family: "Rai Lowercase Regular";
     text-align: center;
 }
+.team-mod-stats > * { width: 55px; }
 .team-mod-nm { color: #dadada; }
 .team-mod-hd { color: #FFDAA9; }
 .team-mod-hr { color: #FFA9A9; }

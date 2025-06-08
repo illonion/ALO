@@ -10,14 +10,15 @@
     <link rel="stylesheet" href="css/chat.css">
     <link rel="stylesheet" href="css/mappool.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
     <script src="../_shared/utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
 </head>
 <body>
     <div class="main">
-        <section class="team-section team-section-right">
-            <div class="team-name">HELLOTEAM_B</div>
+        <section class="team-section team-section-left">
+            <div class="team-name" id="team-name-left">HELLOTEAM_B</div>
             <div class="team-star-container">
                 <div class="team-star-wrapper">
                     <img class="team-star" src="static/point-fill.png">
@@ -35,7 +36,7 @@
                     <img class="team-star" src="static/point-empty.png">
                 </div>          
             </div>
-            <section class="team-players">
+            <section class="team-players" id="team-players-left">
                 <div class="team-player-container">
                     <img class="team-player-profile-picture" src="https://a.ppy.sh/8306102">
                     <div class="team-player-detail-container">
@@ -51,17 +52,17 @@
                     </div>
                 </div>
             </section>
-            <div class="team-seed">#04</div>
+            <div class="team-seed" id="team-seed-left">#04</div>
             <section class="team-mod-stats">
-                <div><span class="team-mod-nm">NM</span><br>#2</div>
-                <div><span class="team-mod-hd">HR</span><br>#10</div>
-                <div><span class="team-mod-hr">HD</span><br>#19</div>
-                <div><span class="team-mod-dt">DT</span><br>#6</div>
-                <div><span class="team-mod-rx">RX</span><br>#14</div>
+                <div><span class="team-mod-nm">NM</span><br><span class="team-mod-number-left">#2</span></div>
+                <div><span class="team-mod-hd">HD</span><br><span class="team-mod-number-left">#10</span></div>
+                <div><span class="team-mod-hr">HR</span><br><span class="team-mod-number-left">#19</span></div>
+                <div><span class="team-mod-dt">DT</span><br><span class="team-mod-number-left">#6</span></div>
+                <div><span class="team-mod-rx">RX</span><br><span class="team-mod-number-left">#14</span></div>
             </section>
         </section>
-        <section class="team-section team-section-left">
-            <div class="team-name">HELLOTEAM_B</div>
+        <section class="team-section team-section-right">
+            <div class="team-name" id="team-name-right">HELLOTEAM_B</div>
             <div class="team-star-container">
                 <div class="team-star-wrapper">
                     <img class="team-star" src="static/point-fill.png">
@@ -79,7 +80,7 @@
                     <img class="team-star" src="static/point-empty.png">
                 </div>          
             </div>
-            <section class="team-players">
+            <section class="team-players" id="team-players-right">
                 <div class="team-player-container">
                     <img class="team-player-profile-picture" src="https://a.ppy.sh/8306102">
                     <div class="team-player-detail-container">
@@ -95,13 +96,13 @@
                     </div>
                 </div>
             </section>
-            <div class="team-seed">#04</div>
+            <div class="team-seed" id="team-seed-right">#04</div>
             <section class="team-mod-stats">
-                <div><span class="team-mod-nm">NM</span><br>#2</div>
-                <div><span class="team-mod-hd">HR</span><br>#10</div>
-                <div><span class="team-mod-hr">HD</span><br>#19</div>
-                <div><span class="team-mod-dt">DT</span><br>#6</div>
-                <div><span class="team-mod-rx">RX</span><br>#14</div>
+                <div><span class="team-mod-nm">NM</span><br><span class="team-mod-number-right">#2</span></div>
+                <div><span class="team-mod-hd">HD</span><br><span class="team-mod-number-right">#10</span></div>
+                <div><span class="team-mod-hr">HR</span><br><span class="team-mod-number-right">#19</span></div>
+                <div><span class="team-mod-dt">DT</span><br><span class="team-mod-number-right">#6</span></div>
+                <div><span class="team-mod-rx">RX</span><br><span class="team-mod-number-right">#14</span></div>
             </section>
         </section>
 
@@ -119,7 +120,7 @@
         <section class="mappool-section">
             <div class="mappool-main-section">
                 <section class="tile-section">
-                    <section class="left-ban-section">
+                    <section class="ban-section-left">
                         <div class="tile mappool-tile">
                             <div class="tile-overlay tile-overlay-left"></div>
                             <div class="tile-detail mappool-tile-detail tile-artist">IOSYS</div>
@@ -133,7 +134,7 @@
                             <img class="mappool-tile-mod" src="static/mod-icons/HR2.png">
                         </div>
                     </section>
-                    <section class="right-ban-section">
+                    <section class="ban-section-right">
                         <div class="tile mappool-tile">
                             <div class="tile-overlay tile-overlay-right"></div>
                             <div class="tile-detail mappool-tile-detail tile-artist">IOSYS</div>
@@ -150,7 +151,7 @@
                 </section>
                 <img class="ban-line" src="static/ban line.png">
                 <section class="tile-section">
-                    <section class="left-pick-section">
+                    <section class="pick-section-left">
                         <div class="tile mappool-tile">
                             <div class="tile-overlay tile-overlay-left"></div>
                             <div class="tile-detail mappool-tile-detail tile-artist tile-artist-score-added">IOSYS</div>
@@ -206,7 +207,7 @@
                             </div>
                         </div>
                     </section>
-                    <section class="right-pick-section">
+                    <section class="pick-section-right">
                         <div class="tile mappool-tile">
                             <div class="tile-overlay tile-overlay-right"></div>
                             <div class="tile-detail mappool-tile-detail tile-artist tile-artist-score-added">IOSYS</div>
