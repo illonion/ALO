@@ -185,6 +185,18 @@
 .mappool-tile-win-score-right { color: #87bfff; }
 
 /* ===========================
+   Mappool Tile Length BPM Container
+=========================== */
+.tile-length-bpm-container {
+    position: absolute;
+    right: var(--tile-detail-horizontal-alignment);
+    display: flex;
+    gap: 20px;
+}
+.mappool-tile-length-bpm { top: 100px; }
+.tiebreaker-tile-length-bpm { top: 15px; }
+
+/* ===========================
    Mappool Tile Stats Container
 =========================== */
 .tile-stats-container {
@@ -201,18 +213,6 @@
     right: 20px;
     transform: translateY(-50%);
 }
-
-/* ===========================
-   Mappool Tile Length BPM Container
-=========================== */
-.tile-length-bpm-container {
-    position: absolute;
-    right: var(--tile-detail-horizontal-alignment);
-    display: flex;
-    gap: 20px;
-}
-.mappool-tile-length-bpm { top: 100px; }
-.tiebreaker-tile-length-bpm { top: 15px; }
 
 /* ===========================
    Mappool Tile Stats

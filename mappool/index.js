@@ -2,6 +2,22 @@
 const mappoolManagementButtonContainerEl = document.getElementById("mappool-management-button-container")
 let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
 let allBeatmaps
+
+let tileHeight = 121
+let tileArtist = 30
+let tileArtistScoreAdded = 12
+let tileTitle = 58
+let tileTitleScoreAdded = 42
+let tileMod = 23
+let tilePlayIcon = 52
+let tileScore = 74
+let tileStatsContainer = 161
+let tileLengthBpm = 100
+let tiebreakerTileLengthBpm = 15
+let tileMappedByContainer = 197
+let tiebreakerTileMappedByContainer = 72
+let styleSheet = [...document.styleSheets].find(sheet => !sheet.href || sheet.href.startsWith(location.origin))
+
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
     allBeatmaps = response.data.beatmaps
@@ -30,8 +46,39 @@ async function getBeatmaps() {
         const button = document.createElement("div")
         button.classList.add("sidebar-button")
         button.innerText = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
+        button.addEventListener("click", mapClickEvent)
         mappoolManagementButtonContainerEl.append(button)
     }
+
+    // Calculate heights and positioning of tiles
+    tileHeight = Math.round(1089 / (currentBanCount + currentFirstTo))
+    const adjustment = Math.round((tileHeight - 121) / 2)
+    tileArtist += adjustment
+    tileArtistScoreAdded += adjustment
+    tileTitle += adjustment
+    tileTitleScoreAdded += adjustment
+    tileMod += adjustment
+    tilePlayIcon += adjustment
+    tileScore += adjustment
+    tileLengthBpm = tileHeight * 1.25
+    tileStatsContainer = tileHeight * 1.5
+    tiebreakerTileLengthBpm += adjustment
+    tileMappedByContainer = tileHeight * 1.75
+    tiebreakerTileMappedByContainer += adjustment
+
+    styleSheet.insertRule(`.tile { height: ${tileHeight}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tile-artist { top: ${tileArtist}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tile-artist-score-added { top: ${tileArtistScoreAdded}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tile-title { top: ${tileTitle}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tile-title-score-added { top: ${tileTitleScoreAdded}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-mod { top: ${tileMod}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-play-icon { top: ${tilePlayIcon}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-score { top: ${tileScore}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-stats-container { top: ${tileStatsContainer}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-length-bpm { top: ${tileLengthBpm}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.mappool-tile-mapped-by-container { top: ${tileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tiebreaker-tile-length-bpm { top: ${tiebreakerTileLengthBpm}px !important; }`, styleSheet.cssRules.length)
+    styleSheet.insertRule(`.tiebreaker-tile-mapped-by-container { top: ${tiebreakerTileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
 }
 getBeatmaps()
 // Find Beatmaps
@@ -97,6 +144,12 @@ function updateStarCount(side, action) {
 
     // Create star display
     createStarDisplay()
+}
+
+// Map Click Event
+function mapClickEvent(event) {
+    // Figure out whether it is a pick or ban
+
 }
 
 // Get Team
@@ -257,5 +310,17 @@ function toggleStars() {
         teamStarContainerLeftEl.style.display = "none"
         teamStarContainerRightEl.style.display = "none"
         toggleStarsButtonEl.textContent = `Toggle Stars: OFF`
+    }
+}
+
+// Toggle Animation
+const toggleAnimationButtonEl = document.getElementById("toggle-animation-button")
+let currentToggleAnimation = true
+function toggleAnimation() {
+    currentToggleAnimation = !currentToggleAnimation
+    if (currentToggleAnimation) {
+        toggleAnimationButtonEl.textContent = `Toggle Animation: ON`
+    } else {
+        toggleAnimationButtonEl.textContent = `Toggle Animation: OFF`
     }
 }

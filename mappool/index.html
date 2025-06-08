@@ -20,23 +20,7 @@
     <div class="main">
         <section class="team-section team-section-left">
             <div class="team-name" id="team-name-left">HELLOTEAM_B</div>
-            <div class="team-star-container" id="team-star-container-left">
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-fill.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>          
-            </div>
+            <div class="team-star-container" id="team-star-container-left"></div>
             <section class="team-players" id="team-players-left">
                 <div class="team-player-container">
                     <img class="team-player-profile-picture" src="https://a.ppy.sh/8306102">
@@ -64,23 +48,7 @@
         </section>
         <section class="team-section team-section-right">
             <div class="team-name" id="team-name-right">HELLOTEAM_B</div>
-            <div class="team-star-container" id="team-star-container-right">
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-fill.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>
-                <div class="team-star-wrapper">
-                    <img class="team-star" src="static/point-empty.png">
-                </div>          
-            </div>
+            <div class="team-star-container" id="team-star-container-right"></div>
             <section class="team-players" id="team-players-right">
                 <div class="team-player-container">
                     <img class="team-player-profile-picture" src="https://a.ppy.sh/8306102">
@@ -164,7 +132,7 @@
                         </div>
                         <div class="tile mappool-tile">
                             <div class="tile-overlay tile-overlay-left"></div>
-                            <div class="tile-detail mappool-tile-detail tile-artist mappool-tile-artist-score-added">IOSYS</div>
+                            <div class="tile-detail mappool-tile-detail tile-artist tile-artist-score-added">IOSYS</div>
                             <div class="tile-detail mappool-tile-detail tile-title tile-title-score-added">Scarlet Police on Ghetto Patrol</div>
                             <img class="mappool-tile-mod" src="static/mod-icons/DT2.png">
                             <div class="mappool-tile-score">
@@ -281,6 +249,9 @@
         </div>
         <div class="sidebar-section">
             <h1>Mappool Management</h1>
+            <div class="sidebar-button-container">
+                <button class="sidebar-button full-size-button double-height-button" id="toggle-animation-button" onclick="toggleAnimation()">Toggle Animation: ON</button>
+            </div>
             <div class="sidebar-text">
                 Left Click (LC) = Red Pick<br>
                 Right Click (RC) = Blue Pick<br>
