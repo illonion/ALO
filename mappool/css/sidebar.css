@@ -23,7 +23,8 @@
 =========================== */
 .sidebar-section {
     width: 100%;
-    padding: 20px 0;
+    padding: 30px 0;
+    border-bottom: 3px solid white;
 }
 
 /* ===========================
@@ -57,6 +58,7 @@
     font-family: "Zain";
     font-size: 2em;
     line-height: calc(var(--sidebar-button-height) * 1.07);
+    text-align: center;
 }
 .sidebar-button:active {
     background-color: white;
@@ -64,4 +66,15 @@
 }
 .full-size-button {
     width: calc(var(--sidebar-button-width) * 2 + var(--sidebar-button-container-gap));
+}
+
+/* ===========================
+   Sidebar Text
+=========================== */
+.sidebar-text {
+    text-align: center;
+    font-family: "Zain";
+    font-size: 2em;
+    margin-bottom: 20px;
+    line-height: 30px;
 }

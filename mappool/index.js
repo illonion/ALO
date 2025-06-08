@@ -1,4 +1,5 @@
 // Star Control
+const mappoolManagementButtonContainerEl = document.getElementById("mappool-management-button-container")
 let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
 let allBeatmaps
 async function getBeatmaps() {
@@ -23,6 +24,14 @@ async function getBeatmaps() {
     currentFirstTo = Math.ceil(currentBestOf / 2)
 
     createStarDisplay()
+
+    // Create mappool buttons
+    for (let i = 0; i < allBeatmaps.length; i++) {
+        const button = document.createElement("div")
+        button.classList.add("sidebar-button")
+        button.innerText = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
+        mappoolManagementButtonContainerEl.append(button)
+    }
 }
 getBeatmaps()
 // Find Beatmaps
@@ -72,16 +81,21 @@ function createStarDisplay() {
 
 // Update star count
 function updateStarCount(side, action) {
+    if (!currentToggleStars) return
+
+    // Set stars
     if (side === "left" && action === "plus") currentTeamStarLeft++
     else if (side === "right" && action === "plus") currentTeamStarRight++
     else if (side === "left" && action === "minus") currentTeamStarLeft--
     else if (side === "right" && action === "minus") currentTeamStarRight--
 
+    // Check stars
     if (currentTeamStarLeft > currentFirstTo) currentTeamStarLeft = currentFirstTo
     if (currentTeamStarLeft < 0) currentTeamStarLeft = 0
     if (currentTeamStarRight > currentFirstTo) currentTeamStarRight = currentFirstTo
     if (currentTeamStarRight < 0) currentTeamStarRight = 0
 
+    // Create star display
     createStarDisplay()
 }
 
