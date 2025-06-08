@@ -18,6 +18,11 @@ let tileMappedByContainer = 197
 let tiebreakerTileMappedByContainer = 72
 let styleSheet = [...document.styleSheets].find(sheet => !sheet.href || sheet.href.startsWith(location.origin))
 
+const banSectionLeftEl = document.getElementById("ban-section-left")
+const banSectionRightEl = document.getElementById("ban-section-right")
+const pickSectionLeftEl = document.getElementById("pick-section-left")
+const pickSectionRightEl = document.getElementById("pick-section-right")
+
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
     allBeatmaps = response.data.beatmaps
@@ -83,15 +88,16 @@ async function getBeatmaps() {
     styleSheet.insertRule(`.tiebreaker-tile-mapped-by-container { top: ${tiebreakerTileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
 
     // Create tiles
-    for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", "ban")
+    for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", "ban", i % 2 === 0? banSectionLeftEl : banSectionRightEl)
 }
 getBeatmaps()
 // Find Beatmaps
 const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.beatmap_id) === Number(beatmapId))
 
 // Create Tile
-function createTile(side, selection) {
-    const mappoolTile = document.createElement("tile")
+function createTile(side, selection, sectionElement) {
+    console.log("hello")
+    const mappoolTile = document.createElement("div")
     mappoolTile.classList.add("tile", "mappool-tile")
     
     const tileOverlay = document.createElement("div")
@@ -155,7 +161,7 @@ function createTile(side, selection) {
     tileMappedByContainer.append(mappoolTileMappedBy)
 
     mappoolTile.append(tileLengthBpmContainer, tileStatsContainer, tileMappedByContainer)
-    return mappoolTile
+    sectionElement.append(mappoolTile)
 }
 
 // Create Star Display
@@ -215,10 +221,6 @@ function updateStarCount(side, action) {
 }
 
 // Map Click Event
-const banSectionLeftEl = document.getElementById("ban-section-left")
-const banSectionRightEl = document.getElementById("ban-section-right")
-const pickSectionLeftEl = document.getElementById("pick-section-left")
-const pickSectionRightEl = document.getElementById("pick-section-right")
 function mapClickEvent(event) {
     // Figure out whether it is a pick or ban
     const currentMapId = this.dataset.id

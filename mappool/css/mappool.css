@@ -63,6 +63,8 @@
     background-image: url("https://assets.ppy.sh/beatmaps/618058/covers/cover.jpg");
     background-size: cover;
     background-position: center;
+    overflow: hidden;
+    opacity: 0;
 }
 .mappool-tile { width: 558px; }
 /* Tiebreaker */
@@ -158,6 +160,7 @@
     position: absolute;
     top: 52px;
     left: 137px;
+    display: none;
 }
 
 /* ===========================
