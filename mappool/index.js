@@ -46,7 +46,9 @@ async function getBeatmaps() {
         const button = document.createElement("div")
         button.classList.add("sidebar-button")
         button.innerText = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
+        button.setAttribute("id", allBeatmaps[i].beatmap_id)
         button.addEventListener("click", mapClickEvent)
+        button.dataset.id = allBeatmaps[i].beatmap_id
         mappoolManagementButtonContainerEl.append(button)
     }
 
@@ -60,7 +62,7 @@ async function getBeatmaps() {
     tileMod += adjustment
     tilePlayIcon += adjustment
     tileScore += adjustment
-    tileLengthBpm = tileHeight * 1.25
+    tileLengthBpm = tileHeight * 1.2
     tileStatsContainer = tileHeight * 1.5
     tiebreakerTileLengthBpm += adjustment
     tileMappedByContainer = tileHeight * 1.75
@@ -79,10 +81,82 @@ async function getBeatmaps() {
     styleSheet.insertRule(`.mappool-tile-mapped-by-container { top: ${tileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
     styleSheet.insertRule(`.tiebreaker-tile-length-bpm { top: ${tiebreakerTileLengthBpm}px !important; }`, styleSheet.cssRules.length)
     styleSheet.insertRule(`.tiebreaker-tile-mapped-by-container { top: ${tiebreakerTileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
+
+    // Create tiles
+    for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", "ban")
 }
 getBeatmaps()
 // Find Beatmaps
 const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.beatmap_id) === Number(beatmapId))
+
+// Create Tile
+function createTile(side, selection) {
+    const mappoolTile = document.createElement("tile")
+    mappoolTile.classList.add("tile", "mappool-tile")
+    
+    const tileOverlay = document.createElement("div")
+    tileOverlay.classList.add("tile-overlay", `tile-overlay-${side}`)
+    
+    const tileArtist = document.createElement("div")
+    tileArtist.classList.add("tile-detail", "mappool-tile-detail", "tile-artist")
+
+    const tileTitle = document.createElement("div")
+    tileTitle.classList.add("tile-detail", "mappool-tile-detail", "tile-title")
+
+    const mappoolTileMod = document.createElement("img")
+    mappoolTileMod.classList.add("mappool-tile-mod")
+    mappoolTileMod.setAttribute("src", "")
+
+    const mappoolTilePlayIcon = document.createElement("img")
+    mappoolTilePlayIcon.classList.add("mappool-tile-play-icon")
+    mappoolTilePlayIcon.setAttribute("src", "static/icons/play.png")
+
+    mappoolTile.append(tileOverlay, tileArtist, tileTitle, mappoolTileMod, mappoolTilePlayIcon)
+
+    if (selection === "pick") {
+        const mappoolTileScore = document.createElement("div")
+        mappoolTileScore.classList.add("mappool-tile-score")
+        mappoolTile.append(mappoolTileScore)
+    }
+
+    const tileLengthBpmContainer = document.createElement("div")
+    tileLengthBpmContainer.classList.add("tile-length-bpm-container", "mappool-tile-length-bpm")
+
+    const tileStatLength = document.createElement("div")
+    tileStatLength.classList.add("tile-length")
+    const tileStatLengthNumber = document.createElement("span")
+    tileStatLengthNumber.classList.add("tile-stat-number")
+    tileStatLength.append("LENGTH ", tileStatLengthNumber)
+
+    const tileStatBpm = document.createElement("div")
+    tileStatLength.classList.add("tile-length")
+    const tileStatBpmhNumber = document.createElement("span")
+    tileStatLengthNumber.classList.add("tile-stat-number")
+    tileStatBpm.append("BPM  ", tileStatBpmhNumber)
+
+    const tileStatsContainer = document.createElement("div")
+    tileStatsContainer.classList.add("tile-stats-container", "mappool-tile-stats-container")
+    const statHeaders = ["CS", "AR", "OD", "SR"]
+    for (let i = 0; i < statHeaders.length; i++) {
+        const tileStat = document.createElement("div")
+        tileStat.classList.add("tile-stat")
+        const tileStatNumber = document.createElement("span")
+        tileStatNumber.classList.add("tile-stat-number")
+        tileStat.append(statHeaders[i], tileStatNumber)
+    }
+
+    const tileMappedByContainer = document.createElement("div")
+    tileMappedByContainer.classList.add("tile-mapped-by-container", "mappool-tile-mapped-by-container")
+    const mappoolTileMappedBy = document.createElement("div")
+    mappoolTileMappedBy.classList.add("mappool-tile-mapped-by")
+    const mappoolTileMapper = document.createElement("span")
+    mappoolTileMapper.classList.add("mappool-tile-mapper")
+    mappoolTileMappedBy.append("MAPPED BY ", mappoolTileMapper)
+    tileMappedByContainer.append(mappoolTileMappedBy)
+
+    mappoolTile.append(tileLengthBpmContainer, tileStatsContainer, tileMappedByContainer)
+    return mappoolTile
+}
 
 // Create Star Display
 const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
@@ -97,19 +171,13 @@ function createStarDisplay() {
     let currentStarCounterRight = 0
 
     // Set left stars
-    for (currentStarCounterLeft; currentStarCounterLeft < currentTeamStarLeft; currentStarCounterLeft++) {
-        teamStarContainerLeftEl.append(createStar("fill"))
-    }
     for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
-        teamStarContainerLeftEl.append(createStar("empty"))
+        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
     }
 
     // Set right stars
-    for (currentStarCounterRight; currentStarCounterRight < currentTeamStarRight; currentStarCounterRight++) {
-        teamStarContainerRightEl.append(createStar("fill"))
-    }
     for (currentStarCounterRight; currentStarCounterRight < currentFirstTo; currentStarCounterRight++) {
-        teamStarContainerRightEl.append(createStar("empty"))
+        teamStarContainerRightEl.append(createStar(currentStarCounterRight < currentTeamStarRight ? "fill" : "empty"))
     }
 
     // Create Star
@@ -147,9 +215,40 @@ function updateStarCount(side, action) {
 }
 
 // Map Click Event
+const banSectionLeftEl = document.getElementById("ban-section-left")
+const banSectionRightEl = document.getElementById("ban-section-right")
+const pickSectionLeftEl = document.getElementById("pick-section-left")
+const pickSectionRightEl = document.getElementById("pick-section-right")
 function mapClickEvent(event) {
     // Figure out whether it is a pick or ban
+    const currentMapId = this.dataset.id
+    const currentMap = findBeatmaps(currentMapId)
+    if (!currentMap) return
 
+    // Team
+    let team
+    if (event.button === 0) team = "left"
+    else if (event.button === 2) team = "right"
+    if (!team) return
+
+    // Action
+    let action = "pick"
+    if (event.ctrlKey) action = "ban"
+
+    // Check if map exists in bans
+    const mapCheck = !!(
+        banSectionLeftEl.querySelector(`[data-id="${currentMapId}"]`) ||
+        banSectionRightEl.querySelector(`[data-id="${currentMapId}"]`) ||
+        pickSectionLeftEl.querySelector(`[data-id="${currentMapId}"]`) ||
+        pickSectionRightEl.querySelector(`[data-id="${currentMapId}"]`)
+    )
+    if (mapCheck) return
+
+    // Bans
+    if (action === "ban") {
+        // Find ban container
+        const currentBanContainer = team === "left" ? banSectionLeftEl : banSectionRightEl
+    }
 }
 
 // Get Team
