@@ -1,5 +1,7 @@
 :root {
     --sidebar-background-color: #020E45;
+    --sidebar-button-container-gap: 10px;
+    --sidebar-button-width: 125px;
     --sidebar-button-height: 50px;
 }
 
@@ -43,10 +45,10 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--sidebar-button-container-gap);
 }
 .sidebar-button {
-    width: 125px;
+    width: var(--sidebar-button-width);
     height: var(--sidebar-button-height);
     background-color: transparent;
     border: 3px solid white;
@@ -59,4 +61,7 @@
 .sidebar-button:active {
     background-color: white;
     color: var(--sidebar-background-color);
+}
+.full-size-button {
+    width: calc(var(--sidebar-button-width) * 2 + var(--sidebar-button-container-gap));
 }

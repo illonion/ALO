@@ -25,6 +25,8 @@ async function getBeatmaps() {
     createStarDisplay()
 }
 getBeatmaps()
+// Find Beatmaps
+const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.beatmap_id) === Number(beatmapId))
 
 // Create Star Display
 const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
@@ -106,6 +108,13 @@ let currentTeamNameLeft, currentTeamNameRight
 const osuChatDisplayContainerEl = document.getElementById("osu-chat-display-container")
 let chatLength
 
+// IPC State
+let ipcState
+let checkedWinner = false
+
+// Beatmap information
+let mapId, mapMd5
+
 // Set team details
 function setTeam(team, teamPlayersElement, teamSeedElement, side) {
     
@@ -185,5 +194,54 @@ socket.onmessage = event => {
         osuChatDisplayContainerEl.append(fragment)
         chatLength = data.tourney.chat.length
         osuChatDisplayContainerEl.scrollTop = osuChatDisplayContainerEl.scrollHeight
+    }
+
+    // Beatmap information
+    if (mapId !== data.beatmap.id && mapMd5 !== data.beatmap.checksum) {
+        mapId = data.beatmap.id
+        mapMd5 = data.beatmap.checksum
+    }
+
+    // IPC State
+    if (ipcState !== data.tourney.ipcState) {
+        ipcState = data.tourney.ipcState
+
+        if (ipcState === 4 && !checkedWinner) {
+            checkedWinner = true
+
+            // See if we can find the beatmap
+            const beatmap = findBeatmaps(mapId)
+            if (beatmap && currentToggleStars) {
+                // See if we can find a winner
+                let winner = ""
+                if (beatmap.mod === "RX" && data.tourney.clients[0].play.accuracy > data.tourney.clients[1].play.accuracy) {
+                    winner = "left"
+                } else if (beatmap.mod === "RX" && data.tourney.clients[0].play.accuracy < data.tourney.clients[1].play.accuracy) {
+                    winner = "right"
+                } else if (data.tourney.clients[0].play.score > data.tourney.clients[1].play.score) {
+                    winner = "left"
+                } else if (data.tourney.clients[0].play.score < data.tourney.clients[1].play.score) {
+                    winner = "right"
+                }
+
+                if (winner) updateStarCount(winner, "plus")
+            }
+        }
+    }
+}
+
+// Toggle Stars
+const toggleStarsButtonEl = document.getElementById("toggle-stars-button")
+let currentToggleStars = true
+function toggleStars() {
+    currentToggleStars = !currentToggleStars
+    if (currentToggleStars) {
+        teamStarContainerLeftEl.style.display = "flex"
+        teamStarContainerRightEl.style.display = "flex"
+        toggleStarsButtonEl.textContent = `Toggle Stars: ON`
+    } else {
+        teamStarContainerLeftEl.style.display = "none"
+        teamStarContainerRightEl.style.display = "none"
+        toggleStarsButtonEl.textContent = `Toggle Stars: OFF`
     }
 }
