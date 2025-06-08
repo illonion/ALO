@@ -1,8 +1,71 @@
 // Star Control
-let currenTeamStarLeft = 0, curretnTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
+let currenTeamStarLeft = 0, currentTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
 let allBeatmaps
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
+    allBeatmaps = response.data.beatmaps
+
+    switch (response.data.roundName) {
+        case "RO64": case "RO32": case "RO16":
+            currentBestOf = 9
+            currentBanCount = 1
+            break
+        case "QF": case "SF":
+            currentBestOf = 11
+            currentBanCount = 2
+            break
+        case "F": case "GF":
+            currentBestOf = 13
+            currentBanCount = 2
+            break
+    }
+
+    currentFirstTo = Math.ceil(currentBestOf / 2)
+
+    createStarDisplay()
+}
+getBeatmaps()
+
+// Create Star Display
+const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
+const teamStarContainerRightEl = document.getElementById("team-star-container-right")
+function createStarDisplay() {
+    // Reset elements
+    teamStarContainerLeftEl.innerHTML = ""
+    teamStarContainerRightEl.innerHTML = ""
+
+    // Create counters
+    let currentStarCounterLeft = 0
+    let currentStarCounterRight = 0
+
+    // Set left stars
+    for (currentStarCounterLeft; currentStarCounterLeft < currenTeamStarLeft; currentStarCounterLeft++) {
+        teamStarContainerLeftEl.append(createStar("fill"))
+    }
+    for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
+        teamStarContainerLeftEl.append(createStar("empty"))
+    }
+
+    // Set right stars
+    for (currentStarCounterRight; currentStarCounterRight < currentTeamStarRight; currentStarCounterRight++) {
+        teamStarContainerRightEl.append(createStar("fill"))
+    }
+    for (currentStarCounterRight; currentStarCounterRight < currentFirstTo; currentStarCounterRight++) {
+        teamStarContainerRightEl.append(createStar("empty"))
+    }
+
+    // Create Star
+    function createStar(status) {
+        const teamStarWrapper = document.createElement("div")
+        teamStarWrapper.classList.add("team-star-wrapper")
+
+        const teamStar = document.createElement("img")
+        teamStar.classList.add("team-star")
+        teamStar.setAttribute("src", `static/point-${status}.png`)
+
+        teamStarWrapper.append(teamStar)
+        return teamStarWrapper
+    }
 }
 
 // Get Team
@@ -45,7 +108,6 @@ function setTeam(team, teamPlayersElement, teamSeedElement, side) {
     // Set Mod Ranks
     const modElements = document.getElementsByClassName(`team-mod-number-${side}`)
     for (let i = 0; i < team.mod_ranks.length; i++) {
-        console.log
         modElements[i].textContent = `#${team.mod_ranks[i]}`
     }
 }
@@ -64,9 +126,7 @@ socket.onmessage = event => {
         if (foundTeam) setTeam(foundTeam, teamPlayersLeftEl, teamSeedLeftEl, "left") 
     }
     if (currentTeamNameRight !== data.tourney.team.right && allTeams) {
-        console.log(data.tourney.team.right)
         currentTeamNameRight = data.tourney.team.right
-        console.log(currentTeamNameRight)
         teamNameRightEl.textContent = currentTeamNameRight
 
         const foundTeam = findTeam(currentTeamNameRight)
