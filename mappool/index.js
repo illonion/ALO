@@ -108,7 +108,6 @@ let chatLength
 
 // Set team details
 function setTeam(team, teamPlayersElement, teamSeedElement, side) {
-    console.log(team)
     
     // Set Players Element
     for (let i = 0; i < teamPlayersElement.childElementCount; i++) {

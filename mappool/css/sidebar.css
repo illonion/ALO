@@ -1,0 +1,62 @@
+:root {
+    --sidebar-background-color: #020E45;
+    --sidebar-button-height: 50px;
+}
+
+/* ===========================
+   Sidebar
+=========================== */
+.sidebar {
+    position: absolute;
+    top: 0;
+    left: 2560px;
+    width: 325px;
+    height: 1440px;
+    background-color: var(--sidebar-background-color);
+    color: white;
+}
+
+/* ===========================
+   Sidebar Section
+=========================== */
+.sidebar-section {
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* ===========================
+   Sidebar Section H1
+=========================== */
+.sidebar-section h1 {
+    text-align: center;
+    font-family: "Rai Lowercase Regular";
+    font-size: 2em;
+    letter-spacing: 3.5px;
+    margin-bottom: 20px;
+}
+
+/* ===========================
+   Sidebar Buttons
+=========================== */
+.sidebar-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.sidebar-button {
+    width: 125px;
+    height: var(--sidebar-button-height);
+    background-color: transparent;
+    border: 3px solid white;
+    border-radius: 10px;
+    color: white;
+    font-family: "Zain";
+    font-size: 2em;
+    line-height: calc(var(--sidebar-button-height) * 1.07);
+}
+.sidebar-button:active {
+    background-color: white;
+    color: var(--sidebar-background-color);
+}
