@@ -1,5 +1,5 @@
 // Star Control
-let currenTeamStarLeft = 0, currentTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
+let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
 let allBeatmaps
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
@@ -39,7 +39,7 @@ function createStarDisplay() {
     let currentStarCounterRight = 0
 
     // Set left stars
-    for (currentStarCounterLeft; currentStarCounterLeft < currenTeamStarLeft; currentStarCounterLeft++) {
+    for (currentStarCounterLeft; currentStarCounterLeft < currentTeamStarLeft; currentStarCounterLeft++) {
         teamStarContainerLeftEl.append(createStar("fill"))
     }
     for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
@@ -66,6 +66,21 @@ function createStarDisplay() {
         teamStarWrapper.append(teamStar)
         return teamStarWrapper
     }
+}
+
+// Update star count
+function updateStarCount(side, action) {
+    if (side === "left" && action === "plus") currentTeamStarLeft++
+    else if (side === "right" && action === "plus") currentTeamStarRight++
+    else if (side === "left" && action === "minus") currentTeamStarLeft--
+    else if (side === "right" && action === "minus") currentTeamStarRight--
+
+    if (currentTeamStarLeft > currentFirstTo) currentTeamStarLeft = currentFirstTo
+    if (currentTeamStarLeft < 0) currentTeamStarLeft = 0
+    if (currentTeamStarRight > currentFirstTo) currentTeamStarRight = currentFirstTo
+    if (currentTeamStarRight < 0) currentTeamStarRight = 0
+
+    createStarDisplay()
 }
 
 // Get Team
