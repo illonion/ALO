@@ -1,10 +1,17 @@
+// Star Control
+let currenTeamStarLeft = 0, curretnTeamStarRight = 0, currentBestOf = 0, currentFirstTo = 0, currentBanCount = 0
+let allBeatmaps
+async function getBeatmaps() {
+    const response = await axios.get("../_data/beatmaps.json")
+}
+
 // Get Team
 let allTeams
-async function getTeam() {
+async function getTeams() {
     const response = await axios.get("../_data/teams.json")
     allTeams = response.data
 }
-getTeam()
+getTeams()
 // Find Team
 const findTeam = team_name => allTeams.find(team => team.team_name === team_name)
 

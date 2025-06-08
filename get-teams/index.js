@@ -1,4 +1,3 @@
-
 /* Text Area */
 const textareaEl = document.getElementById("textarea")
 let allTeams = []
