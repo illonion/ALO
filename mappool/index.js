@@ -342,7 +342,7 @@ const teamPlayersLeftEl = document.getElementById("team-players-left")
 const teamPlayersRightEl = document.getElementById("team-players-right")
 const teamSeedLeftEl = document.getElementById("team-seed-left")
 const teamSeedRightEl = document.getElementById("team-seed-right")
-let currentTeamNameLeft, currentTeamNameRight
+let currentTeamNameLeft, currentTeamNameRight, currentLeftTeamPlayers, currentRightTeamPlayers
 
 // osu! chat length
 const osuChatDisplayContainerEl = document.getElementById("osu-chat-display-container")
@@ -373,10 +373,14 @@ function setTeam(team, teamPlayersElement, teamSeedElement, side) {
     for (let i = 0; i < team.mod_ranks.length; i++) {
         modElements[i].textContent = `#${team.mod_ranks[i]}`
     }
+
+    // Set team players
+    if (side === "left") currentLeftTeamPlayers = team.player_ids
+    else currentRightTeamPlayers = team.player_ids
 }
 
 const socket = createTosuWsSocket()
-socket.onmessage = event => {
+socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
 
@@ -445,7 +449,7 @@ socket.onmessage = event => {
         const element = document.getElementById(mapId)
 
         // Click event
-        if (isAutopick && (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true")) {
+        if (currentToggleAutopick && element && (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true")) {
             // Check if autopicked already
             const event = new MouseEvent('mousedown', {
                 bubbles: true,
@@ -483,12 +487,31 @@ socket.onmessage = event => {
                     winner = "right"
                 }
 
+                // Set winner
                 if (winner) updateStarCount(winner, "plus")
+
+                await delay(5000)
+
+                // Get match and append history
+                getAndAppendMatchHistory()
             }
         }
     }
 
     // Check for play icon
+    // Remove it from all icons first
+    const allTiles = document.querySelectorAll(
+        '#ban-section-left [data-id], #ban-section-right [data-id], #pick-section-left [data-id], #pick-section-right [data-id]'
+    )
+    allTiles.forEach(tile => {
+        if (Number(tile.dataset.id) !== Number(mapId)) {
+            tile.children[4].style.display = "none"
+        } else {
+            tile.children[4].style.display = "block"
+        }
+    })
+
+    // Show tiebreaker
 }
 
 // Toggle Stars
@@ -524,8 +547,118 @@ function setNextPicker(side) {
 
 // Toggle Autopick
 const toggleAutopickButtonEl = document.getElementById("toggle-autopick-button")
-let currentToggleAutopick = true
+let currentToggleAutopick = false
 function toggleAutopick() {
     currentToggleAutopick = !currentToggleAutopick
     toggleAutopickButtonEl.textContent = `Toggle Autopick: ${currentToggleAutopick ? "ON" : "OFF"}`
+}
+
+// Get osu! API
+let osuApi
+async function getOsuApi() {
+    const response = await axios.get("../_data/osu-api.json")
+    osuApi = response.data.api
+}
+getOsuApi()
+
+// Get Matches
+const matchIdEl = document.getElementById("match-id")
+let currentMPLink
+function mpLinkGetResults() {
+    currentMPLink = parseInt(matchIdEl.value)
+    getAndAppendMatchHistory()
+}
+
+// Get and append match history
+async function getAndAppendMatchHistory() {
+    const response = await axios.get(`https://osu.ppy.sh/api/get_match?k=${osuApi}&mp=${currentMPLink}`)
+    const data = response.data
+
+    // Reset all maps
+    for (let i = 0; i < pickSectionLeftEl.childElementCount; i++) {
+        pickSectionLeftEl.children[i].children[1].classList.remove("tile-artist-score-added")
+        pickSectionLeftEl.children[i].children[2].classList.remove("tile-title-score-added")
+        pickSectionLeftEl.children[i].children[5].innerHTML = ""
+        pickSectionRightEl.children[i].children[1].classList.remove("tile-artist-score-added")
+        pickSectionRightEl.children[i].children[2].classList.remove("tile-title-score-added")
+        pickSectionRightEl.children[i].children[5].innerHTML = ""
+    }
+
+    // Start adding maps
+    for (let i = 0; i < data.games.length; i++) {
+        const currentGame = data.games[i]
+        const currentMap = findBeatmaps(currentGame.beatmap_id)
+        console.log(currentGame)
+
+        if (currentMap && currentMap.mod !== "TB") {
+            // Set scores
+            let leftTeamScore = 0
+            let leftPlayerFound = false
+            let rightTeamScore = 0
+            let rightPlayerFound = false
+            
+            for (let j = 0; j < currentGame.scores.length; j++) {
+                if (currentMap.mod === "RX") {
+                    // Relax / Acc scoring method
+                    let totalNotes = Number(currentGame.scores[j].countmiss) + Number(currentGame.scores[j].count50) + 
+                    Number(currentGame.scores[j].count100) + Number(currentGame.scores[j].count300) +
+                    Number(currentGame.scores[j].countgeki) + Number(currentGame.scores[j].countkatu)
+
+                    let accuracy = (Number(currentGame.scores[j].countmiss) * 0 + Number(currentGame.scores[j].count50) * 1 / 6 +
+                                    Number(currentGame.scores[j].count100) * 1 / 3 + Number(currentGame.scores[j].count300) +
+                                    Number(currentGame.scores[j].countgeki) + Number(currentGame.scores[j].countkatu) * 1 / 3) / totalNotes
+
+                    if (totalNotes === 0) accuracy = 0
+
+                    if (currentLeftTeamPlayers.includes(Number(currentGame.scores[j].user_id)) && !leftPlayerFound) {
+                        leftTeamScore += accuracy * 100
+                        leftPlayerFound = true
+                    } else if (currentRightTeamPlayers.includes(Number(currentGame.scores[j].user_id)) && !rightPlayerFound) {
+                        rightTeamScore += accuracy * 100
+                        rightPlayerFound = true
+                    }
+                } else {
+                    // Normal scoring method
+                    if (currentLeftTeamPlayers.includes(Number(currentGame.scores[j].user_id)) && !leftPlayerFound) {
+                        leftTeamScore += Number(currentGame.scores[j].score)
+                        leftPlayerFound = true
+                    } else if (currentRightTeamPlayers.includes(Number(currentGame.scores[j].user_id)) && !rightPlayerFound) {
+                        rightTeamScore += Number(currentGame.scores[j].score)
+                        rightPlayerFound = true
+                    }
+                }
+            }
+
+            // Find tile to display score
+            const targetElement = document.querySelector(
+                `#pick-section-left [data-id="${currentGame.beatmap_id}"], #pick-section-right [data-id="${currentGame.beatmap_id}"]`
+            );
+
+            // Find if it exists
+            if (targetElement) {
+                // Reset what was there before
+                targetElement.children[5].innerHTML = ""
+
+                // Left Score
+                const leftScoreElement = document.createElement("span")
+                leftScoreElement.textContent = `${leftTeamScore}${currentMap.mod === "RX" ? "%" : ""}`
+
+                // Right Score
+                const rightScoreElement = document.createElement("span")
+                rightScoreElement.textContent = `${rightTeamScore}${currentMap.mod === "RX" ? "%" : ""}`
+
+                // Check which map won
+                if (leftTeamScore > rightTeamScore) {
+                    leftScoreElement.classList.add("mappool-tile-win-score", "mappool-tile-win-score-left")
+                } else if (rightTeamScore > leftTeamScore) {
+                    rightScoreElement.classList.add("mappool-tile-win-score", "mappool-tile-win-score-right")
+                }
+
+                targetElement.children[1].classList.add("tile-artist-score-added")
+                targetElement.children[2].classList.add("tile-title-score-added")
+                targetElement.children[5].append(leftScoreElement, " - ", rightScoreElement)
+                targetElement.children[5].style.display = "block"
+            }
+        }
+    }
 }

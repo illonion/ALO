@@ -156,7 +156,15 @@
                 <div class="sidebar-button-container">
                     <button class="sidebar-button" onclick="setNextPicker('left')">Left</button>
                     <button class="sidebar-button" onclick="setNextPicker('right')">Right</button>
-                    <button class="sidebar-button full-size-button one-point-five-times-height-button" id="toggle-autopick-button" onclick="toggleAutopick()">Toggle Autopick: ON</button>
+                    <button class="sidebar-button full-size-button one-point-five-times-height-button" id="toggle-autopick-button" onclick="toggleAutopick()">Toggle Autopick: OFF</button>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h1>Enter MP Link</h1>
+                <input type="number" class="sidebar-input" id="match-id">
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button full-size-button one-point-five-times-height-button" onclick="mpLinkGetResults()">Get Results</button>
+                    <button class="sidebar-button full-size-button one-point-five-times-height-button" onclick="mpLinkClearHistory()">Clear History</button>
                 </div>
             </div>
         </div>

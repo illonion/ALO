@@ -107,3 +107,26 @@
     margin-bottom: 20px;
     line-height: 30px;
 }
+
+/* ===========================
+   Sidebar Input
+=========================== */
+.sidebar-input {
+    --font-size: 2em;
+    font-family: "Zain";
+    font-size: var(--font-size);
+    border: 3px solid white;
+    width: 250px;
+    height: 50px;
+    margin-left: 37.5px;
+    margin-bottom: 20px;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    line-height: calc(var(--font-size) * 1.07);
+}
+.sidebar-input::-webkit-inner-spin-button,
+.sidebar-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

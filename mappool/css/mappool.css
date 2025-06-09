@@ -175,9 +175,10 @@
 .mappool-tile-play-icon {
     position: absolute;
     top: var(--tile-play-icon-top);
-    left: 137px;
     display: none;
 }
+.pick-section-left .mappool-tile .mappool-tile-play-icon, .ban-section-left .mappool-tile .mappool-tile-play-icon { right: 137px; }
+.pick-section-right .mappool-tile .mappool-tile-play-icon, .ban-section-right .mappool-tile .mappool-tile-play-icon, .tiebreaker .mappool-tile-play-icon { left: 137px; }
 
 /* ===========================
    Mappool Tile Score
@@ -190,15 +191,15 @@
     color: white;
     font-family: "Rai Lowercase Regular";
 }
-.pick-section-left .mappool-tile .mappool-tile-score { left: 20px; }
-.pick-section-right .mappool-tile .mappool-tile-score { right: 20px; }
+.pick-section-left .mappool-tile .mappool-tile-score { left: var(--tile-detail-horizontal-alignment); }
+.pick-section-right .mappool-tile .mappool-tile-score { right: var(--tile-detail-horizontal-alignment); }
 .mappool-tile-win-score {
     font-size: 25px;
     text-shadow:
-        -1px -1px 0 white,
-        1px -1px 0 white,
-        -1px  1px 0 white,
-        1px  1px 0 white;
+        -1 -1 0 white,
+        1 -1 0 white,
+        -1  1 0 white,
+        1  1 0 white;
 }
 .mappool-tile-win-score-left { color: #ff8787; }
 .mappool-tile-win-score-right { color: #87bfff; }
@@ -225,11 +226,11 @@
 }
 .mappool-tile-stats-container {
     top: var(--tile-stats-container-top);
-    right: 20px;
+    right: var(--tile-detail-horizontal-alignment);
 }
 .tiebreaker-tile-stats-container {
     top: 50%;
-    right: 20px;
+    right: var(--tile-detail-horizontal-alignment);
     transform: translateY(-50%);
 }
 
