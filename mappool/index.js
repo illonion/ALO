@@ -92,9 +92,9 @@ async function getBeatmaps() {
     root.style.setProperty('--tiebreaker-tile-mapped-by-container-top', `${tiebreakerTileMappedByContainer}px`);
 
     // Create tiles
-    for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", "ban", i % 2 === 0? banSectionLeftEl : banSectionRightEl)
+    for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", i % 2 === 0? banSectionLeftEl : banSectionRightEl)
     for (let i = 0; i < (currentFirstTo - 1) * 2; i++) {
-        createTile(i % 2 === 0? "left": "right", "pick", i % 2 === 0? pickSectionLeftEl : pickSectionRightEl)
+        createTile(i % 2 === 0? "left": "right", i % 2 === 0? pickSectionLeftEl : pickSectionRightEl)
     }
 
     // Set Tiebreaker details
@@ -115,7 +115,7 @@ getBeatmaps()
 const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.beatmap_id) === Number(beatmapId))
 
 // Create Tile
-function createTile(side, selection, sectionElement) {
+function createTile(side, sectionElement) {
     const mappoolTile = document.createElement("div")
     mappoolTile.classList.add("tile", "mappool-tile")
     
@@ -138,11 +138,9 @@ function createTile(side, selection, sectionElement) {
 
     mappoolTile.append(tileOverlay, tileArtist, tileTitle, mappoolTileMod, mappoolTilePlayIcon)
 
-    if (selection === "pick") {
-        const mappoolTileScore = document.createElement("div")
-        mappoolTileScore.classList.add("mappool-tile-score")
-        mappoolTile.append(mappoolTileScore)
-    }
+    const mappoolTileScore = document.createElement("div")
+    mappoolTileScore.classList.add("mappool-tile-score")
+    mappoolTile.append(mappoolTileScore)
 
     const tileLengthBpmContainer = document.createElement("div")
     tileLengthBpmContainer.classList.add("tile-length-bpm-container", "mappool-tile-length-bpm")
@@ -243,6 +241,7 @@ function updateStarCount(side, action) {
 }
 
 // Map Click Event
+let currentPickedTile
 async function mapClickEvent(event) {
     // Figure out whether it is a pick or ban
     const currentMapId = this.dataset.id
@@ -269,40 +268,52 @@ async function mapClickEvent(event) {
     if (mapCheck) return
 
     // Bans
+    let currentElement
     if (action === "ban") {
         // Find ban container
         const currentBanContainer = team === "left" ? banSectionLeftEl : banSectionRightEl
-        let currentBanElement
         for (let i = 0; i < currentBanContainer.childElementCount; i++) {
             if (currentBanContainer.children[i].dataset.id) continue
-            currentBanElement = currentBanContainer.children[i]
+            currentElement = currentBanContainer.children[i]
             break
         }
 
-        if (!currentBanElement) return
+        if (!currentElement) return
+    }
 
-        // Set Details
-        currentBanElement.dataset.id = currentMapId
-        currentBanElement.style.opacity = 1
-        currentBanElement.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-        currentBanElement.children[1].textContent = currentMap.artist
-        currentBanElement.children[2].textContent = currentMap.title
-        currentBanElement.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
-        currentBanElement.children[5].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
-        currentBanElement.children[5].children[1].children[0].textContent = currentMap.bpm
-        console.log(currentBanElement.children[6])
-        currentBanElement.children[6].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
-        currentBanElement.children[6].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
-        currentBanElement.children[6].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
-        currentBanElement.children[6].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
-        currentBanElement.children[7].children[0].children[0].textContent = currentMap.creator
-
-        // Play Animation
-        if (currentToggleAnimation) {
-            currentBanElement.style.height = `${tileHeight * 2 + 8}px`
-            await delay(5000)
-            currentBanElement.style.height = `${tileHeight}px`
+    // Picks
+    if (action === "pick") {
+        const currentPickContainer = team === "left" ? pickSectionLeftEl : pickSectionRightEl
+        for (let i = 0; i < currentPickContainer.childElementCount; i++) {
+            if (currentPickContainer.children[i].dataset.id) continue
+            currentElement = currentPickContainer.children[i]
+            break
         }
+
+        if (!currentElement) return
+        currentPickedTile = currentElement
+    }
+
+    // Set Details
+    currentElement.dataset.id = currentMapId
+    currentElement.style.opacity = 1
+    currentElement.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    currentElement.children[1].textContent = currentMap.artist
+    currentElement.children[2].textContent = currentMap.title
+    currentElement.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
+    currentElement.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
+    currentElement.children[6].children[1].children[0].textContent = currentMap.bpm
+    currentElement.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
+    currentElement.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
+    currentElement.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
+    currentElement.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+    currentElement.children[8].children[0].children[0].textContent = currentMap.creator
+
+    // Play Animation
+    if (currentToggleAnimation) {
+        currentElement.style.height = `${tileHeight * 2 + 8}px`
+        await delay(5000)
+        currentElement.style.height = `${tileHeight}px`
     }
 }
 
