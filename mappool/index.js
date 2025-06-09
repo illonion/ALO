@@ -16,12 +16,15 @@ let tileLengthBpm = 100
 let tiebreakerTileLengthBpm = 15
 let tileMappedByContainer = 197
 let tiebreakerTileMappedByContainer = 72
-let styleSheet = [...document.styleSheets].find(sheet => !sheet.href || sheet.href.startsWith(location.origin))
+let root = document.documentElement
 
 const banSectionLeftEl = document.getElementById("ban-section-left")
 const banSectionRightEl = document.getElementById("ban-section-right")
 const pickSectionLeftEl = document.getElementById("pick-section-left")
 const pickSectionRightEl = document.getElementById("pick-section-right")
+
+// Tiebreaker
+const tileTiebreakerEl = document.getElementById("tile-tiebreaker")
 
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
@@ -52,7 +55,8 @@ async function getBeatmaps() {
         button.classList.add("sidebar-button")
         button.innerText = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
         button.setAttribute("id", allBeatmaps[i].beatmap_id)
-        button.addEventListener("click", mapClickEvent)
+        button.addEventListener("mousedown", mapClickEvent)
+        button.addEventListener("contextmenu", event => event.preventDefault())
         button.dataset.id = allBeatmaps[i].beatmap_id
         mappoolManagementButtonContainerEl.append(button)
     }
@@ -73,22 +77,38 @@ async function getBeatmaps() {
     tileMappedByContainer = tileHeight * 1.75
     tiebreakerTileMappedByContainer += adjustment
 
-    styleSheet.insertRule(`.tile { height: ${tileHeight}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tile-artist { top: ${tileArtist}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tile-artist-score-added { top: ${tileArtistScoreAdded}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tile-title { top: ${tileTitle}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tile-title-score-added { top: ${tileTitleScoreAdded}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-mod { top: ${tileMod}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-play-icon { top: ${tilePlayIcon}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-score { top: ${tileScore}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-stats-container { top: ${tileStatsContainer}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-length-bpm { top: ${tileLengthBpm}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.mappool-tile-mapped-by-container { top: ${tileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tiebreaker-tile-length-bpm { top: ${tiebreakerTileLengthBpm}px !important; }`, styleSheet.cssRules.length)
-    styleSheet.insertRule(`.tiebreaker-tile-mapped-by-container { top: ${tiebreakerTileMappedByContainer}px !important; }`, styleSheet.cssRules.length)
+    root.style.setProperty('--tile-height', `${tileHeight}px`);
+    root.style.setProperty('--tile-artist-top', `${tileArtist}px`);
+    root.style.setProperty('--tile-artist-score-added-top', `${tileArtistScoreAdded}px`);
+    root.style.setProperty('--tile-title-top', `${tileTitle}px`);
+    root.style.setProperty('--tile-title-score-added-top', `${tileTitleScoreAdded}px`);
+    root.style.setProperty('--tile-mod-top', `${tileMod}px`);
+    root.style.setProperty('--tile-play-icon-top', `${tilePlayIcon}px`);
+    root.style.setProperty('--tile-score-top', `${tileScore}px`);
+    root.style.setProperty('--tile-stats-container-top', `${tileStatsContainer}px`);
+    root.style.setProperty('--tile-length-bpm-top', `${tileLengthBpm}px`);
+    root.style.setProperty('--tile-mapped-by-container-top', `${tileMappedByContainer}px`);
+    root.style.setProperty('--tiebreaker-tile-length-bpm-top', `${tiebreakerTileLengthBpm}px`);
+    root.style.setProperty('--tiebreaker-tile-mapped-by-container-top', `${tiebreakerTileMappedByContainer}px`);
 
     // Create tiles
     for (let i = 0; i < currentBanCount * 2; i++) createTile(i % 2 === 0? "left" : "right", "ban", i % 2 === 0? banSectionLeftEl : banSectionRightEl)
+    for (let i = 0; i < (currentFirstTo - 1) * 2; i++) {
+        createTile(i % 2 === 0? "left": "right", "pick", i % 2 === 0? pickSectionLeftEl : pickSectionRightEl)
+    }
+
+    // Set Tiebreaker details
+    const tbInfo = allBeatmaps[allBeatmaps.length - 1]
+    tileTiebreakerEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${tbInfo.beatmapset_id}/covers/cover.jpg")`
+    tileTiebreakerEl.children[3].textContent = tbInfo.artist
+    tileTiebreakerEl.children[4].textContent = tbInfo.title
+    tileTiebreakerEl.children[5].children[0].children[0].textContent = setLengthDisplay(tbInfo.total_length)
+    tileTiebreakerEl.children[5].children[1].children[0].textContent = tbInfo.bpm
+    tileTiebreakerEl.children[6].children[0].children[0].textContent = Math.round(Number(tbInfo.diff_size) * 10) / 10
+    tileTiebreakerEl.children[6].children[1].children[0].textContent = Math.round(Number(tbInfo.diff_approach) * 10) / 10
+    tileTiebreakerEl.children[6].children[2].children[0].textContent = Math.round(Number(tbInfo.diff_overall) * 10) / 10
+    tileTiebreakerEl.children[6].children[3].children[0].textContent = Math.round(Number(tbInfo.difficultyrating) * 100) / 100
+    tileTiebreakerEl.children[7].children[0].children[0].textContent = tbInfo.creator
 }
 getBeatmaps()
 // Find Beatmaps
@@ -96,7 +116,6 @@ const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.bea
 
 // Create Tile
 function createTile(side, selection, sectionElement) {
-    console.log("hello")
     const mappoolTile = document.createElement("div")
     mappoolTile.classList.add("tile", "mappool-tile")
     
@@ -129,16 +148,18 @@ function createTile(side, selection, sectionElement) {
     tileLengthBpmContainer.classList.add("tile-length-bpm-container", "mappool-tile-length-bpm")
 
     const tileStatLength = document.createElement("div")
-    tileStatLength.classList.add("tile-length")
+    tileStatLength.classList.add("tile-stat")
     const tileStatLengthNumber = document.createElement("span")
     tileStatLengthNumber.classList.add("tile-stat-number")
     tileStatLength.append("LENGTH ", tileStatLengthNumber)
 
     const tileStatBpm = document.createElement("div")
-    tileStatLength.classList.add("tile-length")
-    const tileStatBpmhNumber = document.createElement("span")
-    tileStatLengthNumber.classList.add("tile-stat-number")
-    tileStatBpm.append("BPM  ", tileStatBpmhNumber)
+    tileStatBpm.classList.add("tile-stat")
+    const tileStatBpmNumber = document.createElement("span")
+    tileStatBpmNumber.classList.add("tile-stat-number")
+    tileStatBpm.append("BPM ", tileStatBpmNumber)
+    
+    tileLengthBpmContainer.append(tileStatLength, tileStatBpm)
 
     const tileStatsContainer = document.createElement("div")
     tileStatsContainer.classList.add("tile-stats-container", "mappool-tile-stats-container")
@@ -149,6 +170,7 @@ function createTile(side, selection, sectionElement) {
         const tileStatNumber = document.createElement("span")
         tileStatNumber.classList.add("tile-stat-number")
         tileStat.append(statHeaders[i], tileStatNumber)
+        tileStatsContainer.append(tileStat)
     }
 
     const tileMappedByContainer = document.createElement("div")
@@ -221,7 +243,7 @@ function updateStarCount(side, action) {
 }
 
 // Map Click Event
-function mapClickEvent(event) {
+async function mapClickEvent(event) {
     // Figure out whether it is a pick or ban
     const currentMapId = this.dataset.id
     const currentMap = findBeatmaps(currentMapId)
@@ -250,7 +272,46 @@ function mapClickEvent(event) {
     if (action === "ban") {
         // Find ban container
         const currentBanContainer = team === "left" ? banSectionLeftEl : banSectionRightEl
+        let currentBanElement
+        for (let i = 0; i < currentBanContainer.childElementCount; i++) {
+            if (currentBanContainer.children[i].dataset.id) continue
+            currentBanElement = currentBanContainer.children[i]
+            break
+        }
+
+        if (!currentBanElement) return
+
+        // Set Details
+        currentBanElement.dataset.id = currentMapId
+        currentBanElement.style.opacity = 1
+        currentBanElement.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+        currentBanElement.children[1].textContent = currentMap.artist
+        currentBanElement.children[2].textContent = currentMap.title
+        currentBanElement.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
+        currentBanElement.children[5].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
+        currentBanElement.children[5].children[1].children[0].textContent = currentMap.bpm
+        console.log(currentBanElement.children[6])
+        currentBanElement.children[6].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
+        currentBanElement.children[6].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
+        currentBanElement.children[6].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
+        currentBanElement.children[6].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+        currentBanElement.children[7].children[0].children[0].textContent = currentMap.creator
+
+        // Play Animation
+        if (currentToggleAnimation) {
+            currentBanElement.style.height = `${tileHeight * 2 + 8}px`
+            await delay(5000)
+            currentBanElement.style.height = `${tileHeight}px`
+        }
     }
+}
+
+// Set Length Display
+function setLengthDisplay(seconds) {
+    const minuteCount = Math.floor(seconds / 60)
+    const secondCount = seconds % 60
+
+    return `${minuteCount.toString().padStart(2, "0")}:${secondCount.toString().padStart(2, "0")}`
 }
 
 // Get Team
@@ -396,6 +457,8 @@ socket.onmessage = event => {
             }
         }
     }
+
+    // Check for play icon
 }
 
 // Toggle Stars
