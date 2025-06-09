@@ -12,10 +12,31 @@
     position: absolute;
     top: 0;
     left: 2560px;
-    width: 325px;
+    width: 650px;
     height: 1440px;
     background-color: var(--sidebar-background-color);
     color: white;
+}
+
+/* ===========================
+   Sidebar Column
+=========================== */
+.sidebar-column {
+    position: absolute;
+    top: 0;
+    width: 325px;
+}
+.sidebar-column-2 { left: 325px; }
+
+/* ===========================
+   Sidebar Divider
+=========================== */
+.sidebar-divider {
+    position: absolute;
+    left: 323px;
+    width: 4px;
+    height: 100%;
+    background-color: white;
 }
 
 /* ===========================
@@ -71,6 +92,9 @@
 .double-height-button {
     height: calc(var(--sidebar-button-height) * 2);
     line-height: 30px;
+}
+.one-point-five-times-height-button {
+    height: calc(var(--sidebar-button-height) * 1.5);
 }
 
 /* ===========================

@@ -440,6 +440,25 @@ socket.onmessage = event => {
     if (mapId !== data.beatmap.id && mapMd5 !== data.beatmap.checksum) {
         mapId = data.beatmap.id
         mapMd5 = data.beatmap.checksum
+
+        // Find element
+        const element = document.getElementById(mapId)
+
+        // Click event
+        if (isAutopick && (!element.hasAttribute("data-is-autopicked") || element.getAttribute("data-is-autopicked") !== "true")) {
+            // Check if autopicked already
+            const event = new MouseEvent('mousedown', {
+                bubbles: true,
+                cancelable: true,
+                view: window,
+                button: (currentNextPicker === "left")? 0 : 2
+            })
+            element.dispatchEvent(event)
+            element.setAttribute("data-is-autopicked", "true")
+
+            if (currentNextPicker === "left") setNextPicker("right")
+            else if (currentNextPicker === "right") setNextPicker("left")
+        }
     }
 
     // IPC State
@@ -480,12 +499,11 @@ function toggleStars() {
     if (currentToggleStars) {
         teamStarContainerLeftEl.style.display = "flex"
         teamStarContainerRightEl.style.display = "flex"
-        toggleStarsButtonEl.textContent = `Toggle Stars: ON`
     } else {
         teamStarContainerLeftEl.style.display = "none"
         teamStarContainerRightEl.style.display = "none"
-        toggleStarsButtonEl.textContent = `Toggle Stars: OFF`
     }
+    toggleStarsButtonEl.textContent = `Toggle Stars: ${currentToggleStars ? "ON" : "OFF"}`
 }
 
 // Toggle Animation
@@ -493,9 +511,21 @@ const toggleAnimationButtonEl = document.getElementById("toggle-animation-button
 let currentToggleAnimation = true
 function toggleAnimation() {
     currentToggleAnimation = !currentToggleAnimation
-    if (currentToggleAnimation) {
-        toggleAnimationButtonEl.textContent = `Toggle Animation: ON`
-    } else {
-        toggleAnimationButtonEl.textContent = `Toggle Animation: OFF`
-    }
+    toggleAnimationButtonEl.textContent = `Toggle Animation: ${currentToggleAnimation ? "ON" : "OFF"}`
+}
+
+// Set Next Picker
+const nextPickerEl = document.getElementById("next-picker")
+let currentNextPicker
+function setNextPicker(side) {
+    currentNextPicker = side
+    nextPickerEl.textContent = `${side.substring(0, 1).toUpperCase()}${side.substring(1).toLowerCase()}`
+}
+
+// Toggle Autopick
+const toggleAutopickButtonEl = document.getElementById("toggle-autopick-button")
+let currentToggleAutopick = true
+function toggleAutopick() {
+    currentToggleAutopick = !currentToggleAutopick
+    toggleAutopickButtonEl.textContent = `Toggle Autopick: ${currentToggleAutopick ? "ON" : "OFF"}`
 }

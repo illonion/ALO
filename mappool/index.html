@@ -123,28 +123,42 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-section">
-            <h1>Star Control</h1>
-            <div class="sidebar-button-container">
-                <button class="sidebar-button" onclick="updateStarCount('left','minus')">Left --</button>
-                <button class="sidebar-button" onclick="updateStarCount('left','plus')">Left ++</button>
-                <button class="sidebar-button" onclick="updateStarCount('right','minus')">Right --</button>
-                <button class="sidebar-button" onclick="updateStarCount('right','plus')">Right ++</button>
-                <button class="sidebar-button full-size-button" id="toggle-stars-button" onclick="toggleStars()">Toggle Stars: ON</button>
+        <div class="sidebar-column">
+            <div class="sidebar-section">
+                <h1>Star Control</h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" onclick="updateStarCount('left','minus')">Left --</button>
+                    <button class="sidebar-button" onclick="updateStarCount('left','plus')">Left ++</button>
+                    <button class="sidebar-button" onclick="updateStarCount('right','minus')">Right --</button>
+                    <button class="sidebar-button" onclick="updateStarCount('right','plus')">Right ++</button>
+                    <button class="sidebar-button full-size-button" id="toggle-stars-button" onclick="toggleStars()">Toggle Stars: ON</button>
+                </div>
+            </div>
+            <div class="sidebar-section">
+                <h1>Mappool Management</h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button full-size-button double-height-button" id="toggle-animation-button" onclick="toggleAnimation()">Toggle Animation: ON</button>
+                </div>
+                <div class="sidebar-text">
+                    Left Click (LC) = Red Pick<br>
+                    Right Click (RC) = Blue Pick<br>
+                    CTRL + LC = Red Ban<br>
+                    CTRL + RC = Blue Ban
+                </div>
+                <div class="sidebar-button-container" id="mappool-management-button-container"></div>
             </div>
         </div>
-        <div class="sidebar-section">
-            <h1>Mappool Management</h1>
-            <div class="sidebar-button-container">
-                <button class="sidebar-button full-size-button double-height-button" id="toggle-animation-button" onclick="toggleAnimation()">Toggle Animation: ON</button>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-column sidebar-column-2">
+            <div class="sidebar-section">
+                <h1>Next Picker</h1>
+                <h1 id="next-picker"></h1>
+                <div class="sidebar-button-container">
+                    <button class="sidebar-button" onclick="setNextPicker('left')">Left</button>
+                    <button class="sidebar-button" onclick="setNextPicker('right')">Right</button>
+                    <button class="sidebar-button full-size-button one-point-five-times-height-button" id="toggle-autopick-button" onclick="toggleAutopick()">Toggle Autopick: ON</button>
+                </div>
             </div>
-            <div class="sidebar-text">
-                Left Click (LC) = Red Pick<br>
-                Right Click (RC) = Blue Pick<br>
-                CTRL + LC = Red Ban<br>
-                CTRL + RC = Blue Ban
-            </div>
-            <div class="sidebar-button-container" id="mappool-management-button-container"></div>
         </div>
     </div>
 
