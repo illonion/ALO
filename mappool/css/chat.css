@@ -30,6 +30,7 @@
     color: white;
     letter-spacing: 2px;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 .chat-display-container::-webkit-scrollbar { display: none; }
 

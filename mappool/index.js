@@ -50,7 +50,7 @@ async function getBeatmaps() {
     createStarDisplay()
 
     // Create mappool buttons
-    for (let i = 0; i < allBeatmaps.length; i++) {
+    for (let i = 0; i < allBeatmaps.length - 1; i++) {
         const button = document.createElement("div")
         button.classList.add("sidebar-button")
         button.innerText = `${allBeatmaps[i].mod}${allBeatmaps[i].order}`
@@ -100,8 +100,9 @@ async function getBeatmaps() {
     // Set Tiebreaker details
     const tbInfo = allBeatmaps[allBeatmaps.length - 1]
     tileTiebreakerEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${tbInfo.beatmapset_id}/covers/cover.jpg")`
-    tileTiebreakerEl.children[3].textContent = tbInfo.artist
-    tileTiebreakerEl.children[4].textContent = tbInfo.title
+    tileTiebreakerEl.dataset.id = tbInfo.beatmap_id
+    tileTiebreakerEl.children[1].textContent = tbInfo.artist
+    tileTiebreakerEl.children[2].textContent = tbInfo.title
     tileTiebreakerEl.children[5].children[0].children[0].textContent = setLengthDisplay(tbInfo.total_length)
     tileTiebreakerEl.children[5].children[1].children[0].textContent = tbInfo.bpm
     tileTiebreakerEl.children[6].children[0].children[0].textContent = Math.round(Number(tbInfo.diff_size) * 10) / 10
@@ -501,7 +502,7 @@ socket.onmessage = async event => {
     // Check for play icon
     // Remove it from all icons first
     const allTiles = document.querySelectorAll(
-        '#ban-section-left [data-id], #ban-section-right [data-id], #pick-section-left [data-id], #pick-section-right [data-id]'
+        '#ban-section-left [data-id], #ban-section-right [data-id], #pick-section-left [data-id], #pick-section-right [data-id], #tile-tiebreaker'
     )
     allTiles.forEach(tile => {
         if (Number(tile.dataset.id) !== Number(mapId)) {
@@ -512,6 +513,11 @@ socket.onmessage = async event => {
     })
 
     // Show tiebreaker
+    if (currentTeamStarLeft >= currentFirstTo - 1 && currentTeamStarRight >= currentFirstTo - 1) {
+        tileTiebreakerEl.style.opacity = 1
+    } else {
+        tileTiebreakerEl.style.opacity = 0
+    }
 }
 
 // Toggle Stars
