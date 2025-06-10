@@ -296,19 +296,7 @@ async function mapClickEvent(event) {
     }
 
     // Set Details
-    currentElement.dataset.id = currentMapId
-    currentElement.style.opacity = 1
-    currentElement.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-    currentElement.children[1].textContent = currentMap.artist
-    currentElement.children[2].textContent = currentMap.title
-    currentElement.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
-    currentElement.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
-    currentElement.children[6].children[1].children[0].textContent = currentMap.bpm
-    currentElement.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
-    currentElement.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
-    currentElement.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
-    currentElement.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
-    currentElement.children[8].children[0].children[0].textContent = currentMap.creator
+    setTileDetails(currentMapId, currentMap, currentElement)
 
     // Play Animation
     if (currentToggleAnimation) {
@@ -324,6 +312,23 @@ function setLengthDisplay(seconds) {
     const secondCount = seconds % 60
 
     return `${minuteCount.toString().padStart(2, "0")}:${secondCount.toString().padStart(2, "0")}`
+}
+
+// Set Tile Details
+function setTileDetails(mapId, currentMap, element) {
+    element.dataset.id = mapId
+    element.style.opacity = 1
+    element.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    element.children[1].textContent = currentMap.artist
+    element.children[2].textContent = currentMap.title
+    element.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
+    element.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
+    element.children[6].children[1].children[0].textContent = currentMap.bpm
+    element.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
+    element.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
+    element.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
+    element.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+    element.children[8].children[0].children[0].textContent = currentMap.creator
 }
 
 // Get Team
@@ -780,15 +785,27 @@ function pickBanManagementSetMap() {
     this.style.color = "black"
 }
 
-// Pick Ban Management Set Ban
-function pickBanManagementSetBan() {
+// Find tile
+function pickBanManagementFindTile(leftElement, rightElement) {
     const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
     const [side, number] = pickBanManagementSlotContainer.value.split("|")
 
     let tile
-    if (side === "left") tile = banSectionLeftEl.children[number]
-    else if (side === "right") tile = banSectionRightEl.children[number]
-    
+    if (side === "left") tile = leftElement.children[number]
+    else if (side === "right") tile = rightElement.children[number]
+    return tile
+}
+
+// Remove details from tile
+function removeDetailsFromTile(tile) {
+    // Remove details
+    tile.style.opacity = 0
+    tile.removeAttribute("data-id")
+}
+
+// Pick Ban Management Set Ban
+function pickBanManagementSetBan() {
+    const tile = pickBanManagementFindTile(banSectionLeftEl, banSectionRightEl)
     if (!tile || !pickBanManagementCurrentMap) return
 
     // Find map
@@ -796,46 +813,19 @@ function pickBanManagementSetBan() {
     if (!currentMap) return
 
     // Set details
-    tile.dataset.id = pickBanManagementCurrentMap
-    tile.style.opacity = 1
-    tile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-    tile.children[1].textContent = currentMap.artist
-    tile.children[2].textContent = currentMap.title
-    tile.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
-    tile.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
-    tile.children[6].children[1].children[0].textContent = currentMap.bpm
-    tile.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
-    tile.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
-    tile.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
-    tile.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
-    tile.children[8].children[0].children[0].textContent = currentMap.creator
+    setTileDetails(pickBanManagementCurrentMap, currentMap, tile)
 }
 
 // Pick Ban Management Remove Ban
 function pickBanManagementRemoveBan() {
-    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
-    const [side, number] = pickBanManagementSlotContainer.value.split("|")
-
-    let tile
-    if (side === "left") tile = banSectionLeftEl.children[number]
-    else if (side === "right") tile = banSectionRightEl.children[number]
-
+    const tile = pickBanManagementFindTile(banSectionLeftEl, banSectionRightEl)
     if (!tile) return
-
-    // Remove details
-    tile.style.opacity = 0
-    tile.removeAttribute("data-id")
+    removeDetailsFromTile(tile)
 }
 
 // Pick Ban Management Set Pick
 function pickBanManagementSetPick() {
-    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
-    const [side, number] = pickBanManagementSlotContainer.value.split("|")
-
-    let tile
-    if (side === "left") tile = pickSectionLeftEl.children[number]
-    else if (side === "right") tile = pickSectionRightEl.children[number]
-    
+    const tile = pickBanManagementFindTile(pickSectionLeftEl, pickSectionRightEl)
     if (!tile || !pickBanManagementCurrentMap) return
 
     // Find map
@@ -843,35 +833,13 @@ function pickBanManagementSetPick() {
     if (!currentMap) return
 
     // Set details
-    tile.dataset.id = pickBanManagementCurrentMap
-    tile.style.opacity = 1
-    tile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
-    tile.children[1].textContent = currentMap.artist
-    tile.children[2].textContent = currentMap.title
-    tile.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
-    tile.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
-    tile.children[6].children[1].children[0].textContent = currentMap.bpm
-    tile.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
-    tile.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
-    tile.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
-    tile.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
-    tile.children[8].children[0].children[0].textContent = currentMap.creator
+    setTileDetails(pickBanManagementCurrentMap, currentMap, tile)
 }
 
 // Pick Ban Management Remove Pick
 function pickBanManagementRemovePick() {
-    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
-    const [side, number] = pickBanManagementSlotContainer.value.split("|")
-
-    let tile
-    if (side === "left") tile = pickSectionLeftEl.children[number]
-    else if (side === "right") tile = pickSectionRightEl.children[number]
-
+    const tile = pickBanManagementFindTile(pickSectionLeftEl, pickSectionRightEl)
     if (!tile) return
-
-    // Remove details
-    tile.style.opacity = 0
-    tile.removeAttribute("data-id")
-
-    if (currentPickedTile == tile) currentPickedtile = undefined
+    removeDetailsFromTile(tile)
+    if (currentPickedTile == tile) currentPickedTile = undefined
 }
