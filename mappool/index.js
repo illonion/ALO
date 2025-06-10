@@ -388,7 +388,6 @@ function setTeam(team, teamPlayersElement, teamSeedElement, side) {
 const socket = createTosuWsSocket()
 socket.onmessage = async event => {
     const data = JSON.parse(event.data)
-    console.log(data)
 
     // Set Team Data
     if (currentTeamNameLeft !== data.tourney.team.left && allTeams) {
@@ -599,7 +598,6 @@ async function getAndAppendMatchHistory() {
     for (let i = 0; i < data.games.length; i++) {
         const currentGame = data.games[i]
         const currentMap = findBeatmaps(currentGame.beatmap_id)
-        console.log(currentGame)
 
         if (currentMap && currentMap.mod !== "TB") {
             // Set scores
@@ -745,7 +743,6 @@ function pickBanManagementSelectAction() {
         case "setPick": onclick = "pickBanManagementSetPick()"; break;
         case "removePick": onclick = "pickBanManagementRemovePick()"; break;
     }
-    console.log()
     applyChangesButton.setAttribute("onclick", onclick)
     applyChangesButtonContainer.append(applyChangesButton)
     pickBanManagementSectionEl.append(applyChangesButtonContainer)
