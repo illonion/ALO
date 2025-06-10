@@ -3,6 +3,7 @@
     --sidebar-button-container-gap: 10px;
     --sidebar-button-width: 125px;
     --sidebar-button-height: 50px;
+    --sidebar-select-font-size: 1.75em;
 }
 
 /* ===========================
@@ -12,7 +13,7 @@
     position: absolute;
     top: 0;
     left: 2560px;
-    width: 650px;
+    width: 975px;
     height: 1440px;
     background-color: var(--sidebar-background-color);
     color: white;
@@ -27,6 +28,7 @@
     width: 325px;
 }
 .sidebar-column-2 { left: 325px; }
+.sidebar-column-3 { left: 650px; }
 
 /* ===========================
    Sidebar Divider
@@ -38,6 +40,8 @@
     height: 100%;
     background-color: white;
 }
+.sidebar-divider-1 { left: 323px; }
+.sidebar-divider-2 { left: 648px; }
 
 /* ===========================
    Sidebar Section
@@ -57,6 +61,17 @@
     font-size: 2em;
     letter-spacing: 3.5px;
     margin-bottom: 20px;
+}
+
+/* ===========================
+   Sidebar Section H2
+=========================== */
+.sidebar-section h2 {
+    text-align: center;
+    font-family: "Zain";
+    font-weight: 800;
+    font-size: 2.5em;
+    margin-bottom: 5px;
 }
 
 /* ===========================
@@ -129,4 +144,44 @@
 .sidebar-input::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
+}
+
+/* ===========================
+   Sidebar Select
+=========================== */
+.sidebar-section select {
+    width: 100%;
+    text-align: center;
+    font-family: "Zain";
+    font-size: var(--sidebar-select-font-size);
+    background-color: transparent;
+    color: white;
+    margin-bottom: 10px;
+}
+.sidebar-section select::-webkit-scrollbar { display: none; }
+.sidebar-section select option { line-height: calc(var(--sidebar-select-font-size) * 1.07); }
+
+/* ===========================
+   Pick Ban Management Button Container 
+=========================== */
+.pick-ban-management-button-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    color: white;
+    font-family: "Zain";
+    text-align: center;
+    font-size: var(--sidebar-select-font-size);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+/* ===========================
+   Pick Ban Management Map Button
+=========================== */
+.pick-ban-management-map-button {
+    font-family: "Zain";
+    width: 90px;
 }

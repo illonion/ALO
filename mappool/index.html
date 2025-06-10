@@ -148,7 +148,7 @@
                 <div class="sidebar-button-container" id="mappool-management-button-container"></div>
             </div>
         </div>
-        <div class="sidebar-divider"></div>
+        <div class="sidebar-divider sidebar-divider-1"></div>
         <div class="sidebar-column sidebar-column-2">
             <div class="sidebar-section">
                 <h1>Next Picker</h1>
@@ -166,6 +166,19 @@
                     <button class="sidebar-button full-size-button one-point-five-times-height-button" onclick="mpLinkGetResults()">Get Results</button>
                     <button class="sidebar-button full-size-button one-point-five-times-height-button" onclick="mpLinkClearHistory()">Clear History</button>
                 </div>
+            </div>
+        </div>
+        <div class="sidebar-divider sidebar-divider-2"></div>
+        <div class="sidebar-column sidebar-column-3">
+`           <div class="sidebar-section" id="pick-ban-management-section">
+                <h1>Pick / Ban Management</h1>
+                <h2>Which Action?</h2>
+                <select size="4" onchange="pickBanManagementSelectAction()" id="pick-ban-management-select-action">
+                    <option value="setBan">Set Ban</option>
+                    <option value="removeBan">Remove Ban</option>
+                    <option value="setPick">Set Pick</option>
+                    <option value="removePick">Remove Pick</option>
+                </select>
             </div>
         </div>
     </div>

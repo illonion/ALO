@@ -548,7 +548,7 @@ const nextPickerEl = document.getElementById("next-picker")
 let currentNextPicker
 function setNextPicker(side) {
     currentNextPicker = side
-    nextPickerEl.textContent = `${side.substring(0, 1).toUpperCase()}${side.substring(1).toLowerCase()}`
+    nextPickerEl.textContent = `${capitaliseWord(side)}`
 }
 
 // Toggle Autopick
@@ -667,4 +667,211 @@ async function getAndAppendMatchHistory() {
             }
         }
     }
+}
+
+// Pick / Ban Management - Select Action
+const pickBanManagementSectionEl = document.getElementById("pick-ban-management-section")
+const pickBanManagementSelectActionEl = document.getElementById("pick-ban-management-select-action")
+const pickBanManagementAllActions = ["setBan","removeBan","setPick","removePick"]
+let pickBanManagementAction = ""
+function pickBanManagementSelectAction() {
+    pickBanManagementAction = pickBanManagementSelectActionEl.value
+    pickBanManagementCurrentMap = undefined
+    if (!pickBanManagementAllActions.includes(pickBanManagementAction)) return
+
+    // Remove unwanted elements
+    while (pickBanManagementSectionEl.childElementCount > 3) pickBanManagementSectionEl.lastElementChild.remove()
+
+    // Which Slot
+    pickBanManagementCreateTitle("Which Slot?")
+
+    // Which Slot Options
+    const pickBanManagementSlotContainer = document.createElement("select")
+    pickBanManagementSlotContainer.setAttribute("id", "pick-ban-management-slot-container")
+    if (pickBanManagementAction === "setBan" || pickBanManagementAction === "removeBan") {
+        for (let i = 0; i < banSectionLeftEl.childElementCount; i++) {
+            pickBanManagementSlotContainer.append(createPickBanManagementSlotContainerOption("left", "ban", i))
+            pickBanManagementSlotContainer.append(createPickBanManagementSlotContainerOption("right", "ban", i))
+        }
+    } else if (pickBanManagementAction === "setPick" || pickBanManagementAction === "removePick") {
+        for (let i = 0; i < pickSectionLeftEl.childElementCount; i++) {
+            pickBanManagementSlotContainer.append(createPickBanManagementSlotContainerOption("left", "pick", i))
+            pickBanManagementSlotContainer.append(createPickBanManagementSlotContainerOption("right", "pick", i))
+        }
+    }
+
+    pickBanManagementSlotContainer.setAttribute("size", pickBanManagementSlotContainer.childElementCount)
+    pickBanManagementSectionEl.append(pickBanManagementSlotContainer)
+
+    if (pickBanManagementAction === "setBan" || pickBanManagementAction === "setPick") {
+        // Which map
+        pickBanManagementCreateTitle("Which Map?")
+
+        // Select Map
+        const pickBanManagementButtonContainer = document.createElement("div")
+        pickBanManagementButtonContainer.classList.add("pick-ban-management-button-container")
+
+        // Put maps into pick ban management button container
+        for (let i = 0; i < allBeatmaps.length; i++) {
+            const beatmap = allBeatmaps[i]
+            const mapButton = document.createElement("div")
+            mapButton.classList.add("pick-ban-management-map-button")
+            mapButton.innerText = `${beatmap.mod}${beatmap.order}`
+            mapButton.addEventListener("click", pickBanManagementSetMap)
+            mapButton.dataset.id = beatmap.beatmap_id
+            pickBanManagementButtonContainer.append(mapButton)
+        }
+
+        pickBanManagementSectionEl.append(pickBanManagementButtonContainer)
+    }
+
+    // Create apply changes button
+    const applyChangesButtonContainer = document.createElement("div")
+    applyChangesButtonContainer.classList.add("sidebar-button-container")
+    const applyChangesButton = document.createElement("button")
+    applyChangesButton.classList.add("sidebar-button", "full-size-button", "one-point-five-times-height-button")
+    applyChangesButton.textContent = "Apply Changes"
+
+    // Apply Changes Buttons
+    let onclick
+    switch (pickBanManagementAction) {
+        case "setBan": onclick = "pickBanManagementSetBan()"; break;
+        case "removeBan": onclick = "pickBanManagementRemoveBan()"; break;
+        case "setPick": onclick = "pickBanManagementSetPick()"; break;
+        case "removePick": onclick = "pickBanManagementRemovePick()"; break;
+    }
+    console.log()
+    applyChangesButton.setAttribute("onclick", onclick)
+    applyChangesButtonContainer.append(applyChangesButton)
+    pickBanManagementSectionEl.append(applyChangesButtonContainer)
+}
+
+// Create Title for pick ban management
+function pickBanManagementCreateTitle(text) {
+    const h2Title = document.createElement("h2")
+    h2Title.textContent = text
+    pickBanManagementSectionEl.append(h2Title)
+}
+
+// Create Pick Ban Management Slot Container Option
+function createPickBanManagementSlotContainerOption(side, action, index) {
+    const option = document.createElement("option")
+    option.setAttribute("value", `${side}|${index}`)
+    option.textContent = `${capitaliseWord(side)} ${capitaliseWord(action)} ${index + 1}`
+    return option
+}
+
+// Capitalise words
+function capitaliseWord(word) {
+    return `${word.substring(0, 1).toUpperCase()}${word.substring(1).toLowerCase()}`
+}
+
+// Pick Ban Management Set Map
+let pickBanManagementCurrentMap
+function pickBanManagementSetMap() {
+    pickBanManagementCurrentMap = this.dataset.id
+    const pickBanManagementMapButtonEls = document.getElementsByClassName("pick-ban-management-map-button")
+    for (let i = 0; i < pickBanManagementMapButtonEls.length; i++) {
+        pickBanManagementMapButtonEls[i].style.backgroundColor = "transparent"
+        pickBanManagementMapButtonEls[i].style.color = "white"
+    }
+
+    this.style.backgroundColor = "#CECECE"
+    this.style.color = "black"
+}
+
+// Pick Ban Management Set Ban
+function pickBanManagementSetBan() {
+    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
+    const [side, number] = pickBanManagementSlotContainer.value.split("|")
+
+    let tile
+    if (side === "left") tile = banSectionLeftEl.children[number]
+    else if (side === "right") tile = banSectionRightEl.children[number]
+    
+    if (!tile || !pickBanManagementCurrentMap) return
+
+    // Find map
+    const currentMap = findBeatmaps(pickBanManagementCurrentMap)
+    if (!currentMap) return
+
+    // Set details
+    tile.dataset.id = pickBanManagementCurrentMap
+    tile.style.opacity = 1
+    tile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    tile.children[1].textContent = currentMap.artist
+    tile.children[2].textContent = currentMap.title
+    tile.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
+    tile.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
+    tile.children[6].children[1].children[0].textContent = currentMap.bpm
+    tile.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
+    tile.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
+    tile.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
+    tile.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+    tile.children[8].children[0].children[0].textContent = currentMap.creator
+}
+
+// Pick Ban Management Remove Ban
+function pickBanManagementRemoveBan() {
+    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
+    const [side, number] = pickBanManagementSlotContainer.value.split("|")
+
+    let tile
+    if (side === "left") tile = banSectionLeftEl.children[number]
+    else if (side === "right") tile = banSectionRightEl.children[number]
+
+    if (!tile) return
+
+    // Remove details
+    tile.style.opacity = 0
+    tile.removeAttribute("data-id")
+}
+
+// Pick Ban Management Set Pick
+function pickBanManagementSetPick() {
+    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
+    const [side, number] = pickBanManagementSlotContainer.value.split("|")
+
+    let tile
+    if (side === "left") tile = pickSectionLeftEl.children[number]
+    else if (side === "right") tile = pickSectionRightEl.children[number]
+    
+    if (!tile || !pickBanManagementCurrentMap) return
+
+    // Find map
+    const currentMap = findBeatmaps(pickBanManagementCurrentMap)
+    if (!currentMap) return
+
+    // Set details
+    tile.dataset.id = pickBanManagementCurrentMap
+    tile.style.opacity = 1
+    tile.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
+    tile.children[1].textContent = currentMap.artist
+    tile.children[2].textContent = currentMap.title
+    tile.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
+    tile.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
+    tile.children[6].children[1].children[0].textContent = currentMap.bpm
+    tile.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
+    tile.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
+    tile.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
+    tile.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+    tile.children[8].children[0].children[0].textContent = currentMap.creator
+}
+
+// Pick Ban Management Remove Pick
+function pickBanManagementRemovePick() {
+    const pickBanManagementSlotContainer = document.getElementById("pick-ban-management-slot-container")
+    const [side, number] = pickBanManagementSlotContainer.value.split("|")
+
+    let tile
+    if (side === "left") tile = pickSectionLeftEl.children[number]
+    else if (side === "right") tile = pickSectionRightEl.children[number]
+
+    if (!tile) return
+
+    // Remove details
+    tile.style.opacity = 0
+    tile.removeAttribute("data-id")
+
+    if (currentPickedTile == tile) currentPickedtile = undefined
 }
