@@ -1,36 +1,56 @@
+:root {
+    --gameplay-section-horizontal-alignment: 86px;
+    --gameplay-section-colour-highlight-horizontal-alignment: 8px;
+    --gameplay-section-player-information-vertical-alignemnt: 14px;
+    --gameplay-section-player-information-horizontal-alignemnt: 29px;
+    --gameplay-section-hits-container-vertical-alignment: 51px;
+    --gameplay-section-score-number-main-vertical-alignment: 30px;
+    --gameplay-section-score-number-main-horizontal-alignment: 30px;
+
+    --gameplay-hits-circle-100-colour: #00ff72;
+    --gameplay-hits-circle-50-colour: #ff7e00;
+    --gameplay-hits-circle-0-colour: #ff6464;
+}
+
 /* ===========================
    Gameplay Section
 =========================== */
 .gameplay-section {
     position: absolute;
-    left: 86px;
     top: 210px;
     width: 1178px;
     height: 1003px;
     border-radius: 50px;
 }
+.gameplay-section-left { left: var(--gameplay-section-horizontal-alignment) }
+.gameplay-section-right { right: var(--gameplay-section-horizontal-alignment) }
 
 /* ===========================
    Gameplay Section Overlay
 =========================== */
-.gameplay-section-left-overlay {
-    position: absolute;
+.gameplay-section-overlay {
+     position: absolute;
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    background-color: rgba(228, 53, 63, 0.42);
     opacity: 0.42;
 }
+.gameplay-section-left-overlay { background-color: rgba(228, 53, 63, 0.42); }
+.gameplay-section-right-overlay { background-color: rgba(0, 192, 255, 0.42); }
 
 /* ===========================
    Gameplay Colour Highlight
 =========================== */
-.gameplay-section-left-colour-highlight {
+.gameplay-section-colour-highlight {
     position: absolute;
     width: 100%;
     height: 100px;
-    background-color: #E7646C;
     border-radius: inherit;
+}
+.gameplay-section-left-colour-highlight { background-color: #E7646C; }
+.gameplay-section-right-colour-highlight {
+    bottom: 0;
+    background-color: #C0B5FB;
 }
 
 /* ===========================
@@ -38,30 +58,40 @@
 =========================== */
 .gameplay-section-greenscreen {
     position: absolute;
-    top: 8px;
     width: 100%;
     height: 885px;
     background-color: #0F0;
     border-radius: 50px;
 }
+.gameplay-section-left-greenscreen { top: var(--gameplay-section-colour-highlight-horizontal-alignment); }
+.gameplay-section-right-greenscreen { bottom: var(--gameplay-section-colour-highlight-horizontal-alignment); }
 
 /* ===========================
    Player Information
 =========================== */
 .gameplay-section-player-information {
     position: absolute;
-    bottom: 14px;
-    left: 29px;
     display: flex;
     gap: 6px;
+}
+.gameplay-section-left-player-information {
+    bottom: var(--gameplay-section-player-information-vertical-alignemnt);
+    left: var(--gameplay-section-player-information-horizontal-alignemnt);
+}
+.gameplay-section-right-player-information { 
+    top: var(--gameplay-section-player-information-vertical-alignemnt);
+    right: var(--gameplay-section-player-information-horizontal-alignemnt);
+    flex-direction: row-reverse;
+    text-align: right;
 }
 
 /* ===========================
    Profile Picture
 =========================== */
 .gameplay-section-player-profile-picture {
-    width: 87px;
-    height: 87px;
+    --dimension: 87px;
+    width: var(--dimension);
+    height: var(--dimension);
     border-radius: 10px;
 }
 
@@ -86,12 +116,13 @@
 =========================== */
 .gameplay-section-hits-container {
     position: absolute;
-    bottom: 51px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     gap: 40px;
 }
+.gameplay-section-left-hits-container { bottom: var(--gameplay-section-hits-container-vertical-alignment); }
+.gameplay-section-right-hits-container { top: var(--gameplay-section-hits-container-vertical-alignment); }
 
 /* ===========================
    Hits
@@ -117,21 +148,22 @@
    Hits Circle
 =========================== */
 .gameplay-section-hits-circle {
-    width: 19px;
-    height: 19px;
+    --dimension: 19px;
+    width: var(--dimension);
+    height: var(--dimension);
     border-radius: 10px;
 }
 .gameplay-hits-circle-100 { 
-    background-color: #00ff72;
-    box-shadow: 0 0 18px #00ff72;
+    background-color: var(--gameplay-hits-circle-100-colour);
+    box-shadow: 0 0 18px var(--gameplay-hits-circle-100-colour);
 }
 .gameplay-hits-circle-50 { 
-    background-color: #ff7e00;
-    box-shadow: 0 0 18px #ff7e00;
+    background-color: var(--gameplay-hits-circle-50-colour);
+    box-shadow: 0 0 18px var(--gameplay-hits-circle-50-colour);
 }
 .gameplay-hits-circle-0 { 
-    background-color: #ff6464;
-    box-shadow: 0 0 18px #ff6464;
+    background-color: var(--gameplay-hits-circle-0-colour);
+    box-shadow: 0 0 18px var(--gameplay-hits-circle-0-colour);
 }
 
 /* ===========================
@@ -139,10 +171,14 @@
 =========================== */
 .gameplay-section-score-number-main {
     position: absolute;
-    bottom: 37px;
-    right: 16px;
     display: flex;
 }
-.gameplay-section-score-number-main > * {
-    margin-left: -15px;
+.gameplay-section-left-score-number-main {
+    bottom: var(--gameplay-section-score-number-main-vertical-alignment);
+    right: var(--gameplay-section-score-number-main-horizontal-alignment);
 }
+.gameplay-section-right-score-number-main {
+    top: var(--gameplay-section-score-number-main-vertical-alignment);
+    left: var(--gameplay-section-score-number-main-horizontal-alignment);
+}
+.gameplay-section-score-number-main > * { margin-left: -15px; }
