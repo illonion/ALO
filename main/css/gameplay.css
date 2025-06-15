@@ -133,3 +133,16 @@
     background-color: #ff6464;
     box-shadow: 0 0 18px #ff6464;
 }
+
+/* ===========================
+   Score Number Main
+=========================== */
+.gameplay-section-score-number-main {
+    position: absolute;
+    bottom: 37px;
+    right: 16px;
+    display: flex;
+}
+.gameplay-section-score-number-main > * {
+    margin-left: -15px;
+}
