@@ -2,6 +2,11 @@
     font-family: "Rai Lowercase Regular";
     src: url("../../font/RaiLowercase.ttf");
 }
+@font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-ExtraBold.ttf");
+    font-weight: 800;
+}
 
 .main {
     position: absolute;

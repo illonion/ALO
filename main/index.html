@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/teams.css">
+    <link rel="stylesheet" href="css/gameplay.css">
 </head>
 <body>
     <div class="main">
@@ -14,15 +15,39 @@
         <img class="round-name" src="static/rounds/RO32.png">
         
         <!-- Team Information -->
-        <div class="team-information team-information-left">
+        <section class="team-information team-information-left">
             <div class="team-name">HELLOTEAM_R</div>
             <div class="team-star-container team-star-container-left"></div>
-        </div>
-        <div class="team-information team-information-right">
+        </section>
+        <section class="team-information team-information-right">
             <div class="team-name">HELLOTEAM_R</div>
             <div class="team-star-container team-star-container-right"></div>
-        </div>
+        </section>
         
+        <!-- Gameplay Sections -->
+        <section class="gameplay-section">
+            <!-- <div class="gameplay-section-left-overlay"></div> -->
+            <div class="gameplay-section-left-colour-highlight"></div>
+            <div class="gameplay-section-greenscreen"></div>
+            <div class="gameplay-section-player-information">
+                <img class="gameplay-section-player-profile-picture" src="https://a.ppy.sh/20033121">
+                <div class="gameplay-section-player-details-container">
+                    <div>PLAYER1</div>
+                    <div>#123</div>
+                    <div>SEED 4</div>
+                </div>
+            </div>
+            <div class="gameplay-section-hits-container">
+                <div class="gameplay-section-hits">
+                    <div class="gameplay-section-hits-text">10x</div>
+                    <div class="gameplay-section-hits-circle gameplay-hits-circle-100"></div>
+                </div>
+                <div class="gameplay-section-hits">
+                    <div class="gameplay-section-hits-text">1x</div>
+                    <div class="gameplay-section-hits-circle gameplay-hits-circle-0"></div>
+                </div>
+            </div>
+        </section>
     </div>
     <script src="index.js"></script>
 </body>

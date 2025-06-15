@@ -1,0 +1,135 @@
+/* ===========================
+   Gameplay Section
+=========================== */
+.gameplay-section {
+    position: absolute;
+    left: 86px;
+    top: 210px;
+    width: 1178px;
+    height: 1003px;
+    border-radius: 50px;
+}
+
+/* ===========================
+   Gameplay Section Overlay
+=========================== */
+.gameplay-section-left-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background-color: rgba(228, 53, 63, 0.42);
+    opacity: 0.42;
+}
+
+/* ===========================
+   Gameplay Colour Highlight
+=========================== */
+.gameplay-section-left-colour-highlight {
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    background-color: #E7646C;
+    border-radius: inherit;
+}
+
+/* ===========================
+   Gameplay Greenscreen
+=========================== */
+.gameplay-section-greenscreen {
+    position: absolute;
+    top: 8px;
+    width: 100%;
+    height: 885px;
+    background-color: #0F0;
+    border-radius: 50px;
+}
+
+/* ===========================
+   Player Information
+=========================== */
+.gameplay-section-player-information {
+    position: absolute;
+    bottom: 14px;
+    left: 29px;
+    display: flex;
+    gap: 6px;
+}
+
+/* ===========================
+   Profile Picture
+=========================== */
+.gameplay-section-player-profile-picture {
+    width: 87px;
+    height: 87px;
+    border-radius: 10px;
+}
+
+/* ===========================
+   Player Details Container
+=========================== */
+.gameplay-section-player-details-container {
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: white;
+    font-weight: 800;
+    font-family: "Zain";
+    height: 87px;
+    line-height: 32px;
+}
+
+/* ===========================
+   Hits Container
+=========================== */
+.gameplay-section-hits-container {
+    position: absolute;
+    bottom: 51px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 40px;
+}
+
+/* ===========================
+   Hits
+=========================== */
+.gameplay-section-hits {
+    display: flex;
+    align-items: center;
+}
+
+/* ===========================
+   Hits Text
+=========================== */
+.gameplay-section-hits-text {
+    font-size: 32px;
+    letter-spacing: 3px;
+    color: white;
+    font-weight: 800;
+    font-family: "Zain";
+    line-height: 20px;
+}
+
+/* ===========================
+   Hits Circle
+=========================== */
+.gameplay-section-hits-circle {
+    width: 19px;
+    height: 19px;
+    border-radius: 10px;
+}
+.gameplay-hits-circle-100 { 
+    background-color: #00ff72;
+    box-shadow: 0 0 18px #00ff72;
+}
+.gameplay-hits-circle-50 { 
+    background-color: #ff7e00;
+    box-shadow: 0 0 18px #ff7e00;
+}
+.gameplay-hits-circle-0 { 
+    background-color: #ff6464;
+    box-shadow: 0 0 18px #ff6464;
+}
