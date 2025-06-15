@@ -1,0 +1,13 @@
+:root {
+    --picks-image-horizontal-alignment: 83px;
+}
+
+.picks-image { position: absolute; }
+.left-picks-image { 
+    bottom: 193px;
+    left: var(--picks-image-horizontal-alignment);
+}
+.right-picks-image { 
+    top: 173px;
+    right: var(--picks-image-horizontal-alignment);
+}
