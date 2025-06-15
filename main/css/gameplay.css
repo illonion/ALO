@@ -181,4 +181,55 @@
     top: var(--gameplay-section-score-number-main-vertical-alignment);
     left: var(--gameplay-section-score-number-main-horizontal-alignment);
 }
-.gameplay-section-score-number-main > * { margin-left: -15px; }
+.gameplay-section-left-score-number-main > * { margin-left: -15px; }
+.gameplay-section-right-score-number-main > * { margin-right: -15px; }
+
+/* ===========================
+   Score Number Secondary Container
+=========================== */
+.gameplay-section-score-number-secondary-container {
+    position: absolute;
+    display: flex;
+}
+.gameplay-section-left-score-number-secondary-container {
+    bottom: calc(var(--gameplay-section-score-number-main-vertical-alignment) + 23px);
+    right: calc(var(--gameplay-section-score-number-main-horizontal-alignment) + 10px);
+    width: 200px;
+    height: 30px;
+}
+.gameplay-section-right-score-number-secondary-container {
+    top: var(--gameplay-section-score-number-main-vertical-alignment);
+    left: var(--gameplay-section-score-number-main-horizontal-alignment);
+}
+
+/* ===========================
+   Score Number Secondary
+=========================== */
+.gameplay-section-score-number-secondary {
+    position: absolute;
+    display: flex;
+}
+.gameplay-section-left-score-number-secondary {
+    width: 100%;
+    justify-content: flex-end;
+}
+.gameplay-section-score-number-secondary > * { height: 30px; }
+.gameplay-section-left-score-number-secondary > * { margin-left: -5px; }
+.gameplay-section-right-score-number-secondary > * { margin-right: -5px; }
+.gameplay-section-score-number-secondary > * { margin-right: -5px; }
+
+/* ===========================
+   Score Number Difference
+=========================== */
+.gameplay-section-score-number-difference {
+    margin-top: 25px;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: white;
+    font-family: "Rai Lowercase Regular";
+}
+.gameplay-section-left-score-number-difference {
+    width: 100%;
+    text-align: right;
+}
