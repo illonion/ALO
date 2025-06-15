@@ -1,0 +1,13 @@
+.main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2560px;
+    height: 1440px;
+    background-image: url("../static/background.png")
+}
+
+    position: absolute;
+    top: 76px;
+    left: 82px;
+}
