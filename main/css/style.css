@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Rai Lowercase Regular";
+    src: url("../../font/RaiLowercase.ttf");
+}
+
 .main {
     position: absolute;
     top: 0;
@@ -7,6 +12,7 @@
     background-image: url("../static/background.png")
 }
 
+.round-name {
     position: absolute;
     top: 76px;
     left: 82px;

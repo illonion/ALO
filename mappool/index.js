@@ -214,7 +214,7 @@ function createStarDisplay() {
 
         const teamStar = document.createElement("img")
         teamStar.classList.add("team-star")
-        teamStar.setAttribute("src", `static/point-${status}.png`)
+        teamStar.setAttribute("src", `../_shared/assets/points/point-${status}.png`)
 
         teamStarWrapper.append(teamStar)
         return teamStarWrapper

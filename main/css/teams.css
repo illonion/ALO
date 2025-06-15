@@ -1,0 +1,54 @@
+:root {
+    --team-information-horizontal-aligment: 1915px;
+}
+
+/* ===========================
+   Team Information
+=========================== */
+.team-information-left {
+    position: absolute;
+    bottom: 169px;
+    right: var(--team-information-horizontal-aligment);
+}
+.team-information-right {
+    position: absolute;
+    top: 70px;
+    left: var(--team-information-horizontal-aligment);
+}
+
+/* ===========================
+   Team Name
+=========================== */
+.team-name {
+    width: 100%;
+    font-size: 25px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: white;
+    font-family: "Rai Lowercase Regular";
+}
+
+/* ===========================
+   Team Star Container
+=========================== */
+.team-star-container {
+    position: absolute;
+    top: 60px;
+    display: flex;
+}
+.team-star-container-left { 
+    position: absolute;
+    right: -19px;
+}
+
+/* ===========================
+   Team Star Wrapper
+=========================== */
+.team-star-wrapper {
+    margin-left: -9px;
+    display: flex;
+    width: 80px;
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+}
