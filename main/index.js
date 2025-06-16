@@ -197,67 +197,103 @@ socket.onmessage = async event => {
 		}
     }
     
+    // TODO: Score
     let currentLeftScore = 0
     let currentRightScore = 0
-    const useAcc = currentRoundMap && currentRoundMap.mod === "RX"
-    
-    // Score source selection
-    currentLeftScore = useAcc ? player0.play.accuracy : player0.play.score
-    currentRightScore = useAcc ? player1.play.accuracy : player1.play.score
+    let currentScoreMethod = (currentRoundMap && currentRoundMap.mod === "RX") ? "acc" : "score"
 
-    // Element and animation targets
-    const prefix = useAcc ? "accNumber" : "scoreNumber"
-    const otherPrefix = useAcc ? "scoreNumber" : "accNumber"
-    const animationsMap = animations
-    const leftMainEl = window[`${prefix}MainLeftEl`]
-    const leftSecondaryEl = window[`${prefix}SecondaryLeftEl`]
-    const leftDifferenceEl = window[`${prefix}DifferenceLeftEl`]
-    const rightMainEl = window[`${prefix}MainRightEl`]
-    const rightSecondaryEl = window[`${prefix}SecondaryRightEl`]
-    const rightDifferenceEl = window[`${prefix}DifferenceRightEl`]
-
-    console.log(window[`${prefix}MainLeftEl`])
-
-    console.log(
-        leftMainEl,
-        leftSecondaryEl,
-        leftDifferenceEl,
-        rightMainEl,
-        rightSecondaryEl,
-        rightDifferenceEl
-    )
+    const scoreConfig = getScoreConfig(currentScoreMethod, player0, player1)
+    currentLeftScore = scoreConfig.leftScore
+    currentRightScore = scoreConfig.rightScore
 
     // Update animations
-    animationsMap[`${prefix}MainLeft`].update(currentLeftScore)
-    animationsMap[`${prefix}SecondaryLeft`].update(currentLeftScore)
-    animationsMap[`${prefix}DifferenceLeft`].update(currentLeftScore - currentRightScore)
-    animationsMap[`${prefix}MainRight`].update(currentRightScore)
-    animationsMap[`${prefix}SecondaryRight`].update(currentRightScore)
-    animationsMap[`${prefix}DifferenceRight`].update(currentRightScore - currentLeftScore)
+    scoreConfig.animations.main.left.update(currentLeftScore)
+    scoreConfig.animations.secondary.left.update(currentLeftScore)
+    scoreConfig.animations.difference.left.update(currentLeftScore - currentRightScore)
+    scoreConfig.animations.main.right.update(currentRightScore)
+    scoreConfig.animations.secondary.right.update(currentRightScore)
+    scoreConfig.animations.difference.right.update(currentRightScore - currentLeftScore)
 
-    // Toggle visibility
-    const isLeftLeading = currentLeftScore > currentRightScore
-    const isTied = currentLeftScore === currentRightScore
+    // Set visibility based on score comparison
+    if (currentLeftScore > currentRightScore) {
+        // Left player winning
+        scoreConfig.elements.main.left.style.opacity = 1
+        scoreConfig.elements.secondary.left.style.opacity = 0
+        scoreConfig.elements.difference.left.style.opacity = 0
+        scoreConfig.elements.main.right.style.opacity = 0
+        scoreConfig.elements.secondary.right.style.opacity = 1
+        scoreConfig.elements.difference.right.style.opacity = 1
+    } else if (currentLeftScore === currentRightScore) {
+        // Tied
+        scoreConfig.elements.main.left.style.opacity = 1
+        scoreConfig.elements.secondary.left.style.opacity = 0
+        scoreConfig.elements.difference.left.style.opacity = 0
+        scoreConfig.elements.main.right.style.opacity = 1
+        scoreConfig.elements.secondary.right.style.opacity = 0
+        scoreConfig.elements.difference.right.style.opacity = 0
+    } else {
+        // Right player winning
+        scoreConfig.elements.main.left.style.opacity = 0
+        scoreConfig.elements.secondary.left.style.opacity = 1
+        scoreConfig.elements.difference.left.style.opacity = 1
+        scoreConfig.elements.main.right.style.opacity = 1
+        scoreConfig.elements.secondary.right.style.opacity = 0
+        scoreConfig.elements.difference.right.style.opacity = 0
+    }
 
-    // Main score method visibility
-    leftMainEl.style.opacity = isLeftLeading || isTied ? 1 : 0
-    leftSecondaryEl.style.opacity = isLeftLeading || isTied ? 0 : 1
-    leftDifferenceEl.style.opacity = isLeftLeading || isTied ? 0 : 1
-
-    rightMainEl.style.opacity = !isLeftLeading || isTied ? 1 : 0
-    rightSecondaryEl.style.opacity = !isLeftLeading || isTied ? 0 : 1
-    rightDifferenceEl.style.opacity = !isLeftLeading || isTied ? 0 : 1
-
-    // Hide inactive score method elements
-    ["Main", "Secondary", "Difference"].forEach(type => {
-        window[`${otherPrefix}${type}LeftEl`].style.opacity = 0
-        window[`${otherPrefix}${type}RightEl`].style.opacity = 0
+    // Hide the elements for the other score method
+    Object.values(scoreConfig.hideElements).forEach(side => {
+        Object.values(side).forEach(element => {
+            element.style.opacity = 0
+        })
     })
     // TODO: Pick Information
 }
 
-// Display Length
-
+// Get the appropriate score values and elements based on method
+const getScoreConfig = (method, player0, player1) => {
+    if (method === "score") {
+        return {
+            leftScore: player0.play.score,
+            rightScore: player1.play.score,
+            animations: {
+                main: { left: animations.scoreNumberMainLeft, right: animations.scoreNumberMainRight },
+                secondary: { left: animations.scoreNumberSecondaryLeft, right: animations.scoreNumberSecondaryRight },
+                difference: { left: animations.scoreNumberDifferenceLeft, right: animations.scoreNumberDifferenceRight }
+            },
+            elements: {
+                main: { left: scoreNumberMainLeftEl, right: scoreNumberMainRightEl },
+                secondary: { left: scoreNumberSecondaryLeftEl, right: scoreNumberSecondaryRightEl },
+                difference: { left: scoreNumberDifferenceLeftEl, right: scoreNumberDifferenceRightEl }
+            },
+            hideElements: {
+                main: { left: accNumberMainLeftEl, right: accNumberMainRightEl },
+                secondary: { left: accNumberSecondaryLeftEl, right: accNumberSecondaryRightEl },
+                difference: { left: accNumberDifferenceLeftEl, right: accNumberDifferenceRightEl }
+            }
+        }
+    } else {
+        return {
+            leftScore: player0.play.accuracy,
+            rightScore: player1.play.accuracy,
+            animations: {
+                main: { left: animations.accNumberMainLeft, right: animations.accNumberMainRight },
+                secondary: { left: animations.accNumberSecondaryLeft, right: animations.accNumberSecondaryRight },
+                difference: { left: animations.accNumberDifferenceLeft, right: animations.accNumberDifferenceRight }
+            },
+            elements: {
+                main: { left: accNumberMainLeftEl, right: accNumberMainRightEl },
+                secondary: { left: accNumberSecondaryLeftEl, right: accNumberSecondaryRightEl },
+                difference: { left: accNumberDifferenceLeftEl, right: accNumberDifferenceRightEl }
+            },
+            hideElements: {
+                main: { left: scoreNumberMainLeftEl, right: scoreNumberMainRightEl },
+                secondary: { left: scoreNumberSecondaryLeftEl, right: scoreNumberSecondaryRightEl },
+                difference: { left: scoreNumberDifferenceLeftEl, right: scoreNumberDifferenceRightEl }
+            }
+        }
+    }
+}
 
 // Set Player Information
 function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
