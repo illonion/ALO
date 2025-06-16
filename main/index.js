@@ -18,6 +18,8 @@ async function getBeatmaps() {
     roundNameEl.setAttribute("src", `static/rounds/${response.data.roundName}.png`)
 }
 getBeatmaps()
+// Find beatmaps
+const findBeatmaps = beatmapId => allBeatmaps.find(beatmap => Number(beatmap.beatmap_id) === Number(beatmapId))
 
 // Socket
 const socket = createTosuWsSocket()
@@ -36,7 +38,22 @@ let leftPlayerId, rightPlayerId
 const leftHitsContainerEl = document.getElementById("gameplay-section-left-hits-container")
 const rightHitsContainerEl = document.getElementById("gameplay-section-right-hits-container")
 
-socket.onmessage = event => {
+// Now Playing
+const nowPlayingBackgroundImageEl = document.getElementById("now-playing-background-image")
+const nowPlayingBannerEl = document.getElementById("now-playing-banner")
+const nowPlayingTitleEl = document.getElementById("now-playing-title")
+const nowPlayingArtistEl = document.getElementById("now-playing-artist")
+const nowPlayingMapperEl = document.getElementById("now-playing-mapper")
+const nowPlayingModIdDifficultyEl = document.getElementById("now-playing-mod-id-difficulty")
+const nowPlayingBpmEl = document.getElementById("now-playing-bpm")
+const nowPlayingCsEl = document.getElementById("now-playing-cs")
+const nowPlayingArEl = document.getElementById("now-playing-ar")
+const nowPlayingOdEl = document.getElementById("now-playing-od")
+const nowPlayingSrEl = document.getElementById("now-playing-sr")
+const nowPlayingLengthEl = document.getElementById("now-playing-length")
+let mapId, mapChecksum, currentRoundMap, updateStats = false
+
+socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
 
@@ -69,7 +86,49 @@ socket.onmessage = event => {
     // Hits
     setClientHitNumbers(leftHitsContainerEl, player0.play.hits)
     setClientHitNumbers(rightHitsContainerEl, player1.play.hits)
+
+    // TODO: Now Playing Information
+    if (mapId !== data.beatmap.id || mapChecksum !== data.beatmap.checksum) {
+        mapId = data.beatmap.id
+        mapChecksum = data.beatmap.checksum
+        nowPlayingBackgroundImageEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${data.beatmap.set}/covers/cover.jpg")`
+        nowPlayingBannerEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${data.beatmap.set}/covers/cover.jpg")`
+        nowPlayingTitleEl.textContent = data.beatmap.title
+        nowPlayingArtistEl.textContent = data.beatmap.artist
+        nowPlayingMapperEl.textContent = data.beatmap.mapper
+
+        // Found map
+        currentRoundMap = findBeatmaps(mapId)
+        if (currentRoundMap) {
+            nowPlayingModIdDifficultyEl.textContent = `${currentRoundMap.mod}${currentRoundMap.order} - [${data.beatmap.version}]`
+            nowPlayingBpmEl.textContent = Math.round(Number(currentRoundMap.bpm) * 10) / 10
+            nowPlayingCsEl.textContent = Math.round(Number(currentRoundMap.diff_size) * 10) / 10
+            nowPlayingArEl.textContent = Math.round(Number(currentRoundMap.diff_approach) * 10) / 10
+            nowPlayingOdEl.textContent = Math.round(Number(currentRoundMap.diff_overall) * 10) / 10
+            nowPlayingSrEl.textContent = Math.round(Number(currentRoundMap.difficultyrating) * 100) / 100
+            nowPlayingLengthEl.textContent = setLengthDisplay(Number(currentRoundMap.total_length))
+        } else {
+            nowPlayingModIdDifficultyEl.textContent = `[${data.beatmap.version}]`
+            await delay(500)
+            updateStats = true
+        }
+    }
+
+    if (updateStats) {
+        updateStats = false
+        nowPlayingBpmEl.textContent = data.beatmap.stats.bpm.common
+        nowPlayingCsEl.textContent = data.beatmap.stats.cs.converted
+        nowPlayingArEl.textContent = data.beatmap.stats.ar.converted
+        nowPlayingOdEl.textContent = data.beatmap.stats.od.converted
+        nowPlayingSrEl.textContent = data.beatmap.stats.stars.total
+        nowPlayingLengthEl.textContent = setLengthDisplay(Math.round((data.beatmap.time.lastObject - data.beatmap.time.firstObject) / 1000))
+    }
+    // TODO: Score
+    // TODO: Pick Information
 }
+
+// Display Length
+
 
 // Set Player Information
 function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
@@ -104,6 +163,14 @@ function setClientHitNumbers(containerElement, hits) {
     containerElement.children[0].children[0].innerText = `${hits[100] + hits["katu"]}x`
     containerElement.children[1].children[0].innerText = `${hits[50]}x`
     containerElement.children[2].children[0].innerText = `${hits[0]}x`
+}
+
+// Set Length Display
+function setLengthDisplay(seconds) {
+    const minuteCount = Math.floor(seconds / 60)
+    const secondCount = seconds % 60
+
+    return `${minuteCount.toString().padStart(2, "0")}:${secondCount.toString().padStart(2, "0")}`
 }
 
 // Stars
