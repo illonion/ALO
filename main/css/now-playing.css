@@ -2,6 +2,9 @@
     --picks-image-horizontal-alignment: 83px;
 }
 
+/* ===========================
+   Pick Images
+=========================== */
 .picks-image { position: absolute; }
 .left-picks-image { 
     bottom: 193px;
@@ -11,3 +14,84 @@
     top: 173px;
     right: var(--picks-image-horizontal-alignment);
 }
+
+/* ===========================
+   Now Playing Section
+=========================== */
+.now-playing-section {
+    position: absolute;
+    bottom: 20px;
+    right: 75px;
+    width: 1790px;
+    height: 200px;
+    background-image: url(../static/npPanel.png);
+}
+
+/* ===========================
+   Now Playing Background
+=========================== */
+.now-playing-background-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1762px;
+    height: 172px;
+    transform: translate(-50%, -50%);
+    background-color: #02195a;
+    background-image: url("https://assets.ppy.sh/beatmaps/801263/covers/cover.jpg?1529497488");
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    opacity: 0.2;
+}
+
+/* ===========================
+   Now Playing Banner
+=========================== */
+.now-playing-banner {
+    position: absolute;
+    top: 26px;
+    left: 26px;
+    --dimension: 146px;
+    width: var(--dimension);
+    height: var(--dimension);
+    border-radius: 20px;
+    background-image: url("https://assets.ppy.sh/beatmaps/801263/covers/cover.jpg?1529497488");
+    background-size: cover;
+    background-position: center;
+}
+
+/* ===========================
+   Now Playing metadata
+=========================== */
+.now-playing-metadata {
+    position: absolute;
+    top: 31px;
+    left: 189px;
+    height: 146px;
+    font-size: 23px;
+    letter-spacing: 2px;
+    line-height: 29px;
+    text-transform: uppercase;
+    color: #00ccff;
+    font-weight: 700;
+    font-family: "Zain";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.now-playing-metadata > * {
+    width: 390px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 0 9px rgba(255, 255, 255, 0.59); 
+}
+.now-playing-title {
+    font-size: 24px;
+    color: #b4ffff;
+    font-weight: 800;
+    letter-spacing: 3.2px;
+}
+.now-playing-mapper { color: #b4ffff; }
+.now-playing-mod-id-difficulty { color: #ffb848; }

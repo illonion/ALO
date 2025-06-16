@@ -7,6 +7,11 @@
     src: url("../../font/Zain-ExtraBold.ttf");
     font-weight: 800;
 }
+@font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-ExtraBold.ttf");
+    font-weight: 700;
+}
 
 .main {
     position: absolute;
