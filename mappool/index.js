@@ -219,6 +219,11 @@ function createStarDisplay() {
         teamStarWrapper.append(teamStar)
         return teamStarWrapper
     }
+
+    // Set cookies
+    document.cookie = `currentTeamStarLeft=${currentTeamStarLeft}; path=/`
+    document.cookie = `currentTeamStarRight=${currentTeamStarRight}; path=/`
+    document.cookie = `currentFirstTo=${currentFirstTo}; path=/`
 }
 
 // Update star count
@@ -537,7 +542,9 @@ function toggleStars() {
         teamStarContainerRightEl.style.display = "none"
     }
     toggleStarsButtonEl.textContent = `Toggle Stars: ${currentToggleStars ? "ON" : "OFF"}`
+    document.cookie = `currentToggleStars=${currentToggleStars}; path=/`
 }
+document.cookie = `currentToggleStars=${currentToggleStars}; path=/`
 
 // Toggle Animation
 const toggleAnimationButtonEl = document.getElementById("toggle-animation-button")

@@ -30,3 +30,55 @@ socket.onmessage = event => {
         teamNameRightEl.textContent = currentTeamNameRight
     }
 }
+
+// Stars
+let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentFirstTo = 0, currentToggleStars
+setInterval(() => {
+    currentTeamStarLeft = Number(getCookie("currentTeamStarLeft"))
+    currentTeamStarRight = Number(getCookie("currentTeamStarRight"))
+    currentFirstTo = Number(getCookie("currentFirstTo"))
+    currentToggleStars = getCookie("currentToggleStars")
+
+    createStarDisplay()
+}, 200)
+
+// Create Star Display
+const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
+const teamStarContainerRightEl = document.getElementById("team-star-container-right")
+function createStarDisplay() {
+    // Reset elements
+    teamStarContainerLeftEl.innerHTML = ""
+    teamStarContainerRightEl.innerHTML = ""
+
+    // Create counters
+    let currentStarCounterLeft = 0
+    let currentStarCounterRight = 0
+
+    // Set left stars
+    for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
+        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
+    }
+
+    // Set right stars
+    for (currentStarCounterRight; currentStarCounterRight < currentFirstTo; currentStarCounterRight++) {
+        teamStarContainerRightEl.append(createStar(currentStarCounterRight < currentTeamStarRight ? "fill" : "empty"))
+    }
+
+    // Create Star
+    function createStar(status) {
+        const teamStarWrapper = document.createElement("div")
+        teamStarWrapper.classList.add("team-star-wrapper")
+
+        const teamStar = document.createElement("img")
+        teamStar.classList.add("team-star")
+        teamStar.setAttribute("src", `../_shared/assets/points/point-${status}.png`)
+
+        teamStarWrapper.append(teamStar)
+        return teamStarWrapper
+    }
+
+    // Set cookies
+    document.cookie = `currentTeamStarLeft=${currentTeamStarLeft}; path=/`
+    document.cookie = `currentTeamStarRight=${currentTeamStarRight}; path=/`
+    document.cookie = `currentFirstTo=${currentFirstTo}; path=/`
+}
