@@ -32,6 +32,10 @@ const leftPlayerInformationEl = document.getElementById("gameplay-section-left-p
 const rightPlayerInformationEl = document.getElementById("gameplay-section-right-player-information")
 let leftPlayerId, rightPlayerId
 
+// Hits container
+const leftHitsContainerEl = document.getElementById("gameplay-section-left-hits-container")
+const rightHitsContainerEl = document.getElementById("gameplay-section-right-hits-container")
+
 socket.onmessage = event => {
     const data = JSON.parse(event.data)
     console.log(data)
@@ -50,15 +54,21 @@ socket.onmessage = event => {
 
     // Client Information
     // Client 0
-    if (leftPlayerId !== data.tourney.clients[0].user.id && allTeams) {
-        leftPlayerId = data.tourney.clients[0].user.id
-        setPlayerInformation(leftPlayerId, leftTeam, leftPlayerInformationEl, data.tourney.clients[0])
+    const player0 = data.tourney.clients[0]
+    const player1 = data.tourney.clients[1]
+    if (leftPlayerId !== player0.user.id && allTeams) {
+        leftPlayerId = player0.user.id
+        setPlayerInformation(leftPlayerId, leftTeam, leftPlayerInformationEl, player0)
     }
     // Client 1
-    if (rightPlayerId !== data.tourney.clients[1].user.id && allTeams) {
-        rightPlayerId = data.tourney.clients[1].user.id
-        setPlayerInformation(rightPlayerId, rightTeam, rightPlayerInformationEl, data.tourney.clients[1])
+    if (rightPlayerId !== player1.user.id && allTeams) {
+        rightPlayerId = player1.user.id
+        setPlayerInformation(rightPlayerId, rightTeam, rightPlayerInformationEl, player1)
     }
+
+    // Hits
+    setClientHitNumbers(leftHitsContainerEl, player0.play.hits)
+    setClientHitNumbers(rightHitsContainerEl, player1.play.hits)
 }
 
 // Set Player Information
@@ -87,6 +97,13 @@ function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
     } else {
         playerElement.style.display = "flex"
     }
+}
+
+// Set client hits
+function setClientHitNumbers(containerElement, hits) {
+    containerElement.children[0].children[0].innerText = `${hits[100] + hits["katu"]}x`
+    containerElement.children[1].children[0].innerText = `${hits[50]}x`
+    containerElement.children[2].children[0].innerText = `${hits[0]}x`
 }
 
 // Stars
