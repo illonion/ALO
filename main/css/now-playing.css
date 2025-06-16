@@ -1,7 +1,7 @@
 :root {
     --picks-image-horizontal-alignment: 83px;
-    --light-blue: #b4ffff;
-    --darker-blue: #00ccff;
+    --light-blue: rgb(180, 255, 255);
+    --darker-blue: rgb(0, 204, 255);
 }
 
 /* ===========================
@@ -124,3 +124,25 @@
 .now-playing-stats-main-divider { width: 30px; }
 .now-playing-stats-mini-divider { width: 10px; }
 .now-playing-stat-number { color: var(--light-blue); }
+
+/* --- Strain Graph --- */
+#strain-graph {
+    position: absolute;
+    left: 800px;
+    bottom: 15px;
+    width: 600px; height: 126px;
+    border-radius: 17px;
+}
+.strain-graph-detail {
+    position: absolute; top: 20px;
+    border-radius: 17px;
+}
+#progress {
+	position: absolute; bottom: 0; left: 0;
+	width: 1200px; height: 126px;
+	padding: 0;
+	overflow: hidden;
+	transition: 100ms linear;
+	-webkit-mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
+	mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 49.95%, transparent 50%);
+}

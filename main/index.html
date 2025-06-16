@@ -13,6 +13,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
     <script src="../_shared/utils.js"></script>
+    <script src="../_shared/deps/Chart.min.js"></script>
+    <script src="../_shared/deps/smooth.js"></script>
 </head>
 <body>
     <div class="main">
@@ -163,6 +165,14 @@
                 <div class="now-playing-stat">LENG
                     <span class="now-playing-stats-main-divider"></span>
                     <span class="now-playing-stat-number" id="now-playing-length">05:19</span>
+                </div>
+            </div>
+
+            <!-- Strain Graph -->
+            <div id="strain-graph">
+                <canvas class="strain-graph-detail" id="strain" width="600" height="106"></canvas>
+                <div id="progress">
+                    <canvas class="strain-graph-detail" id="strain-progress" width="600" height="106"></canvas>
                 </div>
             </div>
         </section>

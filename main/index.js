@@ -53,6 +53,21 @@ const nowPlayingSrEl = document.getElementById("now-playing-sr")
 const nowPlayingLengthEl = document.getElementById("now-playing-length")
 let mapId, mapChecksum, currentRoundMap, updateStats = false
 
+// Strains
+const progressChart = document.getElementById("progress")
+let tempStrains, seek, fullTime
+let changeStats = false
+let statsCheck = false
+let last_strain_update = 0
+
+window.onload = function () {
+	let ctx = document.getElementById('strain').getContext('2d')
+	window.strainGraph = new Chart(ctx, config)
+
+	let ctxProgress = document.getElementById('strain-progress').getContext('2d')
+	window.strainGraphProgress = new Chart(ctxProgress, configProgress)
+}
+
 socket.onmessage = async event => {
     const data = JSON.parse(event.data)
     console.log(data)
@@ -122,6 +137,35 @@ socket.onmessage = async event => {
         nowPlayingOdEl.textContent = data.beatmap.stats.od.converted
         nowPlayingSrEl.textContent = data.beatmap.stats.stars.total
         nowPlayingLengthEl.textContent = setLengthDisplay(Math.round((data.beatmap.time.lastObject - data.beatmap.time.firstObject) / 1000))
+    }
+
+    const fullStrains = data.performance.graph.series[0].data.map((num, index) => num + data.performance.graph.series[1].data[index] + data.performance.graph.series[2].data[index] + data.performance.graph.series[3].data[index]);
+    if (tempStrains != JSON.stringify(fullStrains) && window.strainGraph) {
+        tempStrains = JSON.stringify(fullStrains)
+        if (fullStrains) {
+            let temp_strains = smooth(fullStrains, 5)
+			let new_strains = []
+			for (let i = 0; i < 60; i++) {
+				new_strains.push(temp_strains[Math.floor(i * (temp_strains.length / 60))])
+			}
+			new_strains = [0, ...new_strains, 0]
+
+			config.data.datasets[0].data = new_strains
+			config.data.labels = new_strains
+			config.options.scales.y.max = Math.max(...new_strains)
+			configProgress.data.datasets[0].data = new_strains
+			configProgress.data.labels = new_strains
+			configProgress.options.scales.y.max = Math.max(...new_strains)
+			window.strainGraph.update()
+			window.strainGraphProgress.update()
+        } else {
+			config.data.datasets[0].data = []
+			config.data.labels = []
+			configProgress.data.datasets[0].data = []
+			configProgress.data.labels = []
+			window.strainGraph.update()
+			window.strainGraphProgress.update()
+		}
     }
     // TODO: Score
     // TODO: Pick Information
@@ -223,4 +267,63 @@ function createStarDisplay() {
     document.cookie = `currentTeamStarLeft=${currentTeamStarLeft}; path=/`
     document.cookie = `currentTeamStarRight=${currentTeamStarRight};    path=/`
     document.cookie = `currentFirstTo=${currentFirstTo}; path=/`
+}
+
+// Configs are for strain graphs
+let config = {
+	type: 'line',
+	data: {
+		labels: [],
+		datasets: [{
+			borderColor: 'rgb(0, 210, 218)',
+			backgroundColor: 'rgb(0, 210, 218)',
+			data: [],
+			fill: true,
+			stepped: false,
+		}]
+	},
+	options: {
+		tooltips: { enabled: false },
+		legend: { display: false, },
+		elements: { point: { radius: 0 } },
+		responsive: false,
+		scales: {
+			x: { display: false, },
+			y: {
+				display: false,
+				min: 0,
+				max: 100
+			}
+		},
+		animation: { duration: 0 }
+	}
+}
+
+let configProgress = {
+	type: 'line',
+	data: {
+		labels: [],
+		datasets: [{
+			borderColor: 'rgb(0, 210, 218)',
+			backgroundColor: 'rgb(0, 63, 141)',
+			data: [],
+			fill: true,
+			stepped: false,
+		}]
+	},
+	options: {
+		tooltips: { enabled: false },
+		legend: { display: false, },
+		elements: { point: { radius: 0 } },
+		responsive: false,
+		scales: {
+			x: { display: false, },
+			y: {
+				display: false,
+				min: 0,
+				max: 100
+			}
+		},
+		animation: { duration: 0 }
+	}
 }
