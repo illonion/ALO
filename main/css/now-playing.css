@@ -1,5 +1,7 @@
 :root {
     --picks-image-horizontal-alignment: 83px;
+    --light-blue: #b4ffff;
+    --darker-blue: #00ccff;
 }
 
 /* ===========================
@@ -73,7 +75,7 @@
     letter-spacing: 2px;
     line-height: 29px;
     text-transform: uppercase;
-    color: #00ccff;
+    color: var(--darker-blue);
     font-weight: 700;
     font-family: "Zain";
     display: flex;
@@ -89,9 +91,36 @@
 }
 .now-playing-title {
     font-size: 24px;
-    color: #b4ffff;
+    color: var(--light-blue);
     font-weight: 800;
     letter-spacing: 3.2px;
 }
-.now-playing-mapper { color: #b4ffff; }
+.now-playing-mapper { color: var(--light-blue); }
 .now-playing-mod-id-difficulty { color: #ffb848; }
+
+/* ===========================
+   Now Playing Stats
+=========================== */
+.now-playing-stats {
+    position: absolute;
+    top: 31px;
+    left: 606px;
+    height: 146px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.now-playing-stat {
+    font-size: 22px;
+    letter-spacing: 2px;
+    line-height: 28px;
+    text-transform: uppercase;
+    color: var(--darker-blue);
+    font-weight: 700;
+    font-family: "Zain";
+    display: flex;
+    text-shadow: 0 0 9px rgba(255, 255, 255, 0.59); 
+}
+.now-playing-stats-main-divider { width: 30px; }
+.now-playing-stats-mini-divider { width: 10px; }
+.now-playing-stat-number { color: var(--light-blue); }
