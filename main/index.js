@@ -60,6 +60,35 @@ let changeStats = false
 let statsCheck = false
 let last_strain_update = 0
 
+// Score updating
+const scoreNumberMainLeftEl = document.getElementById("gameplay-section-score-number-main-left")
+const scoreNumberSecondaryLeftEl = document.getElementById("gameplay-section-score-number-secondary-left")
+const scoreNumberDifferenceLeftEl = document.getElementById("gameplay-section-score-number-difference-left")
+const scoreNumberMainRightEl = document.getElementById("gameplay-section-score-number-main-right")
+const scoreNumberSecondaryRightEl = document.getElementById("gameplay-section-score-number-secondary-right")
+const scoreNumberDifferenceRightEl = document.getElementById("gameplay-section-score-number-difference-right")
+const accNumberMainLeftEl = document.getElementById("gameplay-section-acc-number-main-left")
+const accNumberSecondaryLeftEl = document.getElementById("gameplay-section-acc-number-secondary-left")
+const accNumberDifferenceLeftEl = document.getElementById("gameplay-section-acc-number-difference-left")
+const accNumberMainRightEl = document.getElementById("gameplay-section-acc-number-main-right")
+const accNumberSecondaryRightEl = document.getElementById("gameplay-section-acc-number-secondary-right")
+const accNumberDifferenceRightEl = document.getElementById("gameplay-section-acc-number-difference-right")
+
+const animations = {
+    scoreNumberMainLeft: new CountUpImage(scoreNumberMainLeftEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "red"}),
+    scoreNumberSecondaryLeft: new CountUpImage(scoreNumberSecondaryLeftEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "red"}),
+    scoreNumberDifferenceLeft: new CountUp(scoreNumberDifferenceLeftEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", side: "red"}),
+    scoreNumberMainRight: new CountUpImage(scoreNumberMainRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "blue"}),
+    scoreNumberSecondaryRight: new CountUpImage(scoreNumberSecondaryRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "blue"}),
+    scoreNumberDifferenceRight: new CountUp(scoreNumberDifferenceRightEl, 0, 0, 0, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", side: "blue"}),
+    accNumberMainLeft: new CountUpImage(accNumberMainLeftEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "red", suffix: "%"}),
+    accNumberSecondaryLeft: new CountUpImage(accNumberSecondaryLeftEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "red", suffix: "%"}),
+    accNumberDifferenceLeft: new CountUp(accNumberDifferenceLeftEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", side: "red", suffix: "%"}),
+    accNumberMainRight: new CountUpImage(accNumberMainRightEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "blue", suffix: "%"}),
+    accNumberSecondaryRight: new CountUpImage(accNumberSecondaryRightEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: "." , side: "blue", suffix: "%"}),
+    accNumberDifferenceRight: new CountUp(accNumberDifferenceRightEl, 0, 0, 2, 0.2, { useEasing: true, useGrouping: true, separator: ",", decimal: ".", side: "blue", suffix: "%"})
+}
+
 window.onload = function () {
 	let ctx = document.getElementById('strain').getContext('2d')
 	window.strainGraph = new Chart(ctx, config)
@@ -167,7 +196,63 @@ socket.onmessage = async event => {
 			window.strainGraphProgress.update()
 		}
     }
-    // TODO: Score
+    
+    let currentLeftScore = 0
+    let currentRightScore = 0
+    const useAcc = currentRoundMap && currentRoundMap.mod === "RX"
+    
+    // Score source selection
+    currentLeftScore = useAcc ? player0.play.accuracy : player0.play.score
+    currentRightScore = useAcc ? player1.play.accuracy : player1.play.score
+
+    // Element and animation targets
+    const prefix = useAcc ? "accNumber" : "scoreNumber"
+    const otherPrefix = useAcc ? "scoreNumber" : "accNumber"
+    const animationsMap = animations
+    const leftMainEl = window[`${prefix}MainLeftEl`]
+    const leftSecondaryEl = window[`${prefix}SecondaryLeftEl`]
+    const leftDifferenceEl = window[`${prefix}DifferenceLeftEl`]
+    const rightMainEl = window[`${prefix}MainRightEl`]
+    const rightSecondaryEl = window[`${prefix}SecondaryRightEl`]
+    const rightDifferenceEl = window[`${prefix}DifferenceRightEl`]
+
+    console.log(window[`${prefix}MainLeftEl`])
+
+    console.log(
+        leftMainEl,
+        leftSecondaryEl,
+        leftDifferenceEl,
+        rightMainEl,
+        rightSecondaryEl,
+        rightDifferenceEl
+    )
+
+    // Update animations
+    animationsMap[`${prefix}MainLeft`].update(currentLeftScore)
+    animationsMap[`${prefix}SecondaryLeft`].update(currentLeftScore)
+    animationsMap[`${prefix}DifferenceLeft`].update(currentLeftScore - currentRightScore)
+    animationsMap[`${prefix}MainRight`].update(currentRightScore)
+    animationsMap[`${prefix}SecondaryRight`].update(currentRightScore)
+    animationsMap[`${prefix}DifferenceRight`].update(currentRightScore - currentLeftScore)
+
+    // Toggle visibility
+    const isLeftLeading = currentLeftScore > currentRightScore
+    const isTied = currentLeftScore === currentRightScore
+
+    // Main score method visibility
+    leftMainEl.style.opacity = isLeftLeading || isTied ? 1 : 0
+    leftSecondaryEl.style.opacity = isLeftLeading || isTied ? 0 : 1
+    leftDifferenceEl.style.opacity = isLeftLeading || isTied ? 0 : 1
+
+    rightMainEl.style.opacity = !isLeftLeading || isTied ? 1 : 0
+    rightSecondaryEl.style.opacity = !isLeftLeading || isTied ? 0 : 1
+    rightDifferenceEl.style.opacity = !isLeftLeading || isTied ? 0 : 1
+
+    // Hide inactive score method elements
+    ["Main", "Secondary", "Difference"].forEach(type => {
+        window[`${otherPrefix}${type}LeftEl`].style.opacity = 0
+        window[`${otherPrefix}${type}RightEl`].style.opacity = 0
+    })
     // TODO: Pick Information
 }
 
