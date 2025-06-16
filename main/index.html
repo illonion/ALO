@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/now-playing.css">
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
+    <script src="../_shared/utils.js"></script>
 </head>
 <body>
     <div class="main">
@@ -19,11 +21,11 @@
         
         <!-- Team Information -->
         <section class="team-information team-information-left">
-            <div class="team-name">HELLOTEAM_R</div>
+            <div class="team-name" id="team-name-left">HELLOTEAM_R</div>
             <div class="team-star-container team-star-container-left"></div>
         </section>
         <section class="team-information team-information-right">
-            <div class="team-name">HELLOTEAM_R</div>
+            <div class="team-name" id="team-name-right">HELLOTEAM_R</div>
             <div class="team-star-container team-star-container-right"></div>
         </section>
         
