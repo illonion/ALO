@@ -39,6 +39,7 @@
 .team-star-container-left { 
     position: absolute;
     right: -19px;
+    flex-direction: row-reverse;
 }
 
 /* ===========================
