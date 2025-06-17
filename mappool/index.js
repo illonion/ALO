@@ -298,6 +298,9 @@ async function mapClickEvent(event) {
 
         if (!currentElement) return
         currentPickedTile = currentElement
+
+        const cookieWord = team === "left"? "Red" : "Blue"
+        document.cookie = `currentPicker=${cookieWord}; path=/`
     }
 
     // Set Details

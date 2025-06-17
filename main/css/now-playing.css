@@ -7,7 +7,10 @@
 /* ===========================
    Pick Images
 =========================== */
-.picks-image { position: absolute; }
+.picks-image { 
+    position: absolute;
+    opacity: 0;
+}
 .left-picks-image { 
     bottom: 193px;
     left: var(--picks-image-horizontal-alignment);

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/teams.css">
     <link rel="stylesheet" href="css/gameplay.css">
     <link rel="stylesheet" href="css/now-playing.css">
+    <link rel="stylesheet" href="css/sidebar.css">
 
     <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
     <script src="../_shared/deps/reconnecting-websocket.min.js"></script>
@@ -110,8 +111,8 @@
         </section>
 
         <!-- Picks -->
-        <img class="picks-image left-picks-image" src="static/picks/redPick.png">
-        <img class="picks-image right-picks-image" src="static/picks/bluePick.png">
+        <img class="picks-image left-picks-image" id="left-picks-image" src="static/picks/redPick.png">
+        <img class="picks-image right-picks-image" id="right-picks-image" src="static/picks/bluePick.png">
 
         <!-- Now Playing -->
         <section class="now-playing-section">
@@ -157,6 +158,18 @@
             </div>
         </section>
     </div>
+
+    <section class="sidebar">
+        <section class="sidebar-section">
+            <h1>Current Picker</h1>
+            <div class="sidebar-text" id="current-picker">No One</div>
+            <div class="sidebar-button-container">
+                <button class="sidebar-button full-size-button" onclick="setPicker('Red')">Red</button>
+                <button class="sidebar-button full-size-button" onclick="setPicker('Blue')">Blue</button>
+                <button class="sidebar-button full-size-button" onclick="setPicker('None')">None</button>
+            </div>
+        </section>
+    </section>
     <script src="index.js"></script>
 </body>
 </html>

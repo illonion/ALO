@@ -131,7 +131,7 @@ socket.onmessage = async event => {
     setClientHitNumbers(leftHitsContainerEl, player0.play.hits)
     setClientHitNumbers(rightHitsContainerEl, player1.play.hits)
 
-    // TODO: Now Playing Information
+    // Now Playing Information
     if (mapId !== data.beatmap.id || mapChecksum !== data.beatmap.checksum) {
         mapId = data.beatmap.id
         mapChecksum = data.beatmap.checksum
@@ -197,7 +197,7 @@ socket.onmessage = async event => {
 		}
     }
     
-    // TODO: Score
+    // Score
     let currentLeftScore = 0
     let currentRightScore = 0
     let currentScoreMethod = (currentRoundMap && currentRoundMap.mod === "RX") ? "acc" : "score"
@@ -247,7 +247,8 @@ socket.onmessage = async event => {
             element.style.opacity = 0
         })
     })
-    // TODO: Pick Information
+
+    // Pick Information
 }
 
 // Get the appropriate score values and elements based on method
@@ -338,58 +339,6 @@ function setLengthDisplay(seconds) {
     return `${minuteCount.toString().padStart(2, "0")}:${secondCount.toString().padStart(2, "0")}`
 }
 
-// Stars
-let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentFirstTo = 0, currentToggleStars
-setInterval(() => {
-    currentTeamStarLeft = Number(getCookie("currentTeamStarLeft"))
-    currentTeamStarRight = Number(getCookie("currentTeamStarRight"))
-    currentFirstTo = Number(getCookie("currentFirstTo"))
-    currentToggleStars = getCookie("currentToggleStars")
-
-    createStarDisplay()
-}, 200)
-
-// Create Star Display
-const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
-const teamStarContainerRightEl = document.getElementById("team-star-container-right")
-function createStarDisplay() {
-    // Reset elements
-    teamStarContainerLeftEl.innerHTML = ""
-    teamStarContainerRightEl.innerHTML = ""
-
-    // Create counters
-    let currentStarCounterLeft = 0
-    let currentStarCounterRight = 0
-
-    // Set left stars
-    for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
-        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
-    }
-
-    // Set right stars
-    for (currentStarCounterRight; currentStarCounterRight < currentFirstTo; currentStarCounterRight++) {
-        teamStarContainerRightEl.append(createStar(currentStarCounterRight < currentTeamStarRight ? "fill" : "empty"))
-    }
-
-    // Create Star
-    function createStar(status) {
-        const teamStarWrapper = document.createElement("div")
-        teamStarWrapper.classList.add("team-star-wrapper")
-
-        const teamStar = document.createElement("img")
-        teamStar.classList.add("team-star")
-        teamStar.setAttribute("src", `../_shared/assets/points/point-${status}.png`)
-
-        teamStarWrapper.append(teamStar)
-        return teamStarWrapper
-    }
-
-    // Set cookies
-    document.cookie = `currentTeamStarLeft=${currentTeamStarLeft}; path=/`
-    document.cookie = `currentTeamStarRight=${currentTeamStarRight};    path=/`
-    document.cookie = `currentFirstTo=${currentFirstTo}; path=/`
-}
-
 // Configs are for strain graphs
 let config = {
 	type: 'line',
@@ -447,4 +396,82 @@ let configProgress = {
 		},
 		animation: { duration: 0 }
 	}
+}
+
+// Set Picker
+const currentPickerEl = document.getElementById("current-picker")
+const leftPicksImageEl = document.getElementById("left-picks-image")
+const rightPicksImageEl = document.getElementById("right-picks-image")
+let currentPicker
+function setPicker(picker) {
+    currentPicker = picker
+    currentPickerEl.textContent = currentPicker
+    
+    switch (picker) {
+        case "Red":
+            leftPicksImageEl.style.opacity = 1
+            rightPicksImageEl.style.opacity = 0
+            break
+        case "Blue":
+            leftPicksImageEl.style.opacity = 0
+            rightPicksImageEl.style.opacity = 1
+            break
+        default:
+            leftPicksImageEl.style.opacity = 0
+            rightPicksImageEl.style.opacity = 0
+    }
+
+    document.cookie = `currentPicker=${currentPicker}; path=/`
+}
+
+// Stars
+let currentTeamStarLeft = 0, currentTeamStarRight = 0, currentFirstTo = 0, currentToggleStars
+setInterval(() => {
+    // Create star Display
+    currentTeamStarLeft = Number(getCookie("currentTeamStarLeft"))
+    currentTeamStarRight = Number(getCookie("currentTeamStarRight"))
+    currentFirstTo = Number(getCookie("currentFirstTo"))
+    currentToggleStars = getCookie("currentToggleStars")
+
+    createStarDisplay()
+
+    // Set Picker
+    const currentPickerCookie = getcookie("currentPicker")
+    setPicker(currentPickerCookie)
+}, 200)
+
+// Create Star Display
+const teamStarContainerLeftEl = document.getElementById("team-star-container-left")
+const teamStarContainerRightEl = document.getElementById("team-star-container-right")
+function createStarDisplay() {
+    // Reset elements
+    teamStarContainerLeftEl.innerHTML = ""
+    teamStarContainerRightEl.innerHTML = ""
+
+    // Create counters
+    let currentStarCounterLeft = 0
+    let currentStarCounterRight = 0
+
+    // Set left stars
+    for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
+        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
+    }
+
+    // Set right stars
+    for (currentStarCounterRight; currentStarCounterRight < currentFirstTo; currentStarCounterRight++) {
+        teamStarContainerRightEl.append(createStar(currentStarCounterRight < currentTeamStarRight ? "fill" : "empty"))
+    }
+
+    // Create Star
+    function createStar(status) {
+        const teamStarWrapper = document.createElement("div")
+        teamStarWrapper.classList.add("team-star-wrapper")
+
+        const teamStar = document.createElement("img")
+        teamStar.classList.add("team-star")
+        teamStar.setAttribute("src", `../_shared/assets/points/point-${status}.png`)
+
+        teamStarWrapper.append(teamStar)
+        return teamStarWrapper
+    }
 }
