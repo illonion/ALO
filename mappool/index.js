@@ -324,19 +324,56 @@ function setLengthDisplay(seconds) {
 
 // Set Tile Details
 function setTileDetails(mapId, currentMap, element) {
+    const tempModStats = {
+        "total_length": Number(currentMap.total_length),
+        "bpm": Number(currentMap.bpm),
+        "cs": Number(currentMap.diff_size),
+        "ar": Number(currentMap.diff_approach),
+        "od": Number(currentMap.diff_overall),
+    }
+
+    const completeModStats = (currentMap.mod === "HR" || currentMap.mod === "DT") ? getModStats(currentMap.mod, tempModStats) : tempModStats
+
     element.dataset.id = mapId
     element.style.opacity = 1
     element.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${currentMap.beatmapset_id}/covers/cover.jpg")`
     element.children[1].textContent = currentMap.artist
     element.children[2].textContent = currentMap.title
     element.children[3].setAttribute("src", `static/mod-icons/${currentMap.mod}${currentMap.order}.png`)
-    element.children[6].children[0].children[0].textContent = setLengthDisplay(currentMap.total_length)
-    element.children[6].children[1].children[0].textContent = currentMap.bpm
-    element.children[7].children[0].children[0].textContent = Math.round(Number(currentMap.diff_size) * 10) / 10
-    element.children[7].children[1].children[0].textContent = Math.round(Number(currentMap.diff_approach) * 10) / 10
-    element.children[7].children[2].children[0].textContent = Math.round(Number(currentMap.diff_overall) * 10) / 10
-    element.children[7].children[3].children[0].textContent = Math.round(Number(currentMap.difficultyrating) * 100) / 100
+    element.children[6].children[0].children[0].textContent = setLengthDisplay(completeModStats.total_length)
+    element.children[6].children[1].children[0].textContent = completeModStats.bpm.toFixed(0)
+    element.children[7].children[0].children[0].textContent = completeModStats.cs.toFixed(1)
+    element.children[7].children[1].children[0].textContent = completeModStats.ar.toFixed(1)
+    element.children[7].children[2].children[0].textContent = completeModStats.od.toFixed(1)
+    element.children[7].children[3].children[0].textContent = Number(currentMap.difficultyrating).toFixed(2)
     element.children[8].children[0].children[0].textContent = currentMap.creator
+}
+
+// Get mod stats
+function getModStats(mod, stats) {
+    console.log(mod)
+    let newStats = stats
+    switch (mod) {
+        case "HR":
+            newStats.cs = Math.min(Math.round(Number(newStats.cs) * 1.3 * 10) / 10, 10)
+            newStats.ar = Math.min(Math.round(Number(newStats.ar) * 1.4 * 10) / 10, 10)
+            newStats.od = Math.min(Math.round(Number(newStats.od) * 1.4 * 10) / 10, 10)
+
+            console.log(
+                newStats.cs,
+                newStats.ar,
+                newStats.od
+            )
+            break
+        case "DT":
+            newStats.total_length = Math.round(newStats.total_length / 1.5)
+            newStats.bpm = Math.round(newStats.bpm * 1.5)
+            if (newStats.ar > 5) newStats.ar = Math.round((((1200 - (( 1200 - (newStats.ar - 5) * 150) * 2 / 3)) / 150) + 5) * 10) / 10
+            else newStats.ar = Math.round((1800 - ((1800 - newStats.ar * 120) * 2 / 3)) / 120 * 10) / 10
+            newStats.od = Math.round((79.5 - (( 79.5 - 6 * newStats.od) * 2 / 3)) / 6 * 10) / 10
+    }
+
+    return newStats
 }
 
 // Get Team
