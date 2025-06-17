@@ -26,10 +26,14 @@ const pickSectionRightEl = document.getElementById("pick-section-right")
 // Tiebreaker
 const tileTiebreakerEl = document.getElementById("tile-tiebreaker")
 
+// Preload Images
+const preloadImagesEl = document.getElementById("preload-images")
+
 async function getBeatmaps() {
     const response = await axios.get("../_data/beatmaps.json")
     allBeatmaps = response.data.beatmaps
 
+    // Set best of and ban count
     switch (response.data.roundName) {
         case "RO64": case "RO32": case "RO16":
             currentBestOf = 9
@@ -59,6 +63,9 @@ async function getBeatmaps() {
         button.addEventListener("contextmenu", event => event.preventDefault())
         button.dataset.id = allBeatmaps[i].beatmap_id
         mappoolManagementButtonContainerEl.append(button)
+
+        // Preload images
+        preloadImagesEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${allBeatmaps[i].beatmapset_id}/covers/cover.jpg`)
     }
 
     // Calculate heights and positioning of tiles
@@ -358,12 +365,6 @@ function getModStats(mod, stats) {
             newStats.cs = Math.min(Math.round(Number(newStats.cs) * 1.3 * 10) / 10, 10)
             newStats.ar = Math.min(Math.round(Number(newStats.ar) * 1.4 * 10) / 10, 10)
             newStats.od = Math.min(Math.round(Number(newStats.od) * 1.4 * 10) / 10, 10)
-
-            console.log(
-                newStats.cs,
-                newStats.ar,
-                newStats.od
-            )
             break
         case "DT":
             newStats.total_length = Math.round(newStats.total_length / 1.5)

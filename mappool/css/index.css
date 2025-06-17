@@ -23,3 +23,7 @@
     height: 1440px;
     background-image: url("../static/background.png");
 }
+
+.preload-images {
+    opacity: 0;
+}

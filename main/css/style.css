@@ -27,3 +27,7 @@
     top: 76px;
     left: 82px;
 }
+
+.preload-images {
+    opacity: 0;
+}

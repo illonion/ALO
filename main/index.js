@@ -1,3 +1,14 @@
+// Preload score number images
+const preloadImagesEl = document.getElementById("preload-images")
+const scoreNumbers = [
+    "blue_,", "blue_.", "blue_0", "blue_1", "blue_2", "blue_3", "blue_4", "blue_5", "blue_6", "blue_7", "blue_8",
+    "blue_9", "blue_percent", "red_,", "red_.", "red_0", "red_1", "red_2", "red_3", "red_4", "red_5", "red_6", "red_7",
+    "red_8", "red_9", "red_percent"
+]
+for (let i = 0; i < scoreNumbers.length; i++) {
+    preloadImagesEl.setAttribute("src", `static/score-numbers/${scoreNumbers}.png`)
+}
+
 // Get Team
 let allTeams, leftTeam, rightTeam
 async function getTeams() {
