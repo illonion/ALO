@@ -31,3 +31,11 @@
 .preload-images {
     opacity: 0;
 }
+
+video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2560px;
+    height: 1440px;
+}
