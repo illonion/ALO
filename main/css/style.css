@@ -19,7 +19,6 @@
     left: 0;
     width: 2560px;
     height: 1440px;
-    background-image: url("../static/background.png")
 }
 
 .round-name {
@@ -29,7 +28,7 @@
 }
 
 .preload-images {
-    opacity: 0;
+    display: none;
 }
 
 video {

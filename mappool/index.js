@@ -358,7 +358,6 @@ function setTileDetails(mapId, currentMap, element) {
 
 // Get mod stats
 function getModStats(mod, stats) {
-    console.log(mod)
     let newStats = stats
     switch (mod) {
         case "HR":
@@ -528,7 +527,11 @@ socket.onmessage = async event => {
             if (beatmap && currentToggleStars) {
                 // See if we can find a winner
                 let winner = ""
-                if (beatmap.mod === "RX" && data.tourney.clients[0].play.accuracy > data.tourney.clients[1].play.accuracy) {
+                if (beatmap.mod === "RX" && data.tourney.clients[0].user.id === 0) {
+                    winner = "right"
+                } else if (beatmap.mod === "RX" && data.tourney.clients[1].user.id === 0) {
+                    winner = "left"
+                } else if (beatmap.mod === "RX" && data.tourney.clients[0].play.accuracy > data.tourney.clients[1].play.accuracy) {
                     winner = "left"
                 } else if (beatmap.mod === "RX" && data.tourney.clients[0].play.accuracy < data.tourney.clients[1].play.accuracy) {
                     winner = "right"
@@ -658,12 +661,10 @@ async function getAndAppendMatchHistory() {
                 if (currentMap.mod === "RX") {
                     // Relax / Acc scoring method
                     let totalNotes = Number(currentGame.scores[j].countmiss) + Number(currentGame.scores[j].count50) + 
-                    Number(currentGame.scores[j].count100) + Number(currentGame.scores[j].count300) +
-                    Number(currentGame.scores[j].countgeki) + Number(currentGame.scores[j].countkatu)
+                    Number(currentGame.scores[j].count100) + Number(currentGame.scores[j].count300)
 
                     let accuracy = (Number(currentGame.scores[j].countmiss) * 0 + Number(currentGame.scores[j].count50) * 1 / 6 +
-                                    Number(currentGame.scores[j].count100) * 1 / 3 + Number(currentGame.scores[j].count300) +
-                                    Number(currentGame.scores[j].countgeki) + Number(currentGame.scores[j].countkatu) * 1 / 3) / totalNotes
+                                    Number(currentGame.scores[j].count100) * 1 / 3 + Number(currentGame.scores[j].count300)) / totalNotes
 
                     if (totalNotes === 0) accuracy = 0
 
@@ -686,6 +687,12 @@ async function getAndAppendMatchHistory() {
                 }
             }
 
+            // If relax, then change it to 2 decimal places
+            if (currentMap.mod === "RX") {
+                leftTeamScore = Math.round(leftTeamScore * 100) / 100
+                rightTeamScore = Math.round(rightTeamScore * 100) / 100
+            }
+
             // Find tile to display score
             const targetElement = document.querySelector(
                 `#pick-section-left [data-id="${currentGame.beatmap_id}"], #pick-section-right [data-id="${currentGame.beatmap_id}"]`
@@ -698,11 +705,11 @@ async function getAndAppendMatchHistory() {
 
                 // Left Score
                 const leftScoreElement = document.createElement("span")
-                leftScoreElement.textContent = `${leftTeamScore}${currentMap.mod === "RX" ? "%" : ""}`
+                leftScoreElement.textContent = `${leftTeamScore.toLocaleString()}${currentMap.mod === "RX" ? "%" : ""}`
 
                 // Right Score
                 const rightScoreElement = document.createElement("span")
-                rightScoreElement.textContent = `${rightTeamScore}${currentMap.mod === "RX" ? "%" : ""}`
+                rightScoreElement.textContent = `${rightTeamScore.toLocaleString()}${currentMap.mod === "RX" ? "%" : ""}`
 
                 // Check which map won
                 if (leftTeamScore > rightTeamScore) {

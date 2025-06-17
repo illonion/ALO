@@ -6,7 +6,7 @@ const scoreNumbers = [
     "red_8", "red_9", "red_percent"
 ]
 for (let i = 0; i < scoreNumbers.length; i++) {
-    preloadImagesEl.setAttribute("src", `static/score-numbers/${scoreNumbers}.png`)
+    preloadImagesEl.setAttribute("src", `static/score-numbers/${scoreNumbers[i]}.png`)
 }
 
 // Get Team
@@ -18,7 +18,7 @@ async function getTeams() {
 getTeams()
 // Find Team
 const findTeam = team_name => allTeams.find(team => team.team_name === team_name)
-const findPlayerRankIndex = (player_id, team) => team.player_ids.findIndex(player_id)
+const findPlayerRankIndex = (player_id, team) => team.player_ids.findIndex(id => id === player_id)
 
 // Get beatmaps
 const roundNameEl = document.getElementById("round-name")
@@ -110,7 +110,6 @@ window.onload = function () {
 
 socket.onmessage = async event => {
     const data = JSON.parse(event.data)
-    console.log(data)
 
     // Team Names
     if (currentTeamNameLeft !== data.tourney.team.left && allTeams) {
@@ -143,7 +142,7 @@ socket.onmessage = async event => {
     setClientHitNumbers(rightHitsContainerEl, player1.play.hits)
 
     // Now Playing Information
-    if (mapId !== data.beatmap.id || mapChecksum !== data.beatmap.checksum) {
+    if (mapId !== data.beatmap.id || mapChecksum !== data.beatmap.checksum && allBeatmaps) {
         mapId = data.beatmap.id
         mapChecksum = data.beatmap.checksum
         nowPlayingBackgroundImageEl.style.backgroundImage = `url("https://assets.ppy.sh/beatmaps/${data.beatmap.set}/covers/cover.jpg")`
@@ -179,7 +178,7 @@ socket.onmessage = async event => {
         nowPlayingLengthEl.textContent = setLengthDisplay(Math.round((data.beatmap.time.lastObject - data.beatmap.time.firstObject) / 1000))
     }
 
-    const fullStrains = data.performance.graph.series[0].data.map((num, index) => num + data.performance.graph.series[1].data[index] + data.performance.graph.series[2].data[index] + data.performance.graph.series[3].data[index]);
+    const fullStrains = data.performance.graph.series[0].data.map((_, index) => data.performance.graph.series.reduce((sum, series) => sum + series.data[index], 0))
     if (tempStrains != JSON.stringify(fullStrains) && window.strainGraph) {
         tempStrains = JSON.stringify(fullStrains)
         if (fullStrains) {
@@ -316,19 +315,19 @@ function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
         // Set player rank index
         const playerRankIndex = findPlayerRankIndex(playerId, playerTeam)
         if (playerRankIndex) {
-            playerElement.children[1].children[1].textContent = `#${playerTeam.player_ranks[playerRankIndex]}`
+            playerElement.children[1].children[1].textContent = `#${playerTeam.player_ranks[playerRankIndex].toLocaleString()}`
         } else {
-            playerElement.children[1].children[1].textContent = `#${clientData.user.globalRank}`
+            playerElement.children[1].children[1].textContent = `#${clientData.user.globalRank.toLocaleString()}`
         }
         // Set Seed
         playerElement.children[1].children[2].style.display = "block"
-        playerElement.children[1].children[2].textContent = `SEED ${playerTeam.seed}`
+        playerElement.children[1].children[2].textContent = `SEED #${playerTeam.seed}`
     } else {
         playerElement.children[1].children[1].textContent = `#${clientData.user.globalRank}`
         playerElement.children[1].children[2].style.display = "none"
     }
 
-    if (!leftPlayerId) {
+    if (!playerId) {
         playerElement.style.display = "none"
     } else {
         playerElement.style.display = "flex"
@@ -447,7 +446,7 @@ setInterval(() => {
     createStarDisplay()
 
     // Set Picker
-    const currentPickerCookie = getcookie("currentPicker")
+    const currentPickerCookie = getCookie("currentPicker")
     setPicker(currentPickerCookie)
 }, 200)
 
@@ -465,7 +464,7 @@ function createStarDisplay() {
 
     // Set left stars
     for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
-        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
+        teamStarContainerLeftEl.append(createStar(currentStarCount < currentTeamStarLeft ? "fill" : "empty"))
     }
 
     // Set right stars

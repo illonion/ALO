@@ -3,7 +3,7 @@
     --gameplay-section-colour-highlight-horizontal-alignment: 8px;
     --gameplay-section-player-information-vertical-alignemnt: 14px;
     --gameplay-section-player-information-horizontal-alignemnt: 29px;
-    --gameplay-section-hits-container-vertical-alignment: 51px;
+    --gameplay-section-hits-container-vertical-alignment: 46px;
     --gameplay-section-score-number-main-vertical-alignment: 30px;
     --gameplay-section-score-number-main-horizontal-alignment: 30px;
 
@@ -152,6 +152,7 @@
     width: var(--dimension);
     height: var(--dimension);
     border-radius: 10px;
+    margin-bottom: 5px;
 }
 .gameplay-hits-circle-100 { 
     background-color: var(--gameplay-hits-circle-100-colour);
