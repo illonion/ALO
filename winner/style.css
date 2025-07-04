@@ -4,13 +4,13 @@
     font-weight: 800;
 }
 @font-face {
-    font-family: "Zain";
-    src: url("../../font/Zain-ExtraBold.ttf");
-    font-weight: 700;
+    font-family: "Rai Lowercase Regular";
+    src: url("../../font/RaiLowercase.ttf");
 }
 
 :root {
     --crown-image-horizontal-alignment: 842px;
+    --glow-colour: #0059ff;
 }
 
 /* ===========================
@@ -21,7 +21,6 @@
     left: 0;
     width: 2560px;
     height: 1440px;
-    background-image: url("static/background.png");
     color: white;
     font-weight: 800;
     font-family: "Zain";
@@ -105,3 +104,24 @@ video {
     line-height: 31px;
 }
 .player-container-right .player-details { text-align: right; }
+
+/* ===========================
+   Scoreline
+=========================== */
+.scoreline {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 37px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: white;
+    font-family: "Rai Lowercase Regular";
+    text-align: right;
+  text-shadow:
+    0 0 5px   rgba(255, 255, 255, 0.8),
+    0 0 10px  var(--glow-colour),
+    0 0 20px  var(--glow-colour),
+    0 0 30px  var(--glow-colour),
+    0 0 40px  var(--glow-colour);
+}
