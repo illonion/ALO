@@ -1,0 +1,37 @@
+
+/* ===========================
+   Main
+=========================== */
+.main {
+    top: 0;
+    left: 0;
+    width: 2560px;
+    height: 1440px;
+    background-image: url("static/background.png")
+}
+body > * { position: absolute; }
+.main > * { position: absolute; }
+
+/* ===========================
+   Video
+=========================== */
+video {
+    left: 0;
+    top: 0;
+    width: 2560px;
+    height: 1440px;
+}
+
+/* ===========================
+   Images
+=========================== */
+.winner-image {
+    top: 426px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.crown-image {
+    top: 420px;
+    left: 842px;
+}
