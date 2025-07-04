@@ -1,3 +1,17 @@
+@font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-ExtraBold.ttf");
+    font-weight: 800;
+}
+@font-face {
+    font-family: "Zain";
+    src: url("../../font/Zain-ExtraBold.ttf");
+    font-weight: 700;
+}
+
+:root {
+    --crown-image-horizontal-alignment: 842px;
+}
 
 /* ===========================
    Main
@@ -7,7 +21,10 @@
     left: 0;
     width: 2560px;
     height: 1440px;
-    background-image: url("static/background.png")
+    background-image: url("static/background.png");
+    color: white;
+    font-weight: 800;
+    font-family: "Zain";
 }
 body > * { position: absolute; }
 .main > * { position: absolute; }
@@ -30,8 +47,61 @@ video {
     left: 50%;
     transform: translateX(-50%);
 }
+.crown-image { top: 420px; }
+.crown-image-left { left: var(--crown-image-horizontal-alignment); }
+.crown-image-right { right: var(--crown-image-horizontal-alignment); }
 
-.crown-image {
-    top: 420px;
-    left: 842px;
+/* ===========================
+   Teams
+=========================== */
+.team-name {
+    top: 570px;
+    font-size: 44px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-align: center;
 }
+.team-name-left { left: 802px; }
+.team-name-right { right: 802px; }
+
+/* ===========================
+   Player Section
+=========================== */
+.player-section {
+    top: 684px;
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
+}
+.player-section-left { left: 804px; }
+.player-section-right { right: 804px; }
+/* ===========================
+   Player Container
+=========================== */
+.player-container {
+    display: flex;
+    gap: 21px;
+}
+.player-container-right { flex-direction: row-reverse; }
+/* ===========================
+   Profile Picture
+=========================== */
+.profile-picture {
+    --dimension: 87px;
+    width: var(--dimension);
+    height: var(--dimension);
+    border-radius: 10px;
+    background-image: url("https://a.ppy.sh/13456818");
+    background-position: center;
+    background-size: cover;
+}
+/* ===========================
+   Player Details
+=========================== */
+.player-details {
+    font-size: 26px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    line-height: 31px;
+}
+.player-container-right .player-details { text-align: right; }
