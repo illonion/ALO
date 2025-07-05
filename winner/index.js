@@ -8,12 +8,16 @@ getTeams()
 // Find Team
 const findTeam = team_name => allTeams.find(team => team.team_name === team_name)
 
+// Score related
 const crownImageEl = document.getElementById("crown-image")
+const scorelineEl = document.getElementById("scoreline")
+let currentTeamStarLeft, currentTeamStarRight
+
+// Team Related
 const teamNameLeftEl = document.getElementById("team-name-left")
 const teamNameRightEl = document.getElementById("team-name-right")
 const playerSectionLeftEl = document.getElementById("player-section-left")
 const playerSectionRightEl = document.getElementById("player-section-right")
-const scorelineEl = document.getElementById("scoreline")
 let currentTeamNameLeft, currentTeamNameRight, previousTeamNameLeft, previousTeamNameRight
 
 setInterval(() => {
@@ -32,6 +36,25 @@ setInterval(() => {
 
         setTeamDetails(teamNameRightEl, currentTeamNameRight, currentTeam, playerSectionRightEl)
         previousTeamNameRight = currentTeamNameRight
+    }
+
+    // Scores + Setting winner
+    currentTeamStarLeft = Number(getCookie("currentTeamStarLeft"))
+    currentTeamStarRight = Number(getCookie("currentTeamStarRight"))
+    scorelineEl.textContent = `${currentTeamStarLeft} - ${currentTeamStarRight}`
+
+    if (currentTeamStarLeft > currentTeamStarRight) {
+        crownImageEl.style.display = "block"
+        crownImageEl.classList.add("crown-image-left")
+        crownImageEl.classList.remove("crown-image-left")
+    } else if (currentTeamStarLeft < currentTeamStarRight) {
+        crownImageEl.style.display = "block"
+        crownImageEl.classList.remove("crown-image-left")
+        crownImageEl.classList.add("crown-image-left")
+    } else {
+        crownImageEl.style.display = "none"
+        crownImageEl.classList.remove("crown-image-left")
+        crownImageEl.classList.remove("crown-image-left")
     }
 }, 200)
 
