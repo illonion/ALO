@@ -46,15 +46,15 @@ setInterval(() => {
     if (currentTeamStarLeft > currentTeamStarRight) {
         crownImageEl.style.display = "block"
         crownImageEl.classList.add("crown-image-left")
-        crownImageEl.classList.remove("crown-image-left")
+        crownImageEl.classList.remove("crown-image-right")
     } else if (currentTeamStarLeft < currentTeamStarRight) {
         crownImageEl.style.display = "block"
         crownImageEl.classList.remove("crown-image-left")
-        crownImageEl.classList.add("crown-image-left")
+        crownImageEl.classList.add("crown-image-right")
     } else {
         crownImageEl.style.display = "none"
         crownImageEl.classList.remove("crown-image-left")
-        crownImageEl.classList.remove("crown-image-left")
+        crownImageEl.classList.remove("crown-image-right")
     }
 }, 200)
 
