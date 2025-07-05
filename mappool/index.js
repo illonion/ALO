@@ -438,6 +438,7 @@ socket.onmessage = async event => {
     if (currentTeamNameLeft !== data.tourney.team.left && allTeams) {
         currentTeamNameLeft = data.tourney.team.left
         teamNameLeftEl.textContent = currentTeamNameLeft
+        document.cookie = `currentTeamNameLeft=${currentTeamNameLeft}; path=/`
 
         const foundTeam = findTeam(currentTeamNameLeft)
         if (foundTeam) setTeam(foundTeam, teamPlayersLeftEl, teamSeedLeftEl, "left") 
@@ -445,6 +446,7 @@ socket.onmessage = async event => {
     if (currentTeamNameRight !== data.tourney.team.right && allTeams) {
         currentTeamNameRight = data.tourney.team.right
         teamNameRightEl.textContent = currentTeamNameRight
+        document.cookie = `currentTeamNameRight=${currentTeamNameRight}; path=/`
 
         const foundTeam = findTeam(currentTeamNameRight)
         if (foundTeam) setTeam(foundTeam, teamPlayersRightEl, teamSeedRightEl, "right") 

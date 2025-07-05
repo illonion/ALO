@@ -6,6 +6,9 @@
     <title>Winner</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script src="../_shared/utils.js"></script>
 </head>
 <body>
     <video loop muted autoplay>
@@ -14,14 +17,14 @@
     <div class="main">
         <!-- Winner -->
         <img class="winner-image" src="static/winner.png">
-        <img class="crown-image crown-image-left" src="static/crown.png">
+        <img class="crown-image crown-image-left" id="crown-image" src="static/crown.png">
 
         <!-- Team Name -->
-        <div class="team-name team-name-left">TEAM AHH</div>
-        <div class="team-name team-name-right">TEAM BHH</div>
+        <div class="team-name team-name-left" id="team-name-left">TEAM AHH</div>
+        <div class="team-name team-name-right" id="team-name-right">TEAM BHH</div>
 
         <!-- Team Sections -->
-        <div class="player-section player-section-left">
+        <div class="player-section player-section-left" id="player-section-left">
             <div class="player-container player-container-left">
                 <div class="profile-picture"></div>
                 <div class="player-details">
@@ -37,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="player-section player-section-right">
+        <div class="player-section player-section-right" id="player-section-right">
             <div class="player-container player-container-right">
                 <div class="profile-picture"></div>
                 <div class="player-details">
@@ -55,7 +58,7 @@
         </div>
 
         <!-- Score -->
-        <div class="scoreline">7 - 6</div>
+        <div class="scoreline" id="scoreline">7 - 6</div>
     </div>
 
     <script src="index.js"></script>

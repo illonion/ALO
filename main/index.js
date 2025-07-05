@@ -315,6 +315,8 @@ function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
         // Set player rank index
         const playerRankIndex = findPlayerRankIndex(playerId, playerTeam)
         if (playerRankIndex) {
+            console.log(playerRankIndex)
+            console.log(playerTeam.player_ranks[playerRankIndex])
             playerElement.children[1].children[1].textContent = `#${playerTeam.player_ranks[playerRankIndex].toLocaleString()}`
         } else {
             playerElement.children[1].children[1].textContent = `#${clientData.user.globalRank.toLocaleString()}`
@@ -464,7 +466,7 @@ function createStarDisplay() {
 
     // Set left stars
     for (currentStarCounterLeft; currentStarCounterLeft < currentFirstTo; currentStarCounterLeft++) {
-        teamStarContainerLeftEl.append(createStar(currentStarCount < currentTeamStarLeft ? "fill" : "empty"))
+        teamStarContainerLeftEl.append(createStar(currentStarCounterLeft < currentTeamStarLeft ? "fill" : "empty"))
     }
 
     // Set right stars

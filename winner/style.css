@@ -1,11 +1,11 @@
 @font-face {
     font-family: "Zain";
-    src: url("../../font/Zain-ExtraBold.ttf");
+    src: url("../font/Zain-ExtraBold.ttf");
     font-weight: 800;
 }
 @font-face {
     font-family: "Rai Lowercase Regular";
-    src: url("../../font/RaiLowercase.ttf");
+    src: url("../font/RaiLowercase.ttf");
 }
 
 :root {
@@ -118,10 +118,10 @@ video {
     color: white;
     font-family: "Rai Lowercase Regular";
     text-align: right;
-  text-shadow:
-    0 0 5px   rgba(255, 255, 255, 0.8),
-    0 0 10px  var(--glow-colour),
-    0 0 20px  var(--glow-colour),
-    0 0 30px  var(--glow-colour),
-    0 0 40px  var(--glow-colour);
+    text-shadow:
+        0 0 5px   rgba(255, 255, 255, 0.8),
+        0 0 10px  var(--glow-colour),
+        0 0 20px  var(--glow-colour),
+        0 0 30px  var(--glow-colour),
+        0 0 40px  var(--glow-colour);
 }
