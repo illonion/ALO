@@ -132,7 +132,13 @@
     text-align: right;
 }
 /* Tiebreaker Tile Details */
-.tiebreaker-tile-detail { left: 175px; }
+.tiebreaker-tile-detail { 
+    left: 175px;
+    width: 575px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* ===========================
    Mappool Tile Artist and Title
@@ -145,7 +151,7 @@
 
 /* Mappool Tile Title */
 .tile-title {
-    top: vaR(--tile-title-top);
+    top: var(--tile-title-top);
     font-weight: 800;
 }
 .tile-title-score-added { top: var(--tile-title-score-added-top); }

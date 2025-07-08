@@ -65,7 +65,9 @@ async function getBeatmaps() {
         mappoolManagementButtonContainerEl.append(button)
 
         // Preload images
-        preloadImagesEl.setAttribute("src", `https://assets.ppy.sh/beatmaps/${allBeatmaps[i].beatmapset_id}/covers/cover.jpg`)
+        const image = document.createElement("img")
+        image.setAttribute("src", `https://assets.ppy.sh/beatmaps/${allBeatmaps[i].beatmapset_id}/covers/cover.jpg`)
+        preloadImagesEl.append(image)
     }
 
     // Calculate heights and positioning of tiles
