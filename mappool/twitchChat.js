@@ -66,6 +66,7 @@ ComfyJS.onChat = ( user, message, flags, self, extra ) => {
     chatDisplayName.append(chatDisplayNameText, chatDisplayNameColon)
     chatDisplayWrapper.append(chatDisplayName, chatDisplayMessage)
     twitchChatDisplayContainerEl.append(chatDisplayWrapper)
+    twitchChatDisplayContainerEl.scrollTop = twitchChatDisplayContainerEl.scrollHeight
 }
 
 // Delete message

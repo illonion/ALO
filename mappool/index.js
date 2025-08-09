@@ -519,6 +519,9 @@ socket.onmessage = async event => {
         }
     }
 
+    const beatmap = findBeatmaps(mapId)
+    console.log(beatmap.mod, data.tourney.clients[0].play.accuracy, data.tourney.clients[1].play.accuracy)
+
     // IPC State
     if (ipcState !== data.tourney.ipcState) {
         ipcState = data.tourney.ipcState
@@ -529,6 +532,7 @@ socket.onmessage = async event => {
             // See if we can find the beatmap
             const beatmap = findBeatmaps(mapId)
             if (beatmap && currentToggleStars) {
+                console.log(beatmap.mod, data.tourney.clients[0].play.accuracy, data.tourney.clients[1].play.accuracy)
                 // See if we can find a winner
                 let winner = ""
                 if (beatmap.mod === "RX" && data.tourney.clients[0].user.id === 0) {
@@ -553,6 +557,8 @@ socket.onmessage = async event => {
                 // Get match and append history
                 getAndAppendMatchHistory()
             }
+        } else {
+            checkedWinner = false
         }
     }
 

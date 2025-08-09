@@ -314,7 +314,7 @@ function setPlayerInformation(playerId, playerTeam, playerElement, clientData) {
     if (playerTeam) {
         // Set player rank index
         const playerRankIndex = findPlayerRankIndex(playerId, playerTeam)
-        if (playerRankIndex) {
+        if (playerRankIndex !== undefined) {
             console.log(playerRankIndex)
             console.log(playerTeam.player_ranks[playerRankIndex])
             playerElement.children[1].children[1].textContent = `#${playerTeam.player_ranks[playerRankIndex].toLocaleString()}`
